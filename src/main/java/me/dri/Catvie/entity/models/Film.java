@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import me.dri.Catvie.entity.enums.Genres;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +16,7 @@ public class Film {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
-    private Genres genre;
+    private List<Genres> genres;
     private String original_language;
     private String director;
     private String writer;
@@ -23,16 +24,18 @@ public class Film {
     private Integer runtime;
     private String distributor;
     private String production_co;
-    private Double average_rating;
+    private Double average_rating_critic;
+    private Double average_rating_audience;
+
 
     public Film() {
 
     }
 
-    public Film(Long id, String title, Genres genre, String original_language, String director, String writer, Date release_date, Integer runtime, String distributor, String production_co, Double average_rating) {
+    public Film(Long id, String title, List<Genres> genres, String original_language, String director, String writer, Date release_date, Integer runtime, String distributor, String production_co, Double average_rating_critic, Double average_rating_audience) {
         this.id = id;
         this.title = title;
-        this.genre = genre;
+        this.genres = genres;
         this.original_language = original_language;
         this.director = director;
         this.writer = writer;
@@ -40,16 +43,14 @@ public class Film {
         this.runtime = runtime;
         this.distributor = distributor;
         this.production_co = production_co;
-        this.average_rating = average_rating;
+        this.average_rating_critic = average_rating_critic;
+        this.average_rating_audience = average_rating_audience;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -59,13 +60,10 @@ public class Film {
         this.title = title;
     }
 
-    public Genres getGenre() {
-        return genre;
+    public List<Genres> getGenres() {
+        return genres;
     }
 
-    public void setGenre(Genres genre) {
-        this.genre = genre;
-    }
 
     public String getOriginal_language() {
         return original_language;
@@ -123,12 +121,20 @@ public class Film {
         this.production_co = production_co;
     }
 
-    public Double getAverage_rating() {
-        return average_rating;
+    public Double getAverage_rating_critic() {
+        return average_rating_critic;
     }
 
-    public void setAverage_rating(Double average_rating) {
-        this.average_rating = average_rating;
+    public void setAverage_rating_critic(Double average_rating_critic) {
+        this.average_rating_critic = average_rating_critic;
+    }
+
+    public Double getAverage_rating_audience() {
+        return average_rating_audience;
+    }
+
+    public void setAverage_rating_audience(Double average_rating_audience) {
+        this.average_rating_audience = average_rating_audience;
     }
 
     @Override
@@ -149,7 +155,7 @@ public class Film {
         return "Film{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", genre=" + genre +
+                ", genres=" + genres +
                 ", original_language='" + original_language + '\'' +
                 ", director='" + director + '\'' +
                 ", writer='" + writer + '\'' +
@@ -157,7 +163,9 @@ public class Film {
                 ", runtime=" + runtime +
                 ", distributor='" + distributor + '\'' +
                 ", production_co='" + production_co + '\'' +
-                ", average_rating=" + average_rating +
+                ", average_rating_critic=" + average_rating_critic +
+                ", average_rating_audience=" + average_rating_audience +
                 '}';
     }
 }
+
