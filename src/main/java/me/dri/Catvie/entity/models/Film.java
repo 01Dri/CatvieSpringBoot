@@ -13,10 +13,17 @@ import java.util.Objects;
 public class Film {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private List<Genres> genres;
+
+    @ManyToMany
+    @JoinTable(
+            name = "film_genre",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private List<Genre> genres;
     private String original_language;
     private String director;
     private String writer;
@@ -32,7 +39,7 @@ public class Film {
 
     }
 
-    public Film(Long id, String title, List<Genres> genres, String original_language, String director, String writer, Date release_date, Integer runtime, String distributor, String production_co, Double average_rating_critic, Double average_rating_audience) {
+    public Film(Long id, String title, List<Genre> genres, String original_language, String director, String writer, Date release_date, Integer runtime, String distributor, String production_co, Double average_rating_critic, Double average_rating_audience) {
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -60,7 +67,7 @@ public class Film {
         this.title = title;
     }
 
-    public List<Genres> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 

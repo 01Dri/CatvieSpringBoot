@@ -32,6 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
+### Arquivos Docker ###
 Dockerfile
 docker-compose.yml
-application.propertiessdas
+src/main/resources/application.properties
