@@ -4,13 +4,14 @@ package me.dri.Catvie.entity.models;
 import jakarta.persistence.*;
 import me.dri.Catvie.entity.enums.Genres;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "films")
-public class Film {
+public class Film  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +26,19 @@ public class Film {
     )
     private List<Genre> genres;
     private String original_language;
-    private String director;
+
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Director director;
+
+
     private String writer;
     private Date release_date;
     private Integer runtime;
-    private String distributor;
+
+    @ManyToOne
+    @JoinColumn(name = "distributor_id")
+    private Distributor distributor;
     private String production_co;
     private Double average_rating_critic;
     private Double average_rating_audience;
@@ -39,7 +48,7 @@ public class Film {
 
     }
 
-    public Film(Long id, String title, List<Genre> genres, String original_language, String director, String writer, Date release_date, Integer runtime, String distributor, String production_co, Double average_rating_critic, Double average_rating_audience) {
+    public Film(Long id, String title, List<Genre> genres, String original_language, Director director, String writer, Date release_date, Integer runtime, Distributor distributor, String production_co, Double average_rating_critic, Double average_rating_audience) {
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -80,11 +89,11 @@ public class Film {
         this.original_language = original_language;
     }
 
-    public String getDirector() {
+    public Director getDirector() {
         return director;
     }
 
-    public void setDirector(String director) {
+    public void setDirector(Director director) {
         this.director = director;
     }
 
@@ -112,11 +121,11 @@ public class Film {
         this.runtime = runtime;
     }
 
-    public String getDistributor() {
+    public Distributor getDistributor() {
         return distributor;
     }
 
-    public void setDistributor(String distributor) {
+    public void setDistributor(Distributor distributor) {
         this.distributor = distributor;
     }
 

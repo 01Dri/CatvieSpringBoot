@@ -23,9 +23,9 @@ public class TestInstanceFilm {
         // Fazendo a instanciação utilizando Factory
         IFactoryFilm factoryFilm = new FilmFactory();
         Film film = factoryFilm.getInstance("BOLT", null, "English",
-                "Chris Willians", "Dan Folgelman",
+                null, "Dan Folgelman",
                 new Date(), 96,
-                "Walt Disney", "Walt Disney Pictures, Walt Disney Animation",
+                null, "Walt Disney Pictures, Walt Disney Animation",
                 90.0, 74.0);
         assertEquals("BOLT", film.getTitle());
         assertEquals(90.0, film.getAverage_rating_critic());

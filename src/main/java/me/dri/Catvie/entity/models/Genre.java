@@ -3,9 +3,12 @@ package me.dri.Catvie.entity.models;
 import jakarta.persistence.*;
 import me.dri.Catvie.entity.enums.Genres;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 @Entity
 @Table(name = "genres")
-public class Genre {
+public class Genre implements Serializable {
 
 
     @Id
@@ -37,5 +40,26 @@ public class Genre {
 
     public void setGenreName(Genres genreName) {
         this.genreName = genreName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Genre genre = (Genre) o;
+        return Objects.equals(id, genre.id) && genreName == genre.genreName;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, genreName);
+    }
+
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "id=" + id +
+                ", genreName=" + genreName +
+                '}';
     }
 }
