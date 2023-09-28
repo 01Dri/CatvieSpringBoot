@@ -31,7 +31,6 @@ public class Film  implements Serializable {
     @JoinColumn(name = "director_id")
     private Director director;
 
-
     private String writer;
     private Date release_date;
     private Integer runtime;
