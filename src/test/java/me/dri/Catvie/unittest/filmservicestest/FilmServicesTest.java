@@ -1,4 +1,4 @@
-package me.dri.Catvie.filmservicestest;
+package me.dri.Catvie.unittest.filmservicestest;
 
 import me.dri.Catvie.entity.interfaces.FilmCrudInterface;
 import me.dri.Catvie.entity.models.Film;
@@ -10,9 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class FilmServicesTest {
@@ -33,7 +30,7 @@ public class FilmServicesTest {
     }
 
     @Test
-    void testCreate() {
+    void testCreateFilm() {
         FilmDto filmCreate = mock(FilmDto.class);
         Film filmSaved = mock(Film.class);
         when(this.filmRepositoryJPA.save(any())).thenReturn(filmSaved);
