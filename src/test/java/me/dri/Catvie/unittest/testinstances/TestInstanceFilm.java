@@ -1,8 +1,8 @@
 package me.dri.Catvie.unittest.testinstances;
 
-import me.dri.Catvie.entity.factory.impl.FilmFactory;
-import me.dri.Catvie.entity.factory.interfaces.IFactoryFilm;
-import me.dri.Catvie.entity.models.Film;
+import me.dri.Catvie.domain.factory.impl.FilmFactory;
+import me.dri.Catvie.domain.factory.interfaces.IFactoryFilm;
+import me.dri.Catvie.infra.adapters.entities.FilmEntity;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -13,7 +13,7 @@ public class TestInstanceFilm {
     @Test
     void testCreateInstanceFilm() {
         // Verificando se a instanciação está correta
-        Film film = new Film();
+        FilmEntity film = new FilmEntity();
         film.setTitle("Guardians");
         assertEquals("Guardians", film.getTitle());
 
@@ -22,7 +22,7 @@ public class TestInstanceFilm {
     void testCreateInstanceFilmByFactory() {
         // Fazendo a instanciação utilizando Factory
         IFactoryFilm factoryFilm = new FilmFactory();
-        Film film = factoryFilm.getInstance("BOLT", null, "English",
+        FilmEntity film = factoryFilm.getInstance("BOLT", null, "English",
                 null, "Dan Folgelman",
                 new Date(), 96,
                 null, "Walt Disney Pictures, Walt Disney Animation",

@@ -1,13 +1,13 @@
 package me.dri.Catvie.infra.utils;
 
-import me.dri.Catvie.infra.interfaces.IDozerMapper;
+import me.dri.Catvie.domain.ports.interfaces.DozerMapperPort;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DozerMapperImpl implements IDozerMapper {
+public class DozerMapperImpl implements DozerMapperPort {
 
     private DozerBeanMapper mapper;
 
@@ -17,7 +17,7 @@ public class DozerMapperImpl implements IDozerMapper {
     }
 
 
-    // Here, i am using DozerMapper for convert DTO class into a Film class
+    // Here, i am using DozerMapper for convert DTO class into a FilmEntity class
     @Override
     public <T> T map(Object source, Class<T> destinationClass) {
         return this.mapper.map(source, destinationClass);

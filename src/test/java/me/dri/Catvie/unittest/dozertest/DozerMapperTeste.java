@@ -1,9 +1,9 @@
 package me.dri.Catvie.unittest.dozertest;
 
 
-import me.dri.Catvie.entity.models.Film;
-import me.dri.Catvie.entity.models.dto.FilmDto;
-import me.dri.Catvie.infra.interfaces.IDozerMapper;
+import me.dri.Catvie.infra.adapters.entities.FilmEntity;
+import me.dri.Catvie.domain.models.dto.FilmDTO;
+import me.dri.Catvie.domain.ports.interfaces.DozerMapperPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class DozerMapperTeste {
 
     @Mock
-    private IDozerMapper mapper;
+    private DozerMapperPort mapper;
 
     @BeforeEach
     void setUp() {
@@ -26,11 +26,11 @@ public class DozerMapperTeste {
 
     @Test
     void testMapperDozer() {
-        FilmDto filmDto = mock(FilmDto.class);
-        Film film = mock(Film.class);
+        FilmDTO filmDto = mock(FilmDTO.class);
+        FilmEntity film = mock(FilmEntity.class);
         when(film.getTitle()).thenReturn("Diego");
         when(this.mapper.map(any(), any())).thenReturn(film);
-        Film result = this.mapper.map(filmDto, Film.class);
+        FilmEntity result = this.mapper.map(filmDto, FilmEntity.class);
         when(film.getTitle()).thenReturn("Diego");
         assertEquals("Diego", result.getTitle());
 

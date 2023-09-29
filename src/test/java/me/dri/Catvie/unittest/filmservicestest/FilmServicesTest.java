@@ -1,114 +1,126 @@
 package me.dri.Catvie.unittest.filmservicestest;
 
-import me.dri.Catvie.entity.exceptions.ContentIsMissing;
-import me.dri.Catvie.entity.interfaces.FilmCrudInterface;
-import me.dri.Catvie.entity.models.Film;
-import me.dri.Catvie.entity.models.dto.FilmDto;
-import me.dri.Catvie.infra.interfaces.IDozerMapper;
-import me.dri.Catvie.infra.repositories.FilmRepositoryJPA;
+import me.dri.Catvie.domain.adapters.services.FilmServiceImpl;
+import me.dri.Catvie.domain.exceptions.ContentIsMissing;
+import me.dri.Catvie.domain.models.dto.FilmDTO;
+import me.dri.Catvie.domain.models.entities.Film;
+import me.dri.Catvie.domain.ports.interfaces.DozerMapperPort;
+import me.dri.Catvie.domain.ports.interfaces.FilmServicePort;
+import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
+import me.dri.Catvie.infra.adapters.entities.FilmEntity;
+import me.dri.Catvie.infra.adapters.repositories.FilmRepository;
+import me.dri.Catvie.infra.adapters.repositories.FilmRepositoryJPA;
 import me.dri.Catvie.unittest.utils.MockEntities;
-import me.dri.Catvie.usecases.FilmCrudServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
 public class FilmServicesTest  {
 
-
+    FilmServicePort service;
     @Mock
-    private FilmRepositoryJPA filmRepositoryJPA;
-
+    FilmRepositoryPort repository;
     @Mock
-    private IDozerMapper mapper;
+    DozerMapperPort mapperPort;
+    MockEntities mockEntitys;
 
-    private FilmCrudInterface serviceCrud;
 
-    private MockEntities mockEntitys;
+
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        serviceCrud = new FilmCrudServiceImpl(filmRepositoryJPA, mapper);
+        service = new FilmServiceImpl(repository, mapperPort);
         mockEntitys = new MockEntities();
+
     }
+
+//    @Test
+//    void testUpdateFilm() {
+//        FilmDTO filmDto = mock(FilmDTO.class);
+//        FilmEntity film = mock(FilmEntity.class);
+//        when(this.repositoryJPA.findFilmById(any())).thenReturn(film);
+//        this.service.update();
+//
+//    }
 
     @Test
     void testCreateFilm() {
-        FilmDto filmCreate = this.mockEntitys.mockFilmDto();
+        FilmDTO filmCreate = this.mockEntitys.mockFilmDto();
         Film filmSaved = this.mockEntitys.mockFilm();
-        when(this.filmRepositoryJPA.save(any())).thenReturn(filmSaved);
-        this.serviceCrud.create(filmCreate);
-        verify(this.mapper, times(1)).map(any(), any());
-        verify(this.filmRepositoryJPA, times(1)).save(any());
+        this.service.create(filmCreate);
+        verify(this.mapperPort, times(1)).map(any(), any());
+        verify(this.repository, times(1)).save(any());
     }
 
     @Test
-    void testCreateFilmWithExceptionMissing() {
-        FilmDto filmDtoInvalid = this.mockEntitys.mockFilmDtoWithNullValue();
-        assertThrows(ContentIsMissing.class, () -> this.serviceCrud.create(filmDtoInvalid));
-        verify(this.mapper, never()).map(any(), any());
-        verify(this.filmRepositoryJPA, never()).save(any());
+    void testExceptionMissingContentInCreateFilm() {
+        FilmDTO filmDtoInvalid = this.mockEntitys.mockFilmDtoWithNullValue();
+        assertThrows(ContentIsMissing.class, () -> this.service.create(filmDtoInvalid));
+        verify(this.mapperPort, never()).map(any(), any());
+        verify(this.repository, never()).save(any());
 
     }
 
-    @Test
-    void testSaveFilm() {
-        FilmDto filmDto = mock(FilmDto.class);
-        Film filmToSave = mock(Film.class);
-        when(this.mapper.map(filmDto, Film.class)).thenReturn(filmToSave);
-        this.serviceCrud.save(filmDto);
-        verify(this.filmRepositoryJPA, times(1)).save(filmToSave);
-    }
+//    @Test
+//    void testSaveFilm() {
+//        FilmDTO filmDto = mock(FilmDTO.class);
+//        Film filmToSave = mock(Film.class);
+//        when(this.dozerMapperPort.map(filmDto, FilmEntity.class)).thenReturn(filmToSave);
+//        this.filmServicePort.save(filmDto);
+//        verify(this.filmRepositoryJPA, times(1)).save(filmToSave);
+//    }
 
     @Test
     void testFindFilmByTitle() {
         Film film = mock(Film.class);
-        FilmDto filmDto = mock(FilmDto.class);
-        when(this.filmRepositoryJPA.findFilmByTitle("film test 1")).thenReturn(film);
-        when(this.mapper.map(any(), any())).thenReturn(filmDto);
-        var result = this.serviceCrud.findByTitle("film test 1");
+        FilmDTO filmDto = mock(FilmDTO.class);
+        when(this.repository.findByTitle("film test 1")).thenReturn(film);
+        when(this.mapperPort.map(any(), any())).thenReturn(filmDto);
+        var result = this.service.findByTitle("film test 1");
         System.out.println(result);
-        assertTrue(result instanceof FilmDto);
-        verify(this.mapper, times(1)).map(any(), any());
+        assertTrue(result instanceof FilmDTO);
+        verify(this.mapperPort, times(1)).map(any(), any());
     }
 
     @Test
     void testFindFilmById() {
-        Film filmReturn = mock(Film.class);
-        when(this.filmRepositoryJPA.findFilmById(1L)).thenReturn(filmReturn);
-        var result = this.serviceCrud.findById(1L);
-        assertEquals(result, filmReturn);
-        verify(this.filmRepositoryJPA, times(1)).findFilmById(any());
+        Film film = mock(Film.class);
+        FilmDTO filmDTO = mock(FilmDTO.class);
+        when(this.repository.findById(1L)).thenReturn(film);
+        when(this.mapperPort.map(any(), any())).thenReturn(filmDTO);
+        var result = this.service.findById(1L);
+        System.out.println(result);
+        assertEquals(result, filmDTO);
+        verify(this.repository, times(1)).findById(any());
     }
 
     @Test
     void testFindAll() {
         List<Film> films = Collections.singletonList(mock(Film.class));
-        List<FilmDto> filmDtos = Collections.singletonList(mock(FilmDto.class));
-        when(this.filmRepositoryJPA.findAllFilms()).thenReturn(films);
-        when(this.mapper.mapCollections(any(), any())).thenReturn(Collections.singletonList(filmDtos));
-        var result = this.serviceCrud.findAll();
+        List<FilmDTO> filmDtos = Collections.singletonList(mock(FilmDTO.class));
+        when(this.repository.findAll()).thenReturn(films);
+        when(this.mapperPort.mapCollections(any(), any())).thenReturn(Collections.singletonList(filmDtos));
+        var result = this.service.findAll();
 
         // Checking if result this a ListDto
-        assertTrue(result instanceof List<FilmDto>);
-        verify(this.mapper, times(1)).mapCollections(any(), any());
+        assertTrue(result instanceof List<FilmDTO>);
+        verify(this.mapperPort, times(1)).mapCollections(any(), any());
     }
 
     @Test
     void testDeleteFilm() {
-        FilmDto filmDto = mock(FilmDto.class);
-        Film filmToDelete = mock(Film.class);
-        when(mapper.map(filmDto, Film.class)).thenReturn(filmToDelete);
-        this.serviceCrud.delete(filmDto);
-        verify(this.mapper, times(1)).map(filmDto, Film.class);
-        verify(this.filmRepositoryJPA, times(1)).delete(filmToDelete);
+        Film filmToDelete = this.mockEntitys.mockFilm();
+        when(this.repository.findById(1L)).thenReturn(filmToDelete);
+        this.service.deleteById(1L);
+        verify(this.repository, times(1)).delete(filmToDelete);
     }
 
 }
