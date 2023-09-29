@@ -1,5 +1,6 @@
 package me.dri.Catvie.usecases;
 
+import me.dri.Catvie.entity.exceptions.ContentIsMissing;
 import me.dri.Catvie.entity.interfaces.FilmCrudInterface;
 import me.dri.Catvie.entity.models.Film;
 import me.dri.Catvie.entity.models.dto.FilmDto;
@@ -40,6 +41,9 @@ public class FilmCrudServiceImpl implements FilmCrudInterface {
 
     @Override
     public void create(FilmDto filmDto) {
+        if (!this.filmIsValid(filmDto)) {
+            throw new ContentIsMissing("Missing information's in the object FilmDTO");
+        }
         Film film = this.mapper.map(filmDto, Film.class);
         this.filmRepositoryJPA.save(film);
     }
@@ -54,6 +58,16 @@ public class FilmCrudServiceImpl implements FilmCrudInterface {
     public void delete(FilmDto film) {
         Film filmToDelte = this.mapper.map(film, Film.class);
         this.filmRepositoryJPA.delete(filmToDelte);
+    }
+
+    public boolean filmIsValid(FilmDto filmDto) {
+        if (filmDto.title() == null || filmDto.title().isEmpty() || filmDto.title().isBlank()  ||
+                filmDto.original_language() == null || filmDto.original_language().isBlank() || filmDto.original_language().isEmpty() ||
+                filmDto.writer() == null || filmDto.writer().isEmpty() || filmDto.writer().isBlank()
+                || filmDto.runtime() == null || filmDto.production_co() == null || filmDto.production_co().isEmpty() || filmDto.production_co().isBlank() ) {
+            return false;
+        }
+        return true;
     }
 }
 

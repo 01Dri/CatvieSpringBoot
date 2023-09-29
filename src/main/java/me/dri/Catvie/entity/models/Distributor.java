@@ -26,10 +26,9 @@ public class Distributor implements Serializable {
 
     }
 
-    public Distributor(Long id, String name, List<Film> filmList) {
+    public Distributor(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.filmList = filmList;
     }
 
     public Long getId() {

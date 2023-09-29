@@ -23,10 +23,9 @@ public class Director implements Serializable {
 
     }
 
-    public Director(Long id, String name, List<Film> films) {
+    public Director(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.films = films;
     }
 
     public Long getId() {

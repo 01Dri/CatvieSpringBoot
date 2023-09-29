@@ -2,7 +2,6 @@ package me.dri.Catvie.entity.models;
 
 
 import jakarta.persistence.*;
-import me.dri.Catvie.entity.enums.Genres;
 
 import java.io.Serializable;
 import java.util.Date;

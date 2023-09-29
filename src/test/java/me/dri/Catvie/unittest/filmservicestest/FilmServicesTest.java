@@ -1,10 +1,12 @@
 package me.dri.Catvie.unittest.filmservicestest;
 
+import me.dri.Catvie.entity.exceptions.ContentIsMissing;
 import me.dri.Catvie.entity.interfaces.FilmCrudInterface;
 import me.dri.Catvie.entity.models.Film;
 import me.dri.Catvie.entity.models.dto.FilmDto;
 import me.dri.Catvie.infra.interfaces.IDozerMapper;
 import me.dri.Catvie.infra.repositories.FilmRepositoryJPA;
+import me.dri.Catvie.unittest.utils.MockEntities;
 import me.dri.Catvie.usecases.FilmCrudServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class FilmServicesTest {
+public class FilmServicesTest  {
 
 
     @Mock
@@ -28,20 +30,32 @@ public class FilmServicesTest {
 
     private FilmCrudInterface serviceCrud;
 
+    private MockEntities mockEntitys;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         serviceCrud = new FilmCrudServiceImpl(filmRepositoryJPA, mapper);
+        mockEntitys = new MockEntities();
     }
 
     @Test
     void testCreateFilm() {
-        FilmDto filmCreate = mock(FilmDto.class);
-        Film filmSaved = mock(Film.class);
+        FilmDto filmCreate = this.mockEntitys.mockFilmDto();
+        Film filmSaved = this.mockEntitys.mockFilm();
         when(this.filmRepositoryJPA.save(any())).thenReturn(filmSaved);
         this.serviceCrud.create(filmCreate);
         verify(this.mapper, times(1)).map(any(), any());
         verify(this.filmRepositoryJPA, times(1)).save(any());
+    }
+
+    @Test
+    void testCreateFilmWithExceptionMissing() {
+        FilmDto filmDtoInvalid = this.mockEntitys.mockFilmDtoWithNullValue();
+        assertThrows(ContentIsMissing.class, () -> this.serviceCrud.create(filmDtoInvalid));
+        verify(this.mapper, never()).map(any(), any());
+        verify(this.filmRepositoryJPA, never()).save(any());
+
     }
 
     @Test
