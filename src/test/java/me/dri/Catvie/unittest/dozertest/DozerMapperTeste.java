@@ -1,4 +1,4 @@
-package me.dri.Catvie.unittest;
+package me.dri.Catvie.unittest.dozertest;
 
 
 import me.dri.Catvie.entity.models.Film;

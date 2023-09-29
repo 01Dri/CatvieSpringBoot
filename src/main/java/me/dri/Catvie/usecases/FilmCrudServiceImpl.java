@@ -19,19 +19,23 @@ public class FilmCrudServiceImpl implements FilmCrudInterface {
         this.filmRepositoryJPA = filmRepositoryJPA;
         this.mapper = mapper;
     }
+
     @Override
     public Film findById(Long id) {
         return this.filmRepositoryJPA.findFilmById(id);
     }
 
     @Override
-    public List<Film> findAll() {
-        return null;
+    public List<FilmDto> findAll() {
+        List<Film> films = this.filmRepositoryJPA.findAllFilms();
+        List<FilmDto> filmDtos = this.mapper.mapCollections(films, FilmDto.class);
+        return filmDtos;
     }
 
     @Override
-    public Film findByTitle(String title) {
-        return null;
+    public FilmDto findByTitle(String title) {
+        Film film = this.filmRepositoryJPA.findFilmByTitle(title);
+        return this.mapper.map(film, FilmDto.class);
     }
 
     @Override
@@ -40,14 +44,17 @@ public class FilmCrudServiceImpl implements FilmCrudInterface {
         this.filmRepositoryJPA.save(film);
     }
 
-
     @Override
-    public Long save(Film film) {
-        return null;
+    public void save(FilmDto film) {
+        Film filmToSave = this.mapper.map(film, Film.class);
+        this.filmRepositoryJPA.save(filmToSave);
     }
 
     @Override
-    public Long delete(Film film) {
-        return null;
+    public void delete(FilmDto film) {
+        Film filmToDelte = this.mapper.map(film, Film.class);
+        this.filmRepositoryJPA.delete(filmToDelte);
     }
 }
+
+
