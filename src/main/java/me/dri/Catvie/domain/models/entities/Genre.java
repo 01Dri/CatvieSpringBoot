@@ -5,7 +5,7 @@ import me.dri.Catvie.domain.enums.Genres;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Genre implements Serializable {
+public class Genre  implements Serializable {
 
     private Long id;
     private Genres genreName;

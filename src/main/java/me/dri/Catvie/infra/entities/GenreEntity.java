@@ -1,4 +1,4 @@
-package me.dri.Catvie.infra.adapters.entities;
+package me.dri.Catvie.infra.entities;
 
 import jakarta.persistence.*;
 import me.dri.Catvie.domain.enums.Genres;
@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "genres")
-public class GenreEntity implements Serializable {
+public class GenreEntity  implements Serializable {
 
 
     @Id

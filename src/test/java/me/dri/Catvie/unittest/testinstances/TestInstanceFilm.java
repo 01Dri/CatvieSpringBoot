@@ -2,7 +2,7 @@ package me.dri.Catvie.unittest.testinstances;
 
 import me.dri.Catvie.domain.factory.impl.FilmFactory;
 import me.dri.Catvie.domain.factory.interfaces.IFactoryFilm;
-import me.dri.Catvie.infra.adapters.entities.FilmEntity;
+import me.dri.Catvie.infra.entities.FilmEntity;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;

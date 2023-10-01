@@ -1,6 +1,6 @@
 package me.dri.Catvie.infra.adapters.repositories;
 
-import me.dri.Catvie.infra.adapters.entities.FilmEntity;
+import me.dri.Catvie.infra.entities.FilmEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +16,7 @@ public interface FilmRepositoryJPA  extends JpaRepository<FilmEntity, Long> {
     @Query("SELECT f FROM FilmEntity f WHERE f.id = :id")
     FilmEntity findFilmById(@Param("id") Long id);
 
-    @Query("SELECT * FROM FilmEntity")
+    @Query("SELECT f FROM FilmEntity f")
     List<FilmEntity> findAllFilms();
 
     @Query("SELECT f FROM FilmEntity f WHERE f.title = :title")

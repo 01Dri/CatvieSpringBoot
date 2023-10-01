@@ -1,6 +1,6 @@
-package me.dri.Catvie.infra.adapters.entities;
+package me.dri.Catvie.infra.entities;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -9,24 +9,23 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ditributors")
-public class DistributorEntity implements Serializable {
+@Table(name = "directors")
+public class DirectorEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
 
-    @OneToMany(mappedBy = "distributor")
-    private List<FilmEntity> filmList = new ArrayList<>();
+    @OneToMany(mappedBy = "director")
+    @JsonIgnore
+    private List<FilmEntity> films = new ArrayList<>();
 
-
-    public DistributorEntity() {
+    public DirectorEntity() {
 
     }
 
-    public DistributorEntity(Long id, String name) {
+    public DirectorEntity(Long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -47,34 +46,33 @@ public class DistributorEntity implements Serializable {
         this.name = name;
     }
 
-    public List<FilmEntity> getFilmList() {
-        return filmList;
+    public List<FilmEntity> getFilms() {
+        return films;
     }
 
-    public void setFilmList(List<FilmEntity> filmList) {
-        this.filmList = filmList;
+    public void setFilms(List<FilmEntity> films) {
+        this.films = films;
     }
 
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DistributorEntity that = (DistributorEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(filmList, that.filmList);
+        DirectorEntity directorEntity = (DirectorEntity) o;
+        return Objects.equals(id, directorEntity.id) && Objects.equals(name, directorEntity.name) && Objects.equals(films, directorEntity.films);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, filmList);
+        return Objects.hash(id, name, films);
     }
 
     @Override
     public String toString() {
-        return "DistributorEntity{" +
+        return "DirectorEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", filmList=" + filmList +
+                ", films=" + films +
                 '}';
     }
 }

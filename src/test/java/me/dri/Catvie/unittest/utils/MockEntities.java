@@ -6,9 +6,6 @@ import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Distributor;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
-import me.dri.Catvie.infra.adapters.entities.DirectorEntity;
-import me.dri.Catvie.infra.adapters.entities.DistributorEntity;
-import me.dri.Catvie.infra.adapters.entities.GenreEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -27,17 +24,17 @@ public class MockEntities {
     }
 
     public FilmDTO mockFilmDto() {
-        GenreEntity genre = new GenreEntity(1L , Genres.ACTION);
-        DirectorEntity directorEntity = new DirectorEntity(1L, "Diego");
-        DistributorEntity distributor = new DistributorEntity(1L, "Walt Disney");
+        Genre genre = new Genre(1L , Genres.ACTION);
+        Director directorEntity = new Director(1L, "Diego");
+        Distributor distributor = new Distributor(1L, "Walt Disney");
         FilmDTO film = new FilmDTO("Evangelion", List.of(genre), "english", directorEntity, "Diego", new Date(),150, distributor, "diego", 6.0, 8.5);
         return film;
     }
 
     public FilmDTO mockFilmDtoWithNullValue() {
-        GenreEntity genre = new GenreEntity(1L , Genres.ACTION);
-        DirectorEntity directorEntity = new DirectorEntity(1L, "Diego");
-        DistributorEntity distributor = new DistributorEntity(1L, "Walt Disney");
+        Genre genre = new Genre(1L , Genres.ACTION);
+        Director directorEntity = new Director(1L, "Diego");
+        Distributor distributor = new Distributor(1L, "Walt Disney");
         FilmDTO film = new FilmDTO("", List.of(genre), "english", directorEntity, "Diego", new Date(),150, distributor, "diego", 6.0, 8.5);
         return film;
     }

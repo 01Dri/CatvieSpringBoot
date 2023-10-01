@@ -1,7 +1,7 @@
 package me.dri.Catvie.domain.ports.interfaces;
 
 import me.dri.Catvie.domain.models.dto.FilmDTO;
-import me.dri.Catvie.domain.models.entities.Film;
+import me.dri.Catvie.infra.entities.FilmEntity;
 
 import java.util.List;
 

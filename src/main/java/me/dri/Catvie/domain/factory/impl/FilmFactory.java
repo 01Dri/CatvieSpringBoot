@@ -1,9 +1,9 @@
 package me.dri.Catvie.domain.factory.impl;
 import me.dri.Catvie.domain.factory.interfaces.IFactoryFilm;
-import me.dri.Catvie.infra.adapters.entities.DirectorEntity;
-import me.dri.Catvie.infra.adapters.entities.DistributorEntity;
-import me.dri.Catvie.infra.adapters.entities.FilmEntity;
-import me.dri.Catvie.infra.adapters.entities.GenreEntity;
+import me.dri.Catvie.infra.entities.DirectorEntity;
+import me.dri.Catvie.infra.entities.DistributorEntity;
+import me.dri.Catvie.infra.entities.FilmEntity;
+import me.dri.Catvie.infra.entities.GenreEntity;
 
 import java.util.Date;
 import java.util.List;

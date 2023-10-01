@@ -4,18 +4,14 @@ import me.dri.Catvie.domain.adapters.services.FilmServiceImpl;
 import me.dri.Catvie.domain.exceptions.ContentIsMissing;
 import me.dri.Catvie.domain.models.dto.FilmDTO;
 import me.dri.Catvie.domain.models.entities.Film;
-import me.dri.Catvie.domain.ports.interfaces.DozerMapperPort;
 import me.dri.Catvie.domain.ports.interfaces.FilmServicePort;
+import me.dri.Catvie.domain.ports.interfaces.MapperEntitiesPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
-import me.dri.Catvie.infra.adapters.entities.FilmEntity;
-import me.dri.Catvie.infra.adapters.repositories.FilmRepository;
-import me.dri.Catvie.infra.adapters.repositories.FilmRepositoryJPA;
 import me.dri.Catvie.unittest.utils.MockEntities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +24,7 @@ public class FilmServicesTest  {
     @Mock
     FilmRepositoryPort repository;
     @Mock
-    DozerMapperPort mapperPort;
+    MapperEntitiesPort mapperPort;
     MockEntities mockEntitys;
 
 
@@ -56,7 +52,7 @@ public class FilmServicesTest  {
         FilmDTO filmCreate = this.mockEntitys.mockFilmDto();
         Film filmSaved = this.mockEntitys.mockFilm();
         this.service.create(filmCreate);
-        verify(this.mapperPort, times(1)).map(any(), any());
+        verify(this.mapperPort, times(1)).convertFilmDtoToFilm(any());
         verify(this.repository, times(1)).save(any());
     }
 
@@ -64,30 +60,30 @@ public class FilmServicesTest  {
     void testExceptionMissingContentInCreateFilm() {
         FilmDTO filmDtoInvalid = this.mockEntitys.mockFilmDtoWithNullValue();
         assertThrows(ContentIsMissing.class, () -> this.service.create(filmDtoInvalid));
-        verify(this.mapperPort, never()).map(any(), any());
+        verify(this.mapperPort, never()).convertFilmToDto(any());
         verify(this.repository, never()).save(any());
 
     }
 
-//    @Test
-//    void testSaveFilm() {
-//        FilmDTO filmDto = mock(FilmDTO.class);
-//        Film filmToSave = mock(Film.class);
-//        when(this.dozerMapperPort.map(filmDto, FilmEntity.class)).thenReturn(filmToSave);
-//        this.filmServicePort.save(filmDto);
-//        verify(this.filmRepositoryJPA, times(1)).save(filmToSave);
-//    }
+    @Test
+    void testSaveFilm() {
+        FilmDTO filmDto = mock(FilmDTO.class);
+        Film filmToSave = mock(Film.class);
+        when(this.mapperPort.convertFilmDtoToFilm(filmDto)).thenReturn(filmToSave);
+        this.service.save(filmDto);
+        verify(this.repository, times(1)).save(filmToSave);
+    }
 
     @Test
     void testFindFilmByTitle() {
         Film film = mock(Film.class);
         FilmDTO filmDto = mock(FilmDTO.class);
         when(this.repository.findByTitle("film test 1")).thenReturn(film);
-        when(this.mapperPort.map(any(), any())).thenReturn(filmDto);
+        when(this.mapperPort.convertFilmToDto(any())).thenReturn(filmDto);
         var result = this.service.findByTitle("film test 1");
         System.out.println(result);
         assertTrue(result instanceof FilmDTO);
-        verify(this.mapperPort, times(1)).map(any(), any());
+        verify(this.mapperPort, times(1)).convertFilmToDto(any());
     }
 
     @Test
@@ -95,7 +91,7 @@ public class FilmServicesTest  {
         Film film = mock(Film.class);
         FilmDTO filmDTO = mock(FilmDTO.class);
         when(this.repository.findById(1L)).thenReturn(film);
-        when(this.mapperPort.map(any(), any())).thenReturn(filmDTO);
+        when(this.mapperPort.convertFilmToDto(any())).thenReturn(filmDTO);
         var result = this.service.findById(1L);
         System.out.println(result);
         assertEquals(result, filmDTO);
@@ -107,12 +103,12 @@ public class FilmServicesTest  {
         List<Film> films = Collections.singletonList(mock(Film.class));
         List<FilmDTO> filmDtos = Collections.singletonList(mock(FilmDTO.class));
         when(this.repository.findAll()).thenReturn(films);
-        when(this.mapperPort.mapCollections(any(), any())).thenReturn(Collections.singletonList(filmDtos));
+        when(this.mapperPort.convertListFilmToListDto(any())).thenReturn(filmDtos);
         var result = this.service.findAll();
 
         // Checking if result this a ListDto
         assertTrue(result instanceof List<FilmDTO>);
-        verify(this.mapperPort, times(1)).mapCollections(any(), any());
+        verify(this.mapperPort, times(1)).convertListFilmToListDto(any());
     }
 
     @Test

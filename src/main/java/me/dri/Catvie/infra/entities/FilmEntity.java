@@ -1,4 +1,4 @@
-package me.dri.Catvie.infra.adapters.entities;
+package me.dri.Catvie.infra.entities;
 
 
 import jakarta.persistence.*;
@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "films")
@@ -28,12 +27,11 @@ public class FilmEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "director_id")
-    private DirectorEntity directorEntity;
+    private DirectorEntity director;
 
     private String writer;
     private Date release_date;
     private Integer runtime;
-
     @ManyToOne
     @JoinColumn(name = "distributor_id")
     private DistributorEntity distributor;
@@ -46,12 +44,12 @@ public class FilmEntity implements Serializable {
 
     }
 
-    public FilmEntity(Long id, String title, List<GenreEntity> genres, String original_language, DirectorEntity directorEntity, String writer, Date release_date, Integer runtime, DistributorEntity distributor, String production_co, Double average_rating_critic, Double average_rating_audience) {
+    public FilmEntity(Long id, String title, List<GenreEntity> genres, String original_language, DirectorEntity director, String writer, Date release_date, Integer runtime, DistributorEntity distributor, String production_co, Double average_rating_critic, Double average_rating_audience) {
         this.id = id;
         this.title = title;
         this.genres = genres;
         this.original_language = original_language;
-        this.directorEntity = directorEntity;
+        this.director = director;
         this.writer = writer;
         this.release_date = release_date;
         this.runtime = runtime;
@@ -65,6 +63,9 @@ public class FilmEntity implements Serializable {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -78,6 +79,9 @@ public class FilmEntity implements Serializable {
         return genres;
     }
 
+    public void setGenres(List<GenreEntity> genres) {
+        this.genres = genres;
+    }
 
     public String getOriginal_language() {
         return original_language;
@@ -88,11 +92,11 @@ public class FilmEntity implements Serializable {
     }
 
     public DirectorEntity getDirector() {
-        return directorEntity;
+        return director;
     }
 
-    public void setDirector(DirectorEntity directorEntity) {
-        this.directorEntity = directorEntity;
+    public void setDirector(DirectorEntity director) {
+        this.director = director;
     }
 
     public String getWriter() {
@@ -150,36 +154,4 @@ public class FilmEntity implements Serializable {
     public void setAverage_rating_audience(Double average_rating_audience) {
         this.average_rating_audience = average_rating_audience;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FilmEntity film = (FilmEntity) o;
-        return Objects.equals(id, film.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "FilmEntity{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", genres=" + genres +
-                ", original_language='" + original_language + '\'' +
-                ", directorEntity='" + directorEntity + '\'' +
-                ", writer='" + writer + '\'' +
-                ", release_date=" + release_date +
-                ", runtime=" + runtime +
-                ", distributor='" + distributor + '\'' +
-                ", production_co='" + production_co + '\'' +
-                ", average_rating_critic=" + average_rating_critic +
-                ", average_rating_audience=" + average_rating_audience +
-                '}';
-    }
 }
-

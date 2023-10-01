@@ -1,6 +1,6 @@
 package me.dri.Catvie.unittest.testinstances;
 
-import me.dri.Catvie.infra.adapters.entities.DirectorEntity;
+import me.dri.Catvie.infra.entities.DirectorEntity;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
