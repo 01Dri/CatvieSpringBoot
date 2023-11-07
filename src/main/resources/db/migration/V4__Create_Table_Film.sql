@@ -1,6 +1,7 @@
 CREATE TABLE films (
     id INT NOT NULL,
     title VARCHAR(255),
+    url VARCHAR(255),
     original_language VARCHAR(255),
     writer VARCHAR(255),
     director_id INT,

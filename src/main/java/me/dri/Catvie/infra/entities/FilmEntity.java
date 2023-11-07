@@ -39,12 +39,15 @@ public class FilmEntity implements Serializable {
     private Double average_rating_critic;
     private Double average_rating_audience;
 
+    private String url;
+
 
     public FilmEntity() {
 
     }
 
-    public FilmEntity(Long id, String title, List<GenreEntity> genres, String original_language, DirectorEntity director, String writer, Date release_date, Integer runtime, DistributorEntity distributor, String production_co, Double average_rating_critic, Double average_rating_audience) {
+    public FilmEntity(Long id, String title, List<GenreEntity> genres, String original_language, DirectorEntity director, String writer, Date release_date, Integer runtime, DistributorEntity distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
+
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -57,6 +60,7 @@ public class FilmEntity implements Serializable {
         this.production_co = production_co;
         this.average_rating_critic = average_rating_critic;
         this.average_rating_audience = average_rating_audience;
+        this.url = url;
     }
 
     public Long getId() {
@@ -153,5 +157,13 @@ public class FilmEntity implements Serializable {
 
     public void setAverage_rating_audience(Double average_rating_audience) {
         this.average_rating_audience = average_rating_audience;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

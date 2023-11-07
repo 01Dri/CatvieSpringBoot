@@ -19,7 +19,7 @@ public class MockEntities {
         Genre genre = new Genre(1L , Genres.ACTION);
         Director director = new Director(1L, "Diego");
         Distributor distributor = new Distributor(1L, "Walt Disney");
-        Film film = new Film(1L, "Evangelion", List.of(genre), "english", director, "Diego", new Date(),150, distributor, "diego", 6.0, 8.5);
+        Film film = new Film(1L, "Evangelion", List.of(genre), "english", director, "Diego", new Date(),150, distributor, "diego", 6.0, 8.5, "teste");
         return film;
     }
 
@@ -27,7 +27,7 @@ public class MockEntities {
         Genre genre = new Genre(1L , Genres.ACTION);
         Director directorEntity = new Director(1L, "Diego");
         Distributor distributor = new Distributor(1L, "Walt Disney");
-        FilmDTO film = new FilmDTO("Evangelion", List.of(genre), "english", directorEntity, "Diego", new Date(),150, distributor, "diego", 6.0, 8.5);
+        FilmDTO film = new FilmDTO("Evangelion", List.of(genre), "english", directorEntity, "Diego", new Date(),150, distributor, "diego", 6.0, 8.5, "teste");
         return film;
     }
 
@@ -35,7 +35,7 @@ public class MockEntities {
         Genre genre = new Genre(1L , Genres.ACTION);
         Director directorEntity = new Director(1L, "Diego");
         Distributor distributor = new Distributor(1L, "Walt Disney");
-        FilmDTO film = new FilmDTO("", List.of(genre), "english", directorEntity, "Diego", new Date(),150, distributor, "diego", 6.0, 8.5);
+        FilmDTO film = new FilmDTO("", List.of(genre), "english", directorEntity, "Diego", new Date(),150, distributor, "diego", 6.0, 8.5, "teste");
         return film;
     }
 }

@@ -48,14 +48,14 @@ public class MapperEntitiesImpl implements MapperEntities {
 
     @Override
     public Film convertyFilmEntityToFilm(FilmEntity filmEntity, List<Genre> genres, Director director, Distributor distributor) {
-        return new Film(filmEntity.getId(), filmEntity.getTitle(), genres, filmEntity.getOriginal_language(), director, filmEntity.getWriter(), filmEntity.getRelease_date(), filmEntity.getRuntime(), distributor, filmEntity.getProduction_co(), filmEntity.getAverage_rating_critic(), filmEntity.getAverage_rating_audience());
+        return new Film(filmEntity.getId(), filmEntity.getTitle() ,genres, filmEntity.getOriginal_language(), director, filmEntity.getWriter(), filmEntity.getRelease_date(), filmEntity.getRuntime(), distributor, filmEntity.getProduction_co(), filmEntity.getAverage_rating_critic(), filmEntity.getAverage_rating_audience(), filmEntity.getUrl());
     }
 
     @Override
     public List<Film> convertyListFilmsEntityToListFilm(List<FilmEntity> filmEntities) {
         List<Film> films = new ArrayList<>();
         for (FilmEntity f : filmEntities ) {
-            Film film = new Film(f.getId(), f.getTitle(), convertGenreEntityToGenre(f.getGenres()), f.getOriginal_language(), convertyDirectorEntityToDirector(f.getDirector()), f.getWriter(), f.getRelease_date(), f.getRuntime(), convertyDistributorEntityToDistributor(f.getDistributor()), f.getProduction_co(), f.getAverage_rating_critic(), f.getAverage_rating_audience());
+            Film film = new Film(f.getId(), f.getTitle(), convertGenreEntityToGenre(f.getGenres()), f.getOriginal_language(), convertyDirectorEntityToDirector(f.getDirector()), f.getWriter(), f.getRelease_date(), f.getRuntime(), convertyDistributorEntityToDistributor(f.getDistributor()), f.getProduction_co(), f.getAverage_rating_critic(), f.getAverage_rating_audience(), f.getUrl());
             films.add(film);
         }
         return films;
@@ -63,7 +63,7 @@ public class MapperEntitiesImpl implements MapperEntities {
 
     @Override
     public FilmEntity convertyFilmToFilmEntity(Film f) {
-        return new FilmEntity(f.getId(), f.getTitle(), convertGenreToGenreEntity(f.getGenres()), f.getOriginal_language(), convertyDirectorToDirectorEntity(f.getDirectorEntity()), f.getWriter(), f.getRelease_date(), f.getRuntime(), convertyDistributorToDistributorEntity(f.getDistributor()), f.getProduction_co(), f.getAverage_rating_critic(), f.getAverage_rating_audience());
+        return new FilmEntity(f.getId(), f.getTitle(), convertGenreToGenreEntity(f.getGenres()), f.getOriginal_language(), convertyDirectorToDirectorEntity(f.getDirectorEntity()), f.getWriter(), f.getRelease_date(), f.getRuntime(), convertyDistributorToDistributorEntity(f.getDistributor()), f.getProduction_co(), f.getAverage_rating_critic(), f.getAverage_rating_audience(), f.getUrl());
     }
 
 

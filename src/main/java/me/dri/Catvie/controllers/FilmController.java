@@ -4,15 +4,13 @@ package me.dri.Catvie.controllers;
 import me.dri.Catvie.domain.models.dto.FilmDTO;
 import me.dri.Catvie.domain.ports.interfaces.FilmServicePort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/film/v1")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class FilmController {
 
 
@@ -24,6 +22,7 @@ public class FilmController {
 
 
     @GetMapping(value = "/findAll")
+    @CrossOrigin(origins = "*")
     List<FilmDTO> findAll () {
         return this.filmServicePort.findAll();
     }
@@ -31,6 +30,10 @@ public class FilmController {
     @GetMapping(value = "/findById/{id}")
     ResponseEntity<FilmDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.filmServicePort.findById(id));
+    }
+    @GetMapping(value = "/findByTitle/{title}")
+    ResponseEntity<FilmDTO> findById(@PathVariable String title) {
+        return ResponseEntity.ok(this.filmServicePort.findByTitle(title));
     }
 
 }

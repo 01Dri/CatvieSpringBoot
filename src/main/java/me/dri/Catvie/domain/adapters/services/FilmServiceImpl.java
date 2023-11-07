@@ -25,7 +25,6 @@ public class FilmServiceImpl  implements FilmServicePort {
     public FilmDTO findById(Long id) {
         Film film = this.filmRepositoryPort.findById(id);
         return this.mapperEntitiesPort.convertFilmToDto(film);
-
     }
 
     @Override
@@ -38,11 +37,12 @@ public class FilmServiceImpl  implements FilmServicePort {
     public FilmDTO findByTitle(String title) {
         Film film = this.filmRepositoryPort.findByTitle(title);
         return this.mapperEntitiesPort.convertFilmToDto(film);
+
     }
 
     @Override
     public void create(FilmDTO filmDto) {
-        if (!this.filmIsValid(filmDto)) {
+        if (this.filmIsValid(filmDto)) {
             throw new ContentIsMissing("Missing information's in the object FilmDTO");
         }
         Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto);
@@ -51,6 +51,9 @@ public class FilmServiceImpl  implements FilmServicePort {
 
     @Override
     public void save(FilmDTO film) {
+        if (this.filmIsValid(film)) {
+            throw new ContentIsMissing("Missing information's in the object FilmDTO");
+        }
         Film filmToSave = this.mapperEntitiesPort.convertFilmDtoToFilm(film);
         this.filmRepositoryPort.save(filmToSave);
     }
@@ -66,14 +69,11 @@ public class FilmServiceImpl  implements FilmServicePort {
 
 
     public boolean filmIsValid(FilmDTO filmDto) {
-        if (filmDto.title() == null || filmDto.title().isEmpty() ||
+        return filmDto.title() == null || filmDto.title().isEmpty() ||
                 filmDto.title().isBlank() || filmDto.original_language() == null ||
                 filmDto.original_language().isBlank() || filmDto.original_language().isEmpty() ||
                 filmDto.writer() == null || filmDto.writer().isEmpty() || filmDto.writer().isBlank()
                 || filmDto.runtime() == null || filmDto.production_co() == null ||
-                filmDto.production_co().isEmpty() || filmDto.production_co().isBlank()) {
-            return false;
-        }
-        return true;
+                filmDto.production_co().isEmpty() || filmDto.production_co().isBlank();
     }
 }

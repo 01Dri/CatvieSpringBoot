@@ -26,7 +26,7 @@ public class TestInstanceFilm {
                 null, "Dan Folgelman",
                 new Date(), 96,
                 null, "Walt Disney Pictures, Walt Disney Animation",
-                90.0, 74.0);
+                90.0, 74.0, "teste");
         assertEquals("BOLT", film.getTitle());
         assertEquals(90.0, film.getAverage_rating_critic());
     }

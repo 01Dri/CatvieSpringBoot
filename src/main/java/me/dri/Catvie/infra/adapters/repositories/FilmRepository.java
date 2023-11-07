@@ -1,5 +1,6 @@
 package me.dri.Catvie.infra.adapters.repositories;
 
+import me.dri.Catvie.domain.exceptions.NotFoundEntity;
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Distributor;
 import me.dri.Catvie.domain.models.entities.Film;
@@ -27,7 +28,11 @@ public class FilmRepository implements FilmRepositoryPort {
 
     @Override
     public Film findById(Long id) {
+
         FilmEntity film = this.filmRepositoryJPA.findFilmById(id);
+        if (film == null) {
+            throw  new NotFoundEntity("Film entity, id:  " + id + " Not found");
+        }
         List<Genre> genres = this.mapperEntities.convertGenreEntityToGenre(film.getGenres());
         Director director = this.mapperEntities.convertyDirectorEntityToDirector(film.getDirector());
         Distributor distributor = this.mapperEntities.convertyDistributorEntityToDistributor(film.getDistributor());
@@ -44,6 +49,9 @@ public class FilmRepository implements FilmRepositoryPort {
     @Override
     public Film findByTitle(String title) {
         FilmEntity film = this.filmRepositoryJPA.findFilmByTitle(title);
+        if (film == null) {
+            throw  new NotFoundEntity("Film entity, title:  " + title + " Not found");
+        }
         List<Genre> genres = this.mapperEntities.convertGenreEntityToGenre(film.getGenres());
         Director director = this.mapperEntities.convertyDirectorEntityToDirector(film.getDirector());
         Distributor distributor = this.mapperEntities.convertyDistributorEntityToDistributor(film.getDistributor());

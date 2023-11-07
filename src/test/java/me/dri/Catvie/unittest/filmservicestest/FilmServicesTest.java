@@ -2,6 +2,7 @@ package me.dri.Catvie.unittest.filmservicestest;
 
 import me.dri.Catvie.domain.adapters.services.FilmServiceImpl;
 import me.dri.Catvie.domain.exceptions.ContentIsMissing;
+import me.dri.Catvie.domain.exceptions.NotFoundEntity;
 import me.dri.Catvie.domain.models.dto.FilmDTO;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.interfaces.FilmServicePort;
@@ -67,8 +68,8 @@ public class FilmServicesTest  {
 
     @Test
     void testSaveFilm() {
-        FilmDTO filmDto = mock(FilmDTO.class);
-        Film filmToSave = mock(Film.class);
+        FilmDTO filmDto = this.mockEntitys.mockFilmDto();
+        Film filmToSave = this.mockEntitys.mockFilm();
         when(this.mapperPort.convertFilmDtoToFilm(filmDto)).thenReturn(filmToSave);
         this.service.save(filmDto);
         verify(this.repository, times(1)).save(filmToSave);
@@ -96,6 +97,14 @@ public class FilmServicesTest  {
         System.out.println(result);
         assertEquals(result, filmDTO);
         verify(this.repository, times(1)).findById(any());
+    }
+
+    @Test
+    void testFindFilmByIdWithExceptionNotFoundEntity() {
+        when(this.repository.findById(1L)).thenReturn(null);
+        assertThrows(NotFoundEntity.class, () -> this.service.findById(1L));
+        verify(this.repository, times(1)).findById(any());
+        verify(this.mapperPort, never()).convertFilmDtoToFilm(any());
     }
 
     @Test

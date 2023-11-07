@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IFactoryFilm {
 
-    FilmEntity getInstance(String title, List<GenreEntity> genres, String original_language, DirectorEntity directorEntity, String writer, Date release_date, Integer runtime, DistributorEntity distributor, String production_co, Double average_rating_critic, Double average_rating_audience);
+    FilmEntity getInstance(String title, List<GenreEntity> genres, String original_language, DirectorEntity directorEntity, String writer, Date release_date, Integer runtime, DistributorEntity distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url);
 
 
 }
