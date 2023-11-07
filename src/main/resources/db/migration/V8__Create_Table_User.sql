@@ -5,6 +5,6 @@ CREATE TABLE users (
     lastname TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL UNIQUE,
-    token TEXT UNIQUE,
-    role TEXT NOT NULL,
+    token TEXT UNIQUE ,
+    role TEXT NOT NULL
 );
