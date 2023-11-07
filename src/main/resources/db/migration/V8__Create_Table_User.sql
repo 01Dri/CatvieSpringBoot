@@ -1,0 +1,10 @@
+CREATE TABLE users (
+
+    id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+    firstname TEXT NOT NULL UNIQUE,
+    lastname TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL UNIQUE,
+    token TEXT UNIQUE,
+    role TEXT NOT NULL,
+);

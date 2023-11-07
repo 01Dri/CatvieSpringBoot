@@ -14,16 +14,16 @@ public class MapperUserImpl implements UserMapperPort {
 
     @Override
     public UserDTO convertUserToDto(User user) {
-        return new UserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
+        return new UserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getToken(), user.getRole());
     }
 
     @Override
     public List<UserDTO> convertListUserToDto(List<User> users) {
-        return users.stream().map(user -> new UserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword())).collect(Collectors.toList());
+        return users.stream().map(user -> new UserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getToken(), user.getRole())).collect(Collectors.toList());
     }
 
     @Override
     public User convertDtoToUser(UserDTO user) {
-        return new User(null, user.firstName(), user.lastName(), user.email(), user.password());
+        return new User(null, user.firstName(), user.lastName(), user.email(), user.password(), user.token(), user.role());
     }
 }
