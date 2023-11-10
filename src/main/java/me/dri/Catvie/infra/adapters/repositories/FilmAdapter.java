@@ -7,21 +7,22 @@ import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.entities.FilmEntity;
-import me.dri.Catvie.infra.utils.mapper.MapperEntities;
+import me.dri.Catvie.domain.ports.interfaces.MapperEntities;
+import me.dri.Catvie.infra.ports.FilmRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class FilmRepository implements FilmRepositoryPort {
+public class FilmAdapter implements FilmRepositoryPort {
 
     private final FilmRepositoryJPA filmRepositoryJPA;
 
     private final MapperEntities mapperEntities;
     
     @Autowired
-    public FilmRepository(FilmRepositoryJPA filmRepositoryJPA, MapperEntities mapperEntities) {
+    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, MapperEntities mapperEntities) {
         this.filmRepositoryJPA = filmRepositoryJPA;
         this.mapperEntities = mapperEntities;
     }

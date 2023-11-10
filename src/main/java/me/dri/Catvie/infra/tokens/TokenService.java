@@ -5,19 +5,20 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
+import me.dri.Catvie.domain.ports.interfaces.TokenServicesPort;
 import me.dri.Catvie.infra.entities.UserEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
 
 @Service
-public class TokenService {
+public class TokenService  implements TokenServicesPort {
 
     private final String secret = "drisec";
 
+    @Override
     public String generateToken(UserEntity user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -32,10 +33,13 @@ public class TokenService {
         }
     }
 
-    private Instant generateExpirationDate() {
+    @Override
+    public Instant generateExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 
+
+    @Override
     public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);

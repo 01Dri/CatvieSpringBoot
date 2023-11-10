@@ -19,4 +19,6 @@ public interface UserRepositoryPort {
     void save(User film);
 
     void delete(User film);
+
+    void update(User user);
 }

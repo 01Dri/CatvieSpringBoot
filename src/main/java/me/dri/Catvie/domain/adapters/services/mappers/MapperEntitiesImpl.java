@@ -1,9 +1,10 @@
-package me.dri.Catvie.infra.utils.mapper;
+package me.dri.Catvie.domain.adapters.services.mappers;
 
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Distributor;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
+import me.dri.Catvie.domain.ports.interfaces.MapperEntities;
 import me.dri.Catvie.infra.entities.DirectorEntity;
 import me.dri.Catvie.infra.entities.DistributorEntity;
 import me.dri.Catvie.infra.entities.FilmEntity;

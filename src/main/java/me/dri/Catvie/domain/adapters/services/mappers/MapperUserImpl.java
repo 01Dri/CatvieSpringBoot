@@ -1,29 +1,33 @@
 package me.dri.Catvie.domain.adapters.services.mappers;
 
+import me.dri.Catvie.domain.models.dto.LoginDTO;
+import me.dri.Catvie.domain.models.dto.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.UserDTO;
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.UserMapperPort;
+import me.dri.Catvie.domain.ports.interfaces.MapperUserPort;
+import me.dri.Catvie.infra.entities.UserEntity;
 
-import java.util.List;
-import java.util.stream.Collectors;
+public class MapperUserImpl implements MapperUserPort {
 
-public class MapperUserImpl implements UserMapperPort {
-
-    public MapperUserImpl() {}
-
+    public MapperUserImpl(){}
 
     @Override
-    public UserDTO convertUserToDto(User user) {
+    public User convertRegisterDTOToUser(RegisterDTO user) {
+        return new User(null, user.firstName(), user.lastName(), user.email(), user.password(), null, user.role());
+    }
+
+    @Override
+    public User convertLoginDTOToUser(LoginDTO user) {
+        return null;
+    }
+
+    @Override
+    public UserDTO convertUserToDTO(User user) {
         return new UserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getToken(), user.getRole());
     }
 
     @Override
-    public List<UserDTO> convertListUserToDto(List<User> users) {
-        return users.stream().map(user -> new UserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getToken(), user.getRole())).collect(Collectors.toList());
-    }
-
-    @Override
-    public User convertDtoToUser(UserDTO user) {
-        return new User(null, user.firstName(), user.lastName(), user.email(), user.password(), user.token(), user.role());
+    public User convertUserDTOToUser(UserDTO userDTO) {
+        return new User(null, userDTO.firstName(), userDTO.lastName(), userDTO.email(), userDTO.password(), userDTO.token(), userDTO.role());
     }
 }

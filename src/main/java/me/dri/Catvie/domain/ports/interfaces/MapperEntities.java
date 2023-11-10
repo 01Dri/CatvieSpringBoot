@@ -1,4 +1,4 @@
-package me.dri.Catvie.infra.utils.mapper;
+package me.dri.Catvie.domain.ports.interfaces;
 
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Distributor;
