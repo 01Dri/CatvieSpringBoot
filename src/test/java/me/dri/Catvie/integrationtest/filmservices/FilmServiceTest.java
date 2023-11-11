@@ -1,6 +1,7 @@
 package me.dri.Catvie.integrationtest.filmservices;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperEntitiesImpl;
 import me.dri.Catvie.domain.ports.interfaces.MapperEntities;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.get;
-import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
 
 public class FilmServiceTest {
@@ -30,19 +30,30 @@ public class FilmServiceTest {
 
     @Test
     void testFindById() {
-        get("/film/v1/findById/1").then().statusCode(200)
-                .body("title", equalTo("Os Mercenários 4"));
+        get("/film/v1/findById/1")
+                .then()
+                .contentType(ContentType.JSON)
+                .statusCode(200)
+                .body("title", equalTo("Os Mercenários 4"));;
     }
 
     @Test
     void testFindAll() {
-        get("/film/v1/findAll").then().statusCode(200)
+        get("/film/v1/findAll")
+                .then()
+                .contentType(ContentType.JSON)
+                .statusCode(200)
                 .body("$", hasSize(greaterThan(0)));
     }
 
     @Test
     void testFindByTitle() {
-        get("/film/v1/findByTitle/AViagemdoTempo").then().statusCode(200)
+        get("/film/v1/findByTitle/AViagemdoTempo")
+                .then()
+                .contentType(ContentType.JSON)
+                .statusCode(200)
                 .body("writer", equalTo("Luisa May Alcott"));
     }
+
+
 }
