@@ -3,6 +3,7 @@ package me.dri.Catvie.controllers.auth;
 import me.dri.Catvie.domain.models.dto.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.RegisterResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.AuthenticationServicePort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,6 @@ public class UserControllerAuth {
     @PostMapping (value = "/register")
     @CrossOrigin(origins = "*")
     ResponseEntity<RegisterResponseDTO> register(@RequestBody RegisterDTO dto) {
-        return ResponseEntity.ok(this.servicePort.register(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.servicePort.register(dto));
     }
 }

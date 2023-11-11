@@ -1,4 +1,4 @@
-package me.dri.Catvie.unittest.utils;
+package me.dri.Catvie.unittest.mocks;
 
 import me.dri.Catvie.domain.enums.Genres;
 import me.dri.Catvie.domain.models.dto.FilmDTO;
@@ -10,10 +10,10 @@ import me.dri.Catvie.domain.models.entities.Genre;
 import java.util.Date;
 import java.util.List;
 
-public class MockEntities {
+public class MockFilm {
 
 
-    public MockEntities() {
+    public MockFilm() {
     }
     public Film mockFilm() {
         Genre genre = new Genre(1L , Genres.ACTION);

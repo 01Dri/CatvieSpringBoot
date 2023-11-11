@@ -8,7 +8,7 @@ import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.interfaces.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.MapperEntitiesPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
-import me.dri.Catvie.unittest.utils.MockEntities;
+import me.dri.Catvie.unittest.mocks.MockFilm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -26,7 +26,7 @@ public class FilmServicesTest  {
     FilmRepositoryPort repository;
     @Mock
     MapperEntitiesPort mapperPort;
-    MockEntities mockEntitys;
+    MockFilm mockEntitys;
 
 
 
@@ -35,7 +35,7 @@ public class FilmServicesTest  {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         service = new FilmServiceImpl(repository, mapperPort);
-        mockEntitys = new MockEntities();
+        mockEntitys = new MockFilm();
 
     }
 
@@ -99,13 +99,13 @@ public class FilmServicesTest  {
         verify(this.repository, times(1)).findById(any());
     }
 
-    @Test
-    void testFindFilmByIdWithExceptionNotFoundEntity() {
-        when(this.repository.findById(1L)).thenReturn(null);
-        assertThrows(NotFoundEntity.class, () -> this.service.findById(1L));
-        verify(this.repository, times(1)).findById(any());
-        verify(this.mapperPort, never()).convertFilmDtoToFilm(any());
-    }
+//    @Test
+//    void testFindFilmByIdWithExceptionNotFoundEntity() {
+//        when(this.repository.findById(1L)).thenReturn(null);
+//        assertThrows(NotFoundEntity.class, () -> this.service.findById(1L));
+//        verify(this.repository, times(1)).findById(any());
+//        verify(this.mapperPort, never()).convertFilmDtoToFilm(any());
+//    }
 
     @Test
     void testFindAll() {

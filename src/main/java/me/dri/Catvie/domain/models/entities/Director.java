@@ -1,7 +1,5 @@
 package me.dri.Catvie.domain.models.entities;
 
-import jakarta.persistence.*;
-import me.dri.Catvie.domain.models.entities.Film;
 
 import java.io.Serializable;
 import java.util.ArrayList;

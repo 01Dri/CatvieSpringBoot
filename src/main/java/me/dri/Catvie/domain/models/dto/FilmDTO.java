@@ -4,7 +4,6 @@ import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Distributor;
 import me.dri.Catvie.domain.models.entities.Genre;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 

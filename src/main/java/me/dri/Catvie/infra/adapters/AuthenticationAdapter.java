@@ -36,7 +36,8 @@ public class AuthenticationAdapter implements AuthenticationPort {
 
     @Override
     public void register(User register) {
-        var user = this.mapperUserPort.convertUserToUserEntity(register, this.passwordEncoder.encode(register.getPassword()));
+        String password = this.passwordEncoder.encode(register.getPassword());
+        var user = this.mapperUserPort.convertUserToUserEntity(register, password);
         this.repositoryPort.save(user);
     }
 
@@ -46,7 +47,6 @@ public class AuthenticationAdapter implements AuthenticationPort {
         var token = new TokenResponseDTO(this.tokenServicesPort.generateToken((UserEntity) userLogin));
         ((UserEntity) userLogin).setToken(token.token());
         this.repositoryPort.save((UserEntity) userLogin);
-
         var usernamePassword = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         this.authenticationManager.authenticate(usernamePassword);
     }

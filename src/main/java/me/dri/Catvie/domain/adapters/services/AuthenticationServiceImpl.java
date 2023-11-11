@@ -8,7 +8,6 @@ import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.AuthenticationServicePort;
 import me.dri.Catvie.domain.ports.interfaces.MapperUserPort;
-import me.dri.Catvie.domain.ports.interfaces.TokenServicesPort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 
 public class AuthenticationServiceImpl implements AuthenticationServicePort {
@@ -19,7 +18,7 @@ public class AuthenticationServiceImpl implements AuthenticationServicePort {
 
     private final UserRepositoryPort repositoryPort;
 
-    public AuthenticationServiceImpl(AuthenticationPort authenticationPort, TokenServicesPort tokenServicesPort, MapperUserPort mapperUserPort, UserRepositoryPort repositoryPort) {
+    public AuthenticationServiceImpl(AuthenticationPort authenticationPort, MapperUserPort mapperUserPort, UserRepositoryPort repositoryPort) {
         this.authenticationPort = authenticationPort;
         this.mapperUserPort = mapperUserPort;
         this.repositoryPort = repositoryPort;
