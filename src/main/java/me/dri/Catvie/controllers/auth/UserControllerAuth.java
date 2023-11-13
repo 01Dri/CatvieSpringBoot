@@ -1,7 +1,9 @@
 package me.dri.Catvie.controllers.auth;
 
+import me.dri.Catvie.domain.models.dto.LoginDTO;
 import me.dri.Catvie.domain.models.dto.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.RegisterResponseDTO;
+import me.dri.Catvie.domain.models.dto.TokenResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.AuthenticationServicePort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,4 +26,11 @@ public class UserControllerAuth {
     ResponseEntity<RegisterResponseDTO> register(@RequestBody RegisterDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.servicePort.register(dto));
     }
+
+    @PostMapping(value = "/login")
+    @CrossOrigin(origins = "*")
+    ResponseEntity<TokenResponseDTO> login(@RequestBody LoginDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.servicePort.login(dto));
+    }
+
 }
