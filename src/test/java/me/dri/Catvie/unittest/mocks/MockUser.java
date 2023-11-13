@@ -2,9 +2,7 @@ package me.dri.Catvie.unittest.mocks;
 
 
 import me.dri.Catvie.domain.enums.UserRole;
-import me.dri.Catvie.domain.models.dto.RegisterDTO;
-import me.dri.Catvie.domain.models.dto.RegisterResponseDTO;
-import me.dri.Catvie.domain.models.dto.UserDTO;
+import me.dri.Catvie.domain.models.dto.*;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.infra.entities.UserEntity;
 
@@ -35,6 +33,13 @@ public class MockUser {
         return new UserEntity(1L, "DIEGO", "HENRIQUE", "DIEGO@GMAIL", "12345678", "TOKENTEST", UserRole.ADMIN);
     }
 
+    public LoginDTO mockLoginDTO() {
+        return new LoginDTO("diego@gmail.com", "testesenha");
+    }
+
+    public TokenResponseDTO mockResponseToken() {
+        return new TokenResponseDTO("tokenteste");
+    }
 
 
 }

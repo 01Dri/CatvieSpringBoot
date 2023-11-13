@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.*;
-
+import static org.junit.jupiter.api.Assertions.*;
 public class AuthServicesDomainTest {
 
 
@@ -47,6 +47,16 @@ public class AuthServicesDomainTest {
         this.service.register(registerDTO);
         verify(this.mapperUserPortDomain, times(1)).convertRegisterDTOToUser(registerDTO);
         verify(this.authenticationPort, times(1)).register(mockUser);
+    }
+
+    @Test
+    void loginTest() {
+        var loginDto = this.mockUser.mockLoginDTO();
+        var user = this.mockUser.mockUser();
+        var tokenResponseDTO = this.mockUser.mockResponseToken();
+        when(this.mapperUserPortDomain.convertLoginDTOToUser(loginDto)).thenReturn(user);
+        this.service.login(loginDto);
+        verify(this.authenticationPort, times(1)).login(user);
     }
 
 
