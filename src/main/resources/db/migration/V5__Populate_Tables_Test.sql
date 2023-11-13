@@ -23,8 +23,5 @@ INSERT INTO films (id, title, url, original_language, writer, director_id, distr
 (2, 'Uma Fada Veio Me Visitar', 'https://capas-p.imagemfilmes.com.br/164892_000_p.jpg', 'Inglês', 'J.R.R. Tolkien', 2, 2, 2, '2001-12-10', 251, 'New Line Cinema', 8.9, 9.1),
 (3, 'Não Abra!', 'https://capas-p.imagemfilmes.com.br/164115_000_p.jpg', 'Inglês', 'Quentin Tarantino', 2, 2, 3, '1994-10-14', 154, 'Miramax Films', 8.9, 8.9),
 (4, 'O Porteiro', 'https://capas-p.imagemfilmes.com.br/164076_000_p.jpg', 'Inglês', 'Stephen King', 3, 3, 3, '1980-05-23', 146, 'Warner Bros.', 8.4, 8.4),
-(5, 'O Convento', 'https://capas-p.imagemfilmes.com.br/164062_000_p.jpg', 'Inglês', 'Arthur C. Clarke', 1, 2, 3, '1968-04-03', 149, 'Metro-Goldwyn-Mayer', 8.3, 8.3),
-(6, 'AViagemdoTempo', 'https://capas-p.imagemfilmes.com.br/123456_000_p.jpg', 'Português', 'Luisa May Alcott', 2, 2, 3, '1995-09-12', 120, 'Universal Pictures', 7.5, 7.8);
+(5, 'O Convento', 'https://capas-p.imagemfilmes.com.br/164062_000_p.jpg', 'Inglês', 'Arthur C. Clarke', 1, 2, 3, '1968-04-03', 149, 'Metro-Goldwyn-Mayer', 8.3, 8.3)
 
-
--- Continue adicionando mais filmes conforme necessário

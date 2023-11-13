@@ -16,28 +16,21 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService  implements TokenServicesPort {
 
-    private final String secret = "drisec";
+    private final String secret = "drisec"; // Change after conclusion of the project
 
     @Override
     public String generateToken(UserEntity user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            String token = JWT.create()
+            return JWT.create()
                     .withIssuer("auth-api")
                     .withSubject(user.getUsername())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
-            return token;
         } catch (JWTCreationException e) {
-            throw new InvalidJWTException("Erro ao gerar o token " + e.getMessage());
+            throw new InvalidJWTException("Error generating token" + e.getMessage());
         }
     }
-
-    @Override
-    public Instant generateExpirationDate() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
-    }
-
 
     @Override
     public String validateToken(String token) {
@@ -49,7 +42,12 @@ public class TokenService  implements TokenServicesPort {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException e) {
-            throw new InvalidJWTException("Token inválido " + e.getMessage());
+            throw new InvalidJWTException("Error validation token " + e.getMessage());
         }
+    }
+
+    @Override
+    public Instant generateExpirationDate() {
+        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }

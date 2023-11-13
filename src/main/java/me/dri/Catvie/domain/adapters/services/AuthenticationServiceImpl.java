@@ -28,7 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationServicePort {
     public RegisterResponseDTO register(RegisterDTO register) {
         User user = this.mapperUserPort.convertRegisterDTOToUser(register);
         this.authenticationPort.register(user);
-        return new RegisterResponseDTO(user.getEmail());
+        return new RegisterResponseDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getToken());
     }
 
     @Override
