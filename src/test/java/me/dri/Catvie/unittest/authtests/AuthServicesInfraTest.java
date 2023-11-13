@@ -56,4 +56,16 @@ public class AuthServicesInfraTest {
         verify(this.repositoryJPA, times(1)).save(userEntity);
 
     }
+
+    @Test
+    void loginTest() {
+        UserEntity userEntity = this.mockUser.mockUserEntity();
+        User user = this.mockUser.mockUser();
+        var token = "tokenteste";
+        when(this.repositoryJPA.findByEmail(user.getEmail())).thenReturn(userEntity);
+        when(this.tokenServicesPort.generateToken(userEntity)).thenReturn(token);
+        this.authenticationPort.login(user);
+        verify(this.repositoryJPA, times(1)).save(userEntity);
+        verify(this.authenticationManager, times(1)).authenticate(any());
+    }
 }
