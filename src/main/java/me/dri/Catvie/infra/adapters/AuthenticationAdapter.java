@@ -1,5 +1,6 @@
 package me.dri.Catvie.infra.adapters;
 
+import me.dri.Catvie.domain.models.dto.LoginDTO;
 import me.dri.Catvie.domain.models.dto.TokenResponseDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.AuthenticationPort;
@@ -42,12 +43,13 @@ public class AuthenticationAdapter implements AuthenticationPort {
     }
 
     @Override
-    public void login(User user) {
-        var userLogin = this.repositoryJPA.findByEmail(user.getEmail());
+    public TokenResponseDTO login(LoginDTO user) {
+        var userLogin = this.repositoryJPA.findByEmail(user.email());
         var token = new TokenResponseDTO(this.tokenServicesPort.generateToken((UserEntity) userLogin));
         ((UserEntity) userLogin).setToken(token.token());
         this.repositoryJPA.save((UserEntity) userLogin);
-        var usernamePassword = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(user.email(), user.password());
         this.authenticationManager.authenticate(usernamePassword);
+        return new TokenResponseDTO(((UserEntity) userLogin).getToken());
     }
 }

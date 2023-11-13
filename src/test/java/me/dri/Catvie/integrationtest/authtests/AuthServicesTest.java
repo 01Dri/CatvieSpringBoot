@@ -2,10 +2,13 @@ package me.dri.Catvie.integrationtest.authtests;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import me.dri.Catvie.domain.adapters.services.AuthenticationServiceImpl;
 import me.dri.Catvie.domain.enums.UserRole;
+import me.dri.Catvie.domain.models.dto.LoginDTO;
 import me.dri.Catvie.domain.models.dto.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.RegisterResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.AuthenticationPort;
+import me.dri.Catvie.domain.ports.interfaces.AuthenticationServicePort;
 import me.dri.Catvie.domain.ports.interfaces.TokenServicesPort;
 import me.dri.Catvie.infra.adapters.AuthenticationAdapter;
 import me.dri.Catvie.infra.adapters.EncoderPasswordAdapter;
@@ -32,6 +35,7 @@ public class AuthServicesTest {
 
     AuthenticationPort authenticationPort;
 
+
     @BeforeEach
      void setup() {
         RestAssured.baseURI = "http://localhost:8080/";
@@ -48,5 +52,13 @@ public class AuthServicesTest {
         given().when().contentType(ContentType.JSON).body(obj).when().post("/auth/v1/register")
                 .then().statusCode(201).body("user", equalTo(obj.email()));
     }
+
+    @Test
+    void loginTest() {
+        LoginDTO loginDTO = new LoginDTO("heenrikk3@gmail.com", "codigo123");
+        given().when().contentType(ContentType.JSON).body(loginDTO).post("/auth/v1/login")
+                .then().statusCode(201);
+    }
+
 
 }

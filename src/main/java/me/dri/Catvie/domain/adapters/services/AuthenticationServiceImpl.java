@@ -33,9 +33,8 @@ public class AuthenticationServiceImpl implements AuthenticationServicePort {
 
     @Override
     public TokenResponseDTO login(LoginDTO login) {
-        var user = this.mapperUserPort.convertLoginDTOToUser(login);
-        this.authenticationPort.login(user);
-        return new TokenResponseDTO(user.getToken());
+        var token = this.authenticationPort.login(login);
+        return new TokenResponseDTO(token.token());
 
     }
 }

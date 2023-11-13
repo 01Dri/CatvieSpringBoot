@@ -56,7 +56,7 @@ public class AuthServicesDomainTest {
         var tokenResponseDTO = this.mockUser.mockResponseToken();
         when(this.mapperUserPortDomain.convertLoginDTOToUser(loginDto)).thenReturn(user);
         this.service.login(loginDto);
-        verify(this.authenticationPort, times(1)).login(user);
+        verify(this.authenticationPort, times(1)).login(loginDto);
     }
 
 
