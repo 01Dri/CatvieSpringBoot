@@ -34,7 +34,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(mvc.pattern("/auth/v1/register")).permitAll()
                         .requestMatchers(mvc.pattern("/auth/v1/login")).permitAll()
-                        .requestMatchers(mvc.pattern("/film/v1/findAll")).permitAll()
                         .requestMatchers(toH2Console()).permitAll()
                         .anyRequest().permitAll()
                 )

@@ -24,6 +24,9 @@ public class FilmServiceImpl  implements FilmServicePort {
     @Override
     public FilmDTO findById(Long id) {
         Film film = this.filmRepositoryPort.findById(id);
+        if (film == null ) {
+            throw new NotFoundEntity("Film not exists");
+        }
         return this.mapperEntitiesPort.convertFilmToDto(film);
     }
 

@@ -99,13 +99,13 @@ public class FilmServicesTest  {
         verify(this.repository, times(1)).findById(any());
     }
 
-//    @Test
-//    void testFindFilmByIdWithExceptionNotFoundEntity() {
-//        when(this.repository.findById(1L)).thenReturn(null);
-//        assertThrows(NotFoundEntity.class, () -> this.service.findById(1L));
-//        verify(this.repository, times(1)).findById(any());
-//        verify(this.mapperPort, never()).convertFilmDtoToFilm(any());
-//    }
+    @Test
+    void testFindFilmByIdWithExceptionNotFoundEntity() {
+        when(this.repository.findById(1L)).thenReturn(null);
+        assertThrows(NotFoundEntity.class, () -> this.service.findById(1L));
+        verify(this.repository, times(1)).findById(any());
+        verify(this.mapperPort, never()).convertFilmDtoToFilm(any());
+    }
 
     @Test
     void testFindAll() {
