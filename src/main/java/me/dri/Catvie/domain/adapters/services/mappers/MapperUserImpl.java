@@ -1,10 +1,10 @@
 package me.dri.Catvie.domain.adapters.services.mappers;
 
-import me.dri.Catvie.domain.models.dto.LoginDTO;
-import me.dri.Catvie.domain.models.dto.RegisterDTO;
-import me.dri.Catvie.domain.models.dto.UserDTO;
+import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
+import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
+import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.MapperUserPort;
+import me.dri.Catvie.domain.ports.interfaces.user.MapperUserPort;
 
 public class MapperUserImpl implements MapperUserPort {
 

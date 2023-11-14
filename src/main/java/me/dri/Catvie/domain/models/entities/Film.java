@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 
 public class Film implements Serializable {
@@ -12,7 +13,7 @@ public class Film implements Serializable {
     private Long id;
     private String title;
 
-    private List<Genre> genres;
+    private Set<Genre> genres;
     private String original_language;
 
     private Director directorEntity;
@@ -32,7 +33,7 @@ public class Film implements Serializable {
 
     }
 
-    public Film(Long id, String title, List<Genre> genres, String original_language, Director directorEntity, String writer, Date release_date, Integer runtime, Distributor distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
+    public Film(Long id, String title, Set<Genre> genres, String original_language, Director directorEntity, String writer, Date release_date, Integer runtime, Distributor distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -46,6 +47,14 @@ public class Film implements Serializable {
         this.average_rating_critic = average_rating_critic;
         this.average_rating_audience = average_rating_audience;
         this.url = url;
+    }
+
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 
     public Long getId() {
@@ -64,13 +73,6 @@ public class Film implements Serializable {
         this.title = title;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
 
     public String getOriginal_language() {
         return original_language;

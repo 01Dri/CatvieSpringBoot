@@ -1,4 +1,4 @@
-package me.dri.Catvie.domain.ports.interfaces;
+package me.dri.Catvie.domain.ports.interfaces.film;
 
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Distributor;
@@ -10,12 +10,13 @@ import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
 
 import java.util.List;
+import java.util.Set;
 
 public interface MapperEntities {
 
-    List<Genre> convertGenreEntityToGenre(List<GenreEntity> genreEntities);
+    Set<Genre> convertGenreEntityToGenre(Set<GenreEntity> genreEntities);
 
-    List<GenreEntity> convertGenreToGenreEntity(List<Genre> genreEntities);
+    Set<GenreEntity> convertGenreToGenreEntity(Set<Genre> genreEntities);
 
     Director convertyDirectorEntityToDirector(DirectorEntity director);
 
@@ -25,7 +26,7 @@ public interface MapperEntities {
 
     DistributorEntity convertyDistributorToDistributorEntity(Distributor distributor);
 
-    Film convertyFilmEntityToFilm(FilmEntity filmEntity, List<Genre> genres, Director director, Distributor distributor);
+    Film convertyFilmEntityToFilm(FilmEntity filmEntity, Set<Genre> genres, Director director, Distributor distributor);
 
     List<Film> convertyListFilmsEntityToListFilm(List<FilmEntity> filmEntities);
 

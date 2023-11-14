@@ -1,10 +1,9 @@
 package me.dri.Catvie.unittest.authtests;
 
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.AuthenticationPort;
-import me.dri.Catvie.domain.ports.interfaces.TokenServicesPort;
+import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
+import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.infra.adapters.AuthenticationAdapter;
-import me.dri.Catvie.infra.adapters.EncoderPasswordAdapter;
 import me.dri.Catvie.infra.entities.UserEntity;
 import me.dri.Catvie.infra.ports.EncoderPassword;
 import me.dri.Catvie.infra.ports.MapperUserPort;

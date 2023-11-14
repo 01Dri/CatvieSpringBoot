@@ -1,4 +1,4 @@
-package me.dri.Catvie.domain.models.dto;
+package me.dri.Catvie.domain.models.dto.auth;
 
 import me.dri.Catvie.domain.enums.UserRole;
 

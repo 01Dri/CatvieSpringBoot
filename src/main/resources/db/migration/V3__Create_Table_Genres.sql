@@ -1,6 +1,5 @@
 CREATE TABLE genres (
-    id INT,
-    genre_name VARCHAR(50),
-    PRIMARY KEY(id)
+    id SERIAL PRIMARY KEY NOT NULL,
+    genre_name VARCHAR(50)
 );
 

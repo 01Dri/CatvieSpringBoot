@@ -1,4 +1,4 @@
-package me.dri.Catvie.domain.models.dto;
+package me.dri.Catvie.domain.models.dto.film;
 
 import me.dri.Catvie.domain.models.entities.Film;
 

@@ -1,4 +1,4 @@
-package me.dri.Catvie.domain.ports.interfaces;
+package me.dri.Catvie.domain.ports.interfaces.auth;
 
 import me.dri.Catvie.infra.entities.UserEntity;
 

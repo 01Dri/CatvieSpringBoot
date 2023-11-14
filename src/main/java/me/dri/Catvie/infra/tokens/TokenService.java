@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
-import me.dri.Catvie.domain.ports.interfaces.TokenServicesPort;
+import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.infra.entities.UserEntity;
 import org.springframework.stereotype.Service;
 

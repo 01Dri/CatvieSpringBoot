@@ -3,11 +3,20 @@ package me.dri.Catvie.infra.config;
 
 import me.dri.Catvie.domain.adapters.services.AuthenticationServiceImpl;
 import me.dri.Catvie.domain.adapters.services.FilmServiceImpl;
+import me.dri.Catvie.domain.adapters.services.GenreServiceImpl;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperUserImpl;
-import me.dri.Catvie.domain.ports.interfaces.*;
+import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
+import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
+import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
+import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
+import me.dri.Catvie.domain.ports.interfaces.film.MapperEntities;
+import me.dri.Catvie.domain.ports.interfaces.film.MapperEntitiesPort;
+import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
+import me.dri.Catvie.domain.ports.interfaces.user.MapperUserPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperFilmImpl;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperEntitiesImpl;
+import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 import me.dri.Catvie.infra.adapters.mapper.MapperEntityAdapter;
 import me.dri.Catvie.infra.tokens.TokenService;
@@ -33,12 +42,18 @@ public class BeanConfiguration {
     }
 
     @Bean
+    GenreServicesPort genreServicesPort (GenreRepositoryPort genreRepositoryPort) {
+        return  new GenreServiceImpl(genreRepositoryPort);
+    }
+
+    @Bean
     me.dri.Catvie.infra.ports.MapperUserPort mapperUserAdapter() {
         return new MapperEntityAdapter();
     }
+
     @Bean
-    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperEntitiesPort mapperEntitiesPort) {
-        return new FilmServiceImpl(filmRepositoryPort, mapperEntitiesPort);
+    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperEntitiesPort mapperEntitiesPort, GenreServicesPort genreServicesPort) {
+        return new FilmServiceImpl(filmRepositoryPort, mapperEntitiesPort, genreServicesPort);
     }
 
     @Bean

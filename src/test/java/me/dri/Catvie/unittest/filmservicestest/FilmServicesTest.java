@@ -1,14 +1,20 @@
 package me.dri.Catvie.unittest.filmservicestest;
 
 import me.dri.Catvie.domain.adapters.services.FilmServiceImpl;
+import me.dri.Catvie.domain.adapters.services.GenreServiceImpl;
 import me.dri.Catvie.domain.exceptions.ContentInformationsFilmMissing;
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
-import me.dri.Catvie.domain.models.dto.FilmDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.models.entities.Film;
-import me.dri.Catvie.domain.ports.interfaces.FilmServicePort;
-import me.dri.Catvie.domain.ports.interfaces.MapperEntitiesPort;
+import me.dri.Catvie.domain.models.entities.Genre;
+import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
+import me.dri.Catvie.domain.ports.interfaces.film.MapperEntitiesPort;
+import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
+import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 import me.dri.Catvie.unittest.mocks.MockFilm;
+import me.dri.Catvie.unittest.mocks.MockGenre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,7 +33,12 @@ public class FilmServicesTest  {
     FilmRepositoryPort repository;
     @Mock
     MapperEntitiesPort mapperPort;
+    @Mock
+    GenreRepositoryPort genreRepositoryPort;
+    GenreServicesPort genreServicesPort;
+
     MockFilm mockEntitys;
+    MockGenre mockGenre;
 
 
 
@@ -34,8 +46,10 @@ public class FilmServicesTest  {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        service = new FilmServiceImpl(repository, mapperPort);
+        genreServicesPort = new GenreServiceImpl(genreRepositoryPort);
+        service = new FilmServiceImpl(repository, mapperPort, genreServicesPort);
         mockEntitys = new MockFilm();
+        mockGenre = new MockGenre();
 
     }
 
@@ -51,10 +65,13 @@ public class FilmServicesTest  {
     @Test
     void testCreateFilm() {
         FilmDTO filmCreate = this.mockEntitys.mockFilmDto();
-        Film filmSaved = this.mockEntitys.mockFilm();
+        Genre mockGenre = this.mockGenre.mockGenre();
+        Set<GenreDTO> genreDTOS = this.mockGenre.mockGenres();
+        Film filmMock = this.mockEntitys.mockFilm();;
+        when(this.genreRepositoryPort.findByName(any())).thenReturn(mockGenre);
+        when(this.mapperPort.convertFilmDtoToFilm(filmCreate, genreDTOS)).thenReturn(filmMock);
         this.service.create(filmCreate);
-        verify(this.mapperPort, times(1)).convertFilmDtoToFilm(any());
-        verify(this.repository, times(1)).save(any());
+        verify(this.mapperPort, times(1)).convertFilmDtoToFilm(any(), any());
     }
 
     @Test
@@ -70,7 +87,10 @@ public class FilmServicesTest  {
     void testSaveFilm() {
         FilmDTO filmDto = this.mockEntitys.mockFilmDto();
         Film filmToSave = this.mockEntitys.mockFilm();
-        when(this.mapperPort.convertFilmDtoToFilm(filmDto)).thenReturn(filmToSave);
+        Genre mockGenre = this.mockGenre.mockGenre();
+        Set<GenreDTO> genres = this.mockGenre.mockGenres();
+        when(this.genreRepositoryPort.findByName(any())).thenReturn(mockGenre);
+        when(this.mapperPort.convertFilmDtoToFilm(filmDto, genres)).thenReturn(filmToSave);
         this.service.save(filmDto);
         verify(this.repository, times(1)).save(filmToSave);
     }
@@ -116,7 +136,8 @@ public class FilmServicesTest  {
     void testMissingInformationOfFilmToSave() {
         FilmDTO mockFilmDtoWithNullValue = this.mockEntitys.mockFilmDtoWithNullValue();
         Film film = this.mockEntitys.mockFilm();
-        when(this.mapperPort.convertFilmDtoToFilm(mockFilmDtoWithNullValue)).thenReturn(film);
+        Set<GenreDTO> genreDTO = this.mockGenre.mockGenres();
+        when(this.mapperPort.convertFilmDtoToFilm(mockFilmDtoWithNullValue, genreDTO)).thenReturn(film);
         assertThrows(ContentInformationsFilmMissing.class, () -> this.service.save(mockFilmDtoWithNullValue));
     }
 
@@ -124,7 +145,8 @@ public class FilmServicesTest  {
     void testMissingInformationOfFilmToCreate() {
         FilmDTO mockFilmDtoWithNullValue = this.mockEntitys.mockFilmDtoWithNullValue();
         Film film = this.mockEntitys.mockFilm();
-        when(this.mapperPort.convertFilmDtoToFilm(mockFilmDtoWithNullValue)).thenReturn(film);
+        Set<GenreDTO> genreDTO = this.mockGenre.mockGenres();
+        when(this.mapperPort.convertFilmDtoToFilm(mockFilmDtoWithNullValue, genreDTO)).thenReturn(film);
         assertThrows(ContentInformationsFilmMissing.class, () -> this.service.create(mockFilmDtoWithNullValue));
     }
 

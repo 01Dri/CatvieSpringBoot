@@ -1,5 +1,5 @@
 CREATE TABLE films (
-    id INT NOT NULL,
+    id SERIAL PRIMARY KEY UNIQUE NOT NULL,
     title VARCHAR(255) UNIQUE,
     url VARCHAR(255) UNIQUE,
     original_language VARCHAR(255),
@@ -12,7 +12,6 @@ CREATE TABLE films (
     production_co VARCHAR(255),
     AVERAGE_RATING_AUDIENCE DOUBLE,
     average_rating_critic DOUBLE,
-    PRIMARY KEY (id),
     FOREIGN KEY (director_id) REFERENCES directors(id),
     FOREIGN KEY (distributor_id) REFERENCES distributors(id),
     FOREIGN KEY (genre_id) REFERENCES genres(id)

@@ -1,11 +1,11 @@
 package me.dri.Catvie.unittest.authtests;
 
 import me.dri.Catvie.domain.adapters.services.AuthenticationServiceImpl;
-import me.dri.Catvie.domain.models.dto.RegisterDTO;
+import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.AuthenticationPort;
-import me.dri.Catvie.domain.ports.interfaces.AuthenticationServicePort;
-import me.dri.Catvie.domain.ports.interfaces.MapperUserPort;
+import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
+import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
+import me.dri.Catvie.domain.ports.interfaces.user.MapperUserPort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;

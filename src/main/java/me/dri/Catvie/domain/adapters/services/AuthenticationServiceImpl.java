@@ -1,13 +1,13 @@
 package me.dri.Catvie.domain.adapters.services;
 
-import me.dri.Catvie.domain.models.dto.LoginDTO;
-import me.dri.Catvie.domain.models.dto.RegisterDTO;
-import me.dri.Catvie.domain.models.dto.RegisterResponseDTO;
-import me.dri.Catvie.domain.models.dto.TokenResponseDTO;
+import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
+import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
+import me.dri.Catvie.domain.models.dto.auth.RegisterResponseDTO;
+import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.AuthenticationPort;
-import me.dri.Catvie.domain.ports.interfaces.AuthenticationServicePort;
-import me.dri.Catvie.domain.ports.interfaces.MapperUserPort;
+import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
+import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
+import me.dri.Catvie.domain.ports.interfaces.user.MapperUserPort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 
 public class AuthenticationServiceImpl implements AuthenticationServicePort {

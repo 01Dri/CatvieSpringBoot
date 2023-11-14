@@ -2,7 +2,11 @@ package me.dri.Catvie.unittest.mocks;
 
 
 import me.dri.Catvie.domain.enums.UserRole;
-import me.dri.Catvie.domain.models.dto.*;
+import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
+import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
+import me.dri.Catvie.domain.models.dto.auth.RegisterResponseDTO;
+import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
+import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.infra.entities.UserEntity;
 

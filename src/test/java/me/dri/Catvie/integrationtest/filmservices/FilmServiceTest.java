@@ -3,7 +3,7 @@ package me.dri.Catvie.integrationtest.filmservices;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperEntitiesImpl;
-import me.dri.Catvie.domain.ports.interfaces.MapperEntities;
+import me.dri.Catvie.domain.ports.interfaces.film.MapperEntities;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.adapters.repositories.FilmAdapter;
 import me.dri.Catvie.infra.ports.FilmRepositoryJPA;

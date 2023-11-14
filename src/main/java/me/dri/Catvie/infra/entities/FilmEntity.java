@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "films")
@@ -22,7 +23,7 @@ public class FilmEntity implements Serializable {
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private List<GenreEntity> genres;
+    private Set<GenreEntity> genres;
     private String original_language;
 
     @ManyToOne
@@ -46,8 +47,7 @@ public class FilmEntity implements Serializable {
 
     }
 
-    public FilmEntity(Long id, String title, List<GenreEntity> genres, String original_language, DirectorEntity director, String writer, Date release_date, Integer runtime, DistributorEntity distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
-
+    public FilmEntity(Long id, String title, Set<GenreEntity> genres, String original_language, DirectorEntity director, String writer, Date release_date, Integer runtime, DistributorEntity distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -61,6 +61,14 @@ public class FilmEntity implements Serializable {
         this.average_rating_critic = average_rating_critic;
         this.average_rating_audience = average_rating_audience;
         this.url = url;
+    }
+
+    public Set<GenreEntity> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<GenreEntity> genres) {
+        this.genres = genres;
     }
 
     public Long getId() {
@@ -79,13 +87,6 @@ public class FilmEntity implements Serializable {
         this.title = title;
     }
 
-    public List<GenreEntity> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<GenreEntity> genres) {
-        this.genres = genres;
-    }
 
     public String getOriginal_language() {
         return original_language;

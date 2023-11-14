@@ -1,10 +1,9 @@
 package me.dri.Catvie.unittest.filmservicestest;
 
-import me.dri.Catvie.domain.ports.interfaces.MapperEntities;
+import me.dri.Catvie.domain.ports.interfaces.film.MapperEntities;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.adapters.repositories.FilmAdapter;
 import me.dri.Catvie.infra.ports.FilmRepositoryJPA;
-import me.dri.Catvie.infra.ports.MapperUserPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

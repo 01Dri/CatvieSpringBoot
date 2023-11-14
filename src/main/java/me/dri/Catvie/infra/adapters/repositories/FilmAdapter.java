@@ -6,7 +6,7 @@ import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.entities.FilmEntity;
-import me.dri.Catvie.domain.ports.interfaces.MapperEntities;
+import me.dri.Catvie.domain.ports.interfaces.film.MapperEntities;
 import me.dri.Catvie.infra.ports.FilmRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,15 +26,20 @@ public class FilmAdapter implements FilmRepositoryPort {
         this.mapperEntities = mapperEntities;
     }
 
+//    @Override
+//    public Film findById(Long id) {
+//
+//        FilmEntity film = this.filmRepositoryJPA.findFilmById(id);
+//        List<Genre> genres = this.mapperEntities.convertGenreEntityToGenre(film.getGenres());
+//        Director director = this.mapperEntities.convertyDirectorEntityToDirector(film.getDirector());
+//        Distributor distributor = this.mapperEntities.convertyDistributorEntityToDistributor(film.getDistributor());
+//
+//        return this.mapperEntities.convertyFilmEntityToFilm(film, genres, director, distributor);
+//    }
+
     @Override
     public Film findById(Long id) {
-
-        FilmEntity film = this.filmRepositoryJPA.findFilmById(id);
-        List<Genre> genres = this.mapperEntities.convertGenreEntityToGenre(film.getGenres());
-        Director director = this.mapperEntities.convertyDirectorEntityToDirector(film.getDirector());
-        Distributor distributor = this.mapperEntities.convertyDistributorEntityToDistributor(film.getDistributor());
-
-        return this.mapperEntities.convertyFilmEntityToFilm(film, genres, director, distributor);
+        return null;
     }
 
     @Override
@@ -45,18 +50,22 @@ public class FilmAdapter implements FilmRepositoryPort {
 
     @Override
     public Film findByTitle(String title) {
-        FilmEntity film = this.filmRepositoryJPA.findFilmByTitle(title);
-        List<Genre> genres = this.mapperEntities.convertGenreEntityToGenre(film.getGenres());
-        Director director = this.mapperEntities.convertyDirectorEntityToDirector(film.getDirector());
-        Distributor distributor = this.mapperEntities.convertyDistributorEntityToDistributor(film.getDistributor());
-        return this.mapperEntities.convertyFilmEntityToFilm(film, genres, director, distributor);
+        return null;
     }
+
+//    @Override
+////    public Film findByTitle(String title) {
+////        FilmEntity film = this.filmRepositoryJPA.findFilmByTitle(title);
+////      //  List<Genre> genres = this.mapperEntities.convertGenreEntityToGenre(film.getGenres());
+////        Director director = this.mapperEntities.convertyDirectorEntityToDirector(film.getDirector());
+////        Distributor distributor = this.mapperEntities.convertyDistributorEntityToDistributor(film.getDistributor());
+////        return this.mapperEntities.convertyFilmEntityToFilm(film, genres, director, distributor);
+////    }
 
     @Override
     public void create(Film film) {
         FilmEntity filmEntity = this.mapperEntities.convertyFilmToFilmEntity(film);
         this.filmRepositoryJPA.save(filmEntity);
-
     }
 
     @Override

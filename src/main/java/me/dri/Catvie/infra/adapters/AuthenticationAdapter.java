@@ -1,10 +1,10 @@
 package me.dri.Catvie.infra.adapters;
 
-import me.dri.Catvie.domain.models.dto.LoginDTO;
-import me.dri.Catvie.domain.models.dto.TokenResponseDTO;
+import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
+import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.AuthenticationPort;
-import me.dri.Catvie.domain.ports.interfaces.TokenServicesPort;
+import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
+import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.infra.entities.UserEntity;
 import me.dri.Catvie.infra.ports.EncoderPassword;
 import me.dri.Catvie.infra.ports.MapperUserPort;

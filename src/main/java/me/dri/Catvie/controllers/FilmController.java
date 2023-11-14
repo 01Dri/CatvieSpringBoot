@@ -1,8 +1,10 @@
 package me.dri.Catvie.controllers;
 
 
-import me.dri.Catvie.domain.models.dto.FilmDTO;
-import me.dri.Catvie.domain.ports.interfaces.FilmServicePort;
+import me.dri.Catvie.domain.models.dto.film.FilmDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
+import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,11 @@ public class FilmController {
     @GetMapping(value = "/findByTitle/{title}")
     ResponseEntity<FilmDTO> findById(@PathVariable String title) {
         return ResponseEntity.ok(this.filmServicePort.findByTitle(title));
+    }
+
+    @PostMapping(value = "/create")
+    ResponseEntity<FilmResponseDTO> create(@RequestBody FilmDTO film) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.filmServicePort.create(film));
     }
 
 

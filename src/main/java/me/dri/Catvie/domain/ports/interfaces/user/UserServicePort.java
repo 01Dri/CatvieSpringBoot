@@ -1,6 +1,7 @@
-package me.dri.Catvie.domain.ports.interfaces;
+package me.dri.Catvie.domain.ports.interfaces.user;
 
-import me.dri.Catvie.domain.models.dto.UserDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
+import me.dri.Catvie.domain.models.dto.user.UserDTO;
 
 import java.util.List;
 

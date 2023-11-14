@@ -1,9 +1,9 @@
 package me.dri.Catvie.domain.adapters.services;
 
-import me.dri.Catvie.domain.models.dto.UserDTO;
+import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.MapperUserPort;
-import me.dri.Catvie.domain.ports.interfaces.UserServicePort;
+import me.dri.Catvie.domain.ports.interfaces.user.MapperUserPort;
+import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 
 import java.util.List;

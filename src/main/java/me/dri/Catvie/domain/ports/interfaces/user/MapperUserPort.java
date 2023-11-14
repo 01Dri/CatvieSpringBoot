@@ -1,8 +1,8 @@
-package me.dri.Catvie.domain.ports.interfaces;
+package me.dri.Catvie.domain.ports.interfaces.user;
 
-import me.dri.Catvie.domain.models.dto.LoginDTO;
-import me.dri.Catvie.domain.models.dto.RegisterDTO;
-import me.dri.Catvie.domain.models.dto.UserDTO;
+import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
+import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
+import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.User;
 
 
