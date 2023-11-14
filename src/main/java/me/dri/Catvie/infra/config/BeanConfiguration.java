@@ -19,6 +19,8 @@ import me.dri.Catvie.domain.adapters.services.mappers.MapperEntitiesImpl;
 import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 import me.dri.Catvie.infra.adapters.mapper.MapperEntityAdapter;
+import me.dri.Catvie.infra.adapters.mapper.MapperGenreAdapter;
+import me.dri.Catvie.infra.ports.MapperGenrePort;
 import me.dri.Catvie.infra.tokens.TokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +41,11 @@ public class BeanConfiguration {
     @Bean
     MapperUserPort mapperUserPort() {
         return new MapperUserImpl();
+    }
+
+    @Bean
+    MapperGenrePort mapperGenrePort() {
+        return new MapperGenreAdapter();
     }
 
     @Bean

@@ -28,7 +28,7 @@ public class ExceptionHandler {
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
         return ResponseEntity.status(status).body(err);
     }
-    @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundFilm.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidGenre.class)
     public ResponseEntity<ExceptionEntity> contentIsMissingException(InvalidGenre e) {
         String error = "Genre not found";
         HttpStatus status = HttpStatus.BAD_REQUEST;
