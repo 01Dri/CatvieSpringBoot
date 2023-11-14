@@ -1,8 +1,8 @@
 package me.dri.Catvie.unittest.filmservicestest;
 
 import me.dri.Catvie.domain.adapters.services.FilmServiceImpl;
-import me.dri.Catvie.domain.exceptions.ContentIsMissing;
-import me.dri.Catvie.domain.exceptions.NotFoundEntity;
+import me.dri.Catvie.domain.exceptions.ContentInformationsFilmMissing;
+import me.dri.Catvie.domain.exceptions.NotFoundFilm;
 import me.dri.Catvie.domain.models.dto.FilmDTO;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.interfaces.FilmServicePort;
@@ -60,7 +60,7 @@ public class FilmServicesTest  {
     @Test
     void testExceptionMissingContentInCreateFilm() {
         FilmDTO filmDtoInvalid = this.mockEntitys.mockFilmDtoWithNullValue();
-        assertThrows(ContentIsMissing.class, () -> this.service.create(filmDtoInvalid));
+        assertThrows(ContentInformationsFilmMissing.class, () -> this.service.create(filmDtoInvalid));
         verify(this.mapperPort, never()).convertFilmToDto(any());
         verify(this.repository, never()).save(any());
 
@@ -100,14 +100,6 @@ public class FilmServicesTest  {
     }
 
     @Test
-    void testFindFilmByIdWithExceptionNotFoundEntity() {
-        when(this.repository.findById(1L)).thenReturn(null);
-        assertThrows(NotFoundEntity.class, () -> this.service.findById(1L));
-        verify(this.repository, times(1)).findById(any());
-        verify(this.mapperPort, never()).convertFilmDtoToFilm(any());
-    }
-
-    @Test
     void testFindAll() {
         List<Film> films = Collections.singletonList(mock(Film.class));
         List<FilmDTO> filmDtos = Collections.singletonList(mock(FilmDTO.class));
@@ -121,11 +113,50 @@ public class FilmServicesTest  {
     }
 
     @Test
+    void testMissingInformationOfFilmToSave() {
+        FilmDTO mockFilmDtoWithNullValue = this.mockEntitys.mockFilmDtoWithNullValue();
+        Film film = this.mockEntitys.mockFilm();
+        when(this.mapperPort.convertFilmDtoToFilm(mockFilmDtoWithNullValue)).thenReturn(film);
+        assertThrows(ContentInformationsFilmMissing.class, () -> this.service.save(mockFilmDtoWithNullValue));
+    }
+
+    @Test
+    void testMissingInformationOfFilmToCreate() {
+        FilmDTO mockFilmDtoWithNullValue = this.mockEntitys.mockFilmDtoWithNullValue();
+        Film film = this.mockEntitys.mockFilm();
+        when(this.mapperPort.convertFilmDtoToFilm(mockFilmDtoWithNullValue)).thenReturn(film);
+        assertThrows(ContentInformationsFilmMissing.class, () -> this.service.create(mockFilmDtoWithNullValue));
+    }
+
+    @Test
+    void testNotFoundFilmById() {
+        when(this.repository.findById(1L)).thenReturn(null);
+        assertThrows(NotFoundFilm.class, () -> this.service.findById(1L));
+
+    }
+
+    @Test
+    void testNotFoundFilmByTitle() {
+        String nameInvalid = "isso aqui não existe fio";
+        when(this.repository.findByTitle(nameInvalid)).thenReturn(null);
+        assertThrows(NotFoundFilm.class, () -> this.service.findByTitle(nameInvalid));
+
+    }
+
+    @Test
+    void testFailedToDeleteFilmById() {
+        when(this.repository.findById(1L)).thenReturn(null);
+        assertThrows(NotFoundFilm.class, () -> this.service.deleteById(1L));
+    }
+
+    @Test
     void testDeleteFilm() {
         Film filmToDelete = this.mockEntitys.mockFilm();
         when(this.repository.findById(1L)).thenReturn(filmToDelete);
         this.service.deleteById(1L);
         verify(this.repository, times(1)).delete(filmToDelete);
     }
+
+
 
 }

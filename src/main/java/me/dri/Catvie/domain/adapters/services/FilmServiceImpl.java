@@ -1,7 +1,7 @@
 package me.dri.Catvie.domain.adapters.services;
 
-import me.dri.Catvie.domain.exceptions.ContentIsMissing;
-import me.dri.Catvie.domain.exceptions.NotFoundEntity;
+import me.dri.Catvie.domain.exceptions.ContentInformationsFilmMissing;
+import me.dri.Catvie.domain.exceptions.NotFoundFilm;
 import me.dri.Catvie.domain.models.dto.FilmDTO;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.interfaces.FilmServicePort;
@@ -25,7 +25,7 @@ public class FilmServiceImpl  implements FilmServicePort {
     public FilmDTO findById(Long id) {
         Film film = this.filmRepositoryPort.findById(id);
         if (film == null ) {
-            throw new NotFoundEntity("Film not exists");
+            throw new NotFoundFilm("Film not exists");
         }
         return this.mapperEntitiesPort.convertFilmToDto(film);
     }
@@ -40,7 +40,7 @@ public class FilmServiceImpl  implements FilmServicePort {
     public FilmDTO findByTitle(String title) {
         Film film = this.filmRepositoryPort.findByTitle(title);
         if (film == null) {
-            throw new NotFoundEntity("Film with name " + title + " Not exists!");
+            throw new NotFoundFilm("Film with name " + title + " Not exists!");
         }
         return this.mapperEntitiesPort.convertFilmToDto(film);
 
@@ -49,7 +49,7 @@ public class FilmServiceImpl  implements FilmServicePort {
     @Override
     public void create(FilmDTO filmDto) {
         if (this.filmIsValid(filmDto)) {
-            throw new ContentIsMissing("Missing information's in the object FilmDTO");
+            throw new ContentInformationsFilmMissing("Missing information's in the object FilmDTO");
         }
         Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto);
         this.filmRepositoryPort.save(film);
@@ -58,7 +58,7 @@ public class FilmServiceImpl  implements FilmServicePort {
     @Override
     public void save(FilmDTO film) {
         if (this.filmIsValid(film)) {
-            throw new ContentIsMissing("Missing information's in the object FilmDTO");
+            throw new ContentInformationsFilmMissing("Missing information's in the object FilmDTO");
         }
         Film filmToSave = this.mapperEntitiesPort.convertFilmDtoToFilm(film);
         this.filmRepositoryPort.save(filmToSave);
@@ -68,7 +68,7 @@ public class FilmServiceImpl  implements FilmServicePort {
     public void deleteById(Long id) {
         Film film = this.filmRepositoryPort.findById(id);
         if (film == null) {
-            throw new NotFoundEntity("Entity not found");
+            throw new NotFoundFilm("Entity not found");
         }
         this.filmRepositoryPort.delete(film);
     }

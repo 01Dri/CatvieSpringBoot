@@ -25,8 +25,9 @@ public class MockUser {
     }
 
 
-    public RegisterResponseDTO mockRegisterResponseDTO(String email) {
-        return new RegisterResponseDTO(email);
+    public RegisterResponseDTO mockRegisterResponseDTO(String firstName, String lastName, String email, String token) {
+        return new RegisterResponseDTO(firstName, lastName, email, token);
+
     }
 
     public UserEntity mockUserEntity() {
