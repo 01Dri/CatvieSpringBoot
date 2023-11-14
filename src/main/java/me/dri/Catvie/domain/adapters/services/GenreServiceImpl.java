@@ -8,6 +8,7 @@ import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class GenreServiceImpl implements GenreServicesPort {
 
@@ -24,7 +25,8 @@ public class GenreServiceImpl implements GenreServicesPort {
 
     @Override
     public Set<GenreDTO> findAll() {
-        return null;
+        var genres = this.repositoryPort.findAll();
+        return genres.stream().map(genre -> new GenreDTO(genre.getGenreName())).collect(Collectors.toSet());
     }
 
     @Override

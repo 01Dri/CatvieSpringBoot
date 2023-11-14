@@ -1,6 +1,7 @@
 package me.dri.Catvie.infra.adapters.repositories;
 
 import me.dri.Catvie.domain.enums.Genres;
+import me.dri.Catvie.domain.exceptions.InvalidGenre;
 import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 import me.dri.Catvie.infra.entities.GenreEntity;
@@ -31,14 +32,19 @@ public class GenreAdapter  implements GenreRepositoryPort {
 
     @Override
     public Set<Genre> findAll() {
-        return null;
+        var genres = this.repositoryJPA.findAllSet();
+        return this.mapperGenrePort.convertListGenresEntityToGenre(genres);
     }
 
     @Override
     public Genre findByName(String title) {
-        Genres genres = Genres.valueOf(title);
-        GenreEntity genreEntity= this.repositoryJPA.findBygenreName(genres);
-        return this.mapperGenrePort.convertGenreEntityToGenre(genreEntity);
+        try {
+            Genres genres = Genres.valueOf(title);
+            GenreEntity genreEntity= this.repositoryJPA.findBygenreName(genres);
+            return this.mapperGenrePort.convertGenreEntityToGenre(genreEntity);
+        } catch (IllegalArgumentException e) {
+            throw  new InvalidGenre("Genre " + title + " Not exist");
+        }
     }
 
     @Override

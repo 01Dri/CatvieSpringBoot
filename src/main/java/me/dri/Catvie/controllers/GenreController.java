@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping("/genre/v1")
 public class GenreController {
@@ -22,5 +25,9 @@ public class GenreController {
     @GetMapping(value = "/findGenreByName/{name}")
     ResponseEntity<GenreDTO> findByName(@PathVariable String name) {
         return ResponseEntity.ok().body(this.servicesPort.findByName(name));
+    }
+    @GetMapping(value = "/findAll")
+    ResponseEntity<Set<GenreDTO>> findByName() {
+        return ResponseEntity.ok().body(this.servicesPort.findAll());
     }
 }
