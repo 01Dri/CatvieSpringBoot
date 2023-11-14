@@ -12,6 +12,6 @@ import java.util.Set;
 public record FilmDTO(String title, Set<GenreDTO> genres,
                       String original_language, Director directorEntity,
                       String writer, Date release_date,
-                      Integer runtime, Distributor distributor,
+                      Integer runtime, String distributor,
                       String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
 }

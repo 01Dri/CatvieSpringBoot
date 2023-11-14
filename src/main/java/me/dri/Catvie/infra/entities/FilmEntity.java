@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,9 +32,7 @@ public class FilmEntity implements Serializable {
     private String writer;
     private Date release_date;
     private Integer runtime;
-    @ManyToOne
-    @JoinColumn(name = "distributor_id")
-    private DistributorEntity distributor;
+    private String distributor;
     private String production_co;
     private Double average_rating_critic;
     private Double average_rating_audience;
@@ -47,7 +44,7 @@ public class FilmEntity implements Serializable {
 
     }
 
-    public FilmEntity(Long id, String title, Set<GenreEntity> genres, String original_language, DirectorEntity director, String writer, Date release_date, Integer runtime, DistributorEntity distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
+    public FilmEntity(Long id, String title, Set<GenreEntity> genres, String original_language, DirectorEntity director, String writer, Date release_date, Integer runtime, String distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -128,11 +125,11 @@ public class FilmEntity implements Serializable {
         this.runtime = runtime;
     }
 
-    public DistributorEntity getDistributor() {
+    public String getDistributor() {
         return distributor;
     }
 
-    public void setDistributor(DistributorEntity distributor) {
+    public void setDistributor(String distributor) {
         this.distributor = distributor;
     }
 

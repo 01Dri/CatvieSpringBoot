@@ -1,12 +1,10 @@
 package me.dri.Catvie.domain.adapters.services.mappers;
 
 import me.dri.Catvie.domain.models.entities.Director;
-import me.dri.Catvie.domain.models.entities.Distributor;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.interfaces.film.MapperEntities;
 import me.dri.Catvie.infra.entities.DirectorEntity;
-import me.dri.Catvie.infra.entities.DistributorEntity;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
 import org.springframework.stereotype.Component;
@@ -33,25 +31,15 @@ public class MapperEntitiesImpl implements MapperEntities {
         return  new Director(director.getId(), director.getName());
     }
 
+
     @Override
     public DirectorEntity convertyDirectorToDirectorEntity(Director director) {
         return  new DirectorEntity(director.getId(), director.getName());
     }
 
-    @Override
-    public Distributor convertyDistributorEntityToDistributor(DistributorEntity distributor) {
-        return new Distributor(distributor.getId(), distributor.getName());
-    }
 
     @Override
-    public DistributorEntity convertyDistributorToDistributorEntity(Distributor distributor) {
-        return new DistributorEntity(distributor.getId(), distributor.getName());
-    }
-
-
-
-    @Override
-    public Film convertyFilmEntityToFilm(FilmEntity filmEntity, Set<Genre> genres, Director director, Distributor distributor) {
+    public Film convertyFilmEntityToFilm(FilmEntity filmEntity, Set<Genre> genres, Director director, String distributor) {
         return new Film(filmEntity.getId(), filmEntity.getTitle() ,genres, filmEntity.getOriginal_language(), director, filmEntity.getWriter(), filmEntity.getRelease_date(), filmEntity.getRuntime(), distributor, filmEntity.getProduction_co(), filmEntity.getAverage_rating_critic(), filmEntity.getAverage_rating_audience(), filmEntity.getUrl());
     }
 
@@ -60,7 +48,7 @@ public class MapperEntitiesImpl implements MapperEntities {
     public List<Film> convertyListFilmsEntityToListFilm(List<FilmEntity> filmEntities) {
         List<Film> films = new ArrayList<>();
         for (FilmEntity f : filmEntities ) {
-            Film film = new Film(f.getId(), f.getTitle(), convertGenreEntityToGenre(f.getGenres()), f.getOriginal_language(), convertyDirectorEntityToDirector(f.getDirector()), f.getWriter(), f.getRelease_date(), f.getRuntime(), convertyDistributorEntityToDistributor(f.getDistributor()), f.getProduction_co(), f.getAverage_rating_critic(), f.getAverage_rating_audience(), f.getUrl());
+            Film film = new Film(f.getId(), f.getTitle(), convertGenreEntityToGenre(f.getGenres()), f.getOriginal_language(), convertyDirectorEntityToDirector(f.getDirector()), f.getWriter(), f.getRelease_date(), f.getRuntime(), f.getDistributor(), f.getProduction_co(), f.getAverage_rating_critic(), f.getAverage_rating_audience(), f.getUrl());
             films.add(film);
         }
         return films;
@@ -68,7 +56,7 @@ public class MapperEntitiesImpl implements MapperEntities {
 
     @Override
     public FilmEntity convertyFilmToFilmEntity(Film f) {
-        return new FilmEntity(null, f.getTitle(), f.getGenres().stream().map(genre -> new GenreEntity(null, genre.getGenreName())).collect(Collectors.toSet()), f.getOriginal_language(), convertyDirectorToDirectorEntity(f.getDirectorEntity()), f.getWriter(), f.getRelease_date(), f.getRuntime(), convertyDistributorToDistributorEntity(f.getDistributor()), f.getProduction_co(), f.getAverage_rating_critic(), f.getAverage_rating_audience(), f.getUrl());
+        return new FilmEntity(null, f.getTitle(), f.getGenres().stream().map(genre -> new GenreEntity(null, genre.getGenreName())).collect(Collectors.toSet()), f.getOriginal_language(), convertyDirectorToDirectorEntity(f.getDirectorEntity()), f.getWriter(), f.getRelease_date(), f.getRuntime(), f.getDistributor(), f.getProduction_co(), f.getAverage_rating_critic(), f.getAverage_rating_audience(), f.getUrl());
     }
 
 

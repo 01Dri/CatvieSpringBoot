@@ -21,7 +21,7 @@ public class Film implements Serializable {
     private Date release_date;
     private Integer runtime;
 
-    private Distributor distributor;
+    private String distributor;
     private String production_co;
     private Double average_rating_critic;
     private Double average_rating_audience;
@@ -33,7 +33,7 @@ public class Film implements Serializable {
 
     }
 
-    public Film(Long id, String title, Set<Genre> genres, String original_language, Director directorEntity, String writer, Date release_date, Integer runtime, Distributor distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
+    public Film(Long id, String title, Set<Genre> genres, String original_language, Director directorEntity, String writer, Date release_date, Integer runtime, String distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -114,11 +114,11 @@ public class Film implements Serializable {
         this.runtime = runtime;
     }
 
-    public Distributor getDistributor() {
+    public String getDistributor() {
         return distributor;
     }
 
-    public void setDistributor(Distributor distributor) {
+    public void setDistributor(String distributor) {
         this.distributor = distributor;
     }
 
