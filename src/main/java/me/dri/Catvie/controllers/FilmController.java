@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/film/v1")
+@RequestMapping("/api/film/v1")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class FilmController {
 

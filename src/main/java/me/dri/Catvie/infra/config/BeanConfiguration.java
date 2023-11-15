@@ -1,21 +1,24 @@
 package me.dri.Catvie.infra.config;
 
 
-import me.dri.Catvie.domain.adapters.services.AuthenticationServiceImpl;
-import me.dri.Catvie.domain.adapters.services.FilmServiceImpl;
-import me.dri.Catvie.domain.adapters.services.GenreServiceImpl;
+import me.dri.Catvie.domain.adapters.services.auth.AuthenticationServiceImpl;
+import me.dri.Catvie.domain.adapters.services.director.DirectorServiceImpl;
+import me.dri.Catvie.domain.adapters.services.film.FilmServiceImpl;
+import me.dri.Catvie.domain.adapters.services.genre.GenreServiceImpl;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperUserImpl;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
+import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.film.MapperEntities;
 import me.dri.Catvie.domain.ports.interfaces.film.MapperEntitiesPort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.user.MapperUserPort;
-import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperFilmImpl;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperEntitiesImpl;
+import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
+import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 import me.dri.Catvie.infra.adapters.mapper.MapperEntityAdapter;
@@ -59,8 +62,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperEntitiesPort mapperEntitiesPort, GenreServicesPort genreServicesPort) {
-        return new FilmServiceImpl(filmRepositoryPort, mapperEntitiesPort, genreServicesPort);
+    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperEntitiesPort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort) {
+        return new FilmServiceImpl(filmRepositoryPort, mapperEntitiesPort, genreServicesPort, directorServicePort);
     }
 
     @Bean
@@ -74,6 +77,10 @@ public class BeanConfiguration {
         return new AuthenticationServiceImpl(authenticationPort, mapperUserPort, userRepositoryPort);
     }
 
+    @Bean
+    DirectorServicePort directorServicePort(DirectorRepositoryPort repositoryPort) {
+        return new DirectorServiceImpl(repositoryPort);
+    }
 
 
 }

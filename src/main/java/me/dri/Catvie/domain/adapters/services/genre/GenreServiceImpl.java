@@ -1,8 +1,7 @@
-package me.dri.Catvie.domain.adapters.services;
+package me.dri.Catvie.domain.adapters.services.genre;
 
 import me.dri.Catvie.domain.exceptions.InvalidGenre;
 import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
-import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 
@@ -31,8 +30,7 @@ public class GenreServiceImpl implements GenreServicesPort {
 
     @Override
     public GenreDTO findByName(String title) {
-        Genre genre = this.repositoryPort.findByName(title);
-        return new GenreDTO(genre.getGenreName());
+        return null;
     }
 
     @Override
@@ -45,7 +43,7 @@ public class GenreServiceImpl implements GenreServicesPort {
 
     }
 
-    @Override
+
     public void delete(GenreDTO genre) {
 
     }

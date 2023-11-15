@@ -18,7 +18,6 @@ public class DirectorEntity implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "director")
-    @JsonIgnore
     private List<FilmEntity> films = new ArrayList<>();
 
     public DirectorEntity() {

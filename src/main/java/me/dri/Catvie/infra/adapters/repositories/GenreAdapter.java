@@ -2,14 +2,17 @@ package me.dri.Catvie.infra.adapters.repositories;
 
 import me.dri.Catvie.domain.enums.Genres;
 import me.dri.Catvie.domain.exceptions.InvalidGenre;
+import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 import me.dri.Catvie.infra.entities.GenreEntity;
 import me.dri.Catvie.infra.ports.GenreRepositoryJPA;
 import me.dri.Catvie.infra.ports.MapperGenrePort;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Component
@@ -32,7 +35,7 @@ public class GenreAdapter  implements GenreRepositoryPort {
 
     @Override
     public Set<Genre> findAll() {
-        var genres = this.repositoryJPA.findAllSet();
+        var genres = this.repositoryJPA.findAllSet().orElseThrow(() -> new InvalidGenre("Invalid genre"));
         return this.mapperGenrePort.convertListGenresEntityToGenre(genres);
     }
 
@@ -40,9 +43,9 @@ public class GenreAdapter  implements GenreRepositoryPort {
     public Genre findByName(String title) {
         try {
             Genres genres = Genres.valueOf(title);
-            GenreEntity genreEntity= this.repositoryJPA.findBygenreName(genres);
+            GenreEntity genreEntity= this.repositoryJPA.findBygenreName(genres).orElseThrow(() -> new InvalidGenre("Invalid genre"));
             return this.mapperGenrePort.convertGenreEntityToGenre(genreEntity);
-        } catch (IllegalArgumentException e) {
+        } catch (HttpMessageNotReadableException e) {
             throw  new InvalidGenre("Genre " + title + " Not exist");
         }
     }
@@ -61,4 +64,10 @@ public class GenreAdapter  implements GenreRepositoryPort {
     public void delete(Genre genre) {
 
     }
+
+    @Override
+    public Genre update(Genre film) {
+        return null;
+    }
+
 }

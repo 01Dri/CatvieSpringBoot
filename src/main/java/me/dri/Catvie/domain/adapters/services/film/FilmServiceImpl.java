@@ -1,21 +1,17 @@
-package me.dri.Catvie.domain.adapters.services;
+package me.dri.Catvie.domain.adapters.services.film;
 
 import me.dri.Catvie.domain.exceptions.ContentInformationsFilmMissing;
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
 import me.dri.Catvie.domain.models.dto.film.FilmDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
-import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.models.entities.Film;
-import me.dri.Catvie.domain.models.entities.Genre;
+import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.film.MapperEntitiesPort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
-import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class FilmServiceImpl  implements FilmServicePort {
 
@@ -25,13 +21,15 @@ public class FilmServiceImpl  implements FilmServicePort {
 
     private final GenreServicesPort genreServicesPort;
 
+    private final DirectorServicePort directorServicePort;
 
-    public FilmServiceImpl(FilmRepositoryPort filmRepositoryPort, MapperEntitiesPort mapperEntitiesPort, GenreServicesPort genreServicesPort) {
+
+    public FilmServiceImpl(FilmRepositoryPort filmRepositoryPort, MapperEntitiesPort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort) {
         this.filmRepositoryPort = filmRepositoryPort;
         this.mapperEntitiesPort = mapperEntitiesPort;
         this.genreServicesPort = genreServicesPort;
+        this.directorServicePort = directorServicePort;
     }
-
 
     @Override
     public FilmDTO findById(Long id) {
@@ -64,11 +62,16 @@ public class FilmServiceImpl  implements FilmServicePort {
             throw new ContentInformationsFilmMissing("Missing information's in the object FilmDTO");
         }
         var genres = this.genreServicesPort.verifyExistingGenres(filmDto.genres());
-        Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto, genres);
-        this.filmRepositoryPort.create(film);
-        return new FilmResponseDTO(filmDto.title(), filmDto.genres(), filmDto.original_language(),
-                filmDto.release_date(), filmDto.runtime(), filmDto.distributor(), filmDto.production_co(),
-                filmDto.average_rating_critic(), filmDto.average_rating_audience(), filmDto.url());
+        var director = this.directorServicePort.findByName(filmDto.directorEntity().name());
+        if (genres != null && director != null) {
+            Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto, genres, director);
+            this.filmRepositoryPort.create(film);
+            return new FilmResponseDTO(filmDto.title(), filmDto.genres(), filmDto.original_language(),
+                    filmDto.release_date(), filmDto.runtime(), filmDto.distributor(), filmDto.production_co(),
+                    filmDto.average_rating_critic(), filmDto.average_rating_audience(), filmDto.url());
+        } else {
+            throw new RuntimeException("Teste");
+        }
     }
 
     @Override
@@ -77,7 +80,8 @@ public class FilmServiceImpl  implements FilmServicePort {
             throw new ContentInformationsFilmMissing("Missing information's in the object FilmDTO");
         }
         var genres = this.genreServicesPort.verifyExistingGenres(film.genres());
-        Film filmToSave = this.mapperEntitiesPort.convertFilmDtoToFilm(film, genres);
+        var director = this.directorServicePort.findByName(film.title());
+        Film filmToSave = this.mapperEntitiesPort.convertFilmDtoToFilm(film, genres, director);
         this.filmRepositoryPort.save(filmToSave);
     }
 

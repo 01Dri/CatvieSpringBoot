@@ -17,4 +17,6 @@ public interface FilmRepositoryPort {
     void save(Film film);
 
     void delete(Film film);
+
+    Film update(Film film);
 }

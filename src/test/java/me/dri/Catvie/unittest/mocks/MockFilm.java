@@ -1,15 +1,14 @@
 package me.dri.Catvie.unittest.mocks;
 
 import me.dri.Catvie.domain.enums.Genres;
+import me.dri.Catvie.domain.models.dto.director.DirectorCreateDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.models.entities.Director;
-import me.dri.Catvie.domain.models.entities.Distributor;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 public class MockFilm {
@@ -26,15 +25,15 @@ public class MockFilm {
 
     public FilmDTO mockFilmDto() {
         GenreDTO genre = new GenreDTO(Genres.ACTION);
-        Director directorEntity = new Director(1L, "Diego");
-        FilmDTO film = new FilmDTO("Evangelion", Set.of(genre), "english", directorEntity, "Diego", new Date(),150, "disney", "diego", 6.0, 8.5, "teste");
+
+        FilmDTO film = new FilmDTO("Evangelion", Set.of(genre), "english", new DirectorCreateDTO("Diego"), "Diego", new Date(),150, "disney", "diego", 6.0, 8.5, "teste");
         return film;
     }
 
     public FilmDTO mockFilmDtoWithNullValue() {
         GenreDTO genre = new GenreDTO(Genres.ACTION);
         Director directorEntity = new Director(1L, "Diego");
-        FilmDTO film = new FilmDTO("", Set.of(genre), "english", directorEntity, "Diego", new Date(),150, "disney", "diego", 6.0, 8.5, "teste");
+        FilmDTO film = new FilmDTO("", Set.of(genre), "english", new DirectorCreateDTO("diego"), "Diego", new Date(),150, "disney", "diego", 6.0, 8.5, "teste");
         return film;
     }
 }

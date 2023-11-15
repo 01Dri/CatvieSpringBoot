@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface UserRepositoryPort {
 
-
     User findById(Long id);
 
     List<User> findAll();
 
     User findByName(String title);
+
     User findByEmail(String email);
 
     void create(User filmDto);
@@ -20,5 +20,5 @@ public interface UserRepositoryPort {
 
     void delete(User film);
 
-    void update(User user);
+    User update(User film);
 }

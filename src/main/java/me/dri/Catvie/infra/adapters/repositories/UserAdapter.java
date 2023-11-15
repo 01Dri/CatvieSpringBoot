@@ -44,7 +44,7 @@ public class UserAdapter  implements UserRepositoryPort {
     }
 
     @Override
-    public void update(User user) {
-
+    public User update(User user) {
+        return null;
     }
 }

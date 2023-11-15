@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/genre/v1")
+@RequestMapping("/api/genre/v1")
 public class GenreController {
 
     private final GenreServicesPort servicesPort;

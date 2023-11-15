@@ -1,4 +1,4 @@
-package me.dri.Catvie.domain.adapters.services;
+package me.dri.Catvie.domain.adapters.services.user;
 
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.User;

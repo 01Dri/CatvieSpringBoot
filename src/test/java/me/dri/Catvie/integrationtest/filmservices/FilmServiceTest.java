@@ -6,7 +6,9 @@ import me.dri.Catvie.domain.adapters.services.mappers.MapperEntitiesImpl;
 import me.dri.Catvie.domain.ports.interfaces.film.MapperEntities;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.adapters.repositories.FilmAdapter;
+import me.dri.Catvie.infra.ports.DirectorRepositoryJPA;
 import me.dri.Catvie.infra.ports.FilmRepositoryJPA;
+import me.dri.Catvie.infra.ports.GenreRepositoryJPA;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +19,8 @@ public class FilmServiceTest {
 
     FilmRepositoryJPA repositoryJPA;
     FilmRepositoryPort filmRepositoryPort;
+    GenreRepositoryJPA genreRepositoryPort;
+    DirectorRepositoryJPA directorRepositoryPort;
     MapperEntities mapperEntities;
 
 
@@ -25,7 +29,7 @@ public class FilmServiceTest {
         RestAssured.baseURI = "http://localhost:8080/";
         RestAssured.port = 8080;
         mapperEntities = new MapperEntitiesImpl();
-        filmRepositoryPort = new FilmAdapter(repositoryJPA, mapperEntities);
+        filmRepositoryPort = new FilmAdapter(repositoryJPA, mapperEntities, genreRepositoryPort, directorRepositoryPort);
     }
 
     @Test

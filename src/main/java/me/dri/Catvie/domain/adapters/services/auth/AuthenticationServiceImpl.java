@@ -1,4 +1,4 @@
-package me.dri.Catvie.domain.adapters.services;
+package me.dri.Catvie.domain.adapters.services.auth;
 
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;

@@ -1,6 +1,6 @@
 package me.dri.Catvie.unittest.authtests;
 
-import me.dri.Catvie.domain.adapters.services.AuthenticationServiceImpl;
+import me.dri.Catvie.domain.adapters.services.auth.AuthenticationServiceImpl;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 public class AuthServicesDomainTest {
 
 
