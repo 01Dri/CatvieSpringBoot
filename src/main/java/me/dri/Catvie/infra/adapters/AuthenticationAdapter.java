@@ -1,5 +1,6 @@
 package me.dri.Catvie.infra.adapters;
 
+import me.dri.Catvie.domain.exceptions.auth.InvalidInformationLogin;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 import me.dri.Catvie.domain.models.entities.User;
@@ -12,6 +13,7 @@ import me.dri.Catvie.infra.ports.UserRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -44,7 +46,7 @@ public class AuthenticationAdapter implements AuthenticationPort {
 
     @Override
     public TokenResponseDTO login(LoginDTO user) {
-        var userLogin = this.repositoryJPA.findByEmail(user.email());
+        var userLogin = this.repositoryJPA.findByEmail(user.email()).orElseThrow(() -> new InvalidInformationLogin("Not found user"));
         var token = new TokenResponseDTO(this.tokenServicesPort.generateToken((UserEntity) userLogin));
         ((UserEntity) userLogin).setToken(token.token());
         this.repositoryJPA.save((UserEntity) userLogin);

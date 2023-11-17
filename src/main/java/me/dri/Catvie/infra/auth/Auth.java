@@ -14,6 +14,6 @@ public class Auth  implements UserDetailsService {
     UserRepositoryJPA userRepositoryJPA;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return this.userRepositoryJPA.findByEmail(username);
+        return this.userRepositoryJPA.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Not found"));
     }
 }

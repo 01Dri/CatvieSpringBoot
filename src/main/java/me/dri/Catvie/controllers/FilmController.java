@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/film/v1")
 public class FilmController {
 
@@ -22,7 +23,7 @@ public class FilmController {
     }
 
 
-    @GetMapping(value = "/findAll")
+    @RequestMapping(method = RequestMethod.GET, path = "/findAll")
     List<FilmDTO> findAll () {
         return this.filmServicePort.findAll();
     }

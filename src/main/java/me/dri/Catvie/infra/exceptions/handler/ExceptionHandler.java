@@ -1,6 +1,7 @@
 package me.dri.Catvie.infra.exceptions.handler;
 
 import me.dri.Catvie.domain.exceptions.*;
+import me.dri.Catvie.domain.exceptions.auth.InvalidInformationLogin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,6 +37,14 @@ public class ExceptionHandler {
     public ResponseEntity<ExceptionEntity> notFoundDirector(NotFoundDirector e) {
         String error = "Director not found";
         HttpStatus status = HttpStatus.BAD_REQUEST;
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidInformationLogin.class)
+    public ResponseEntity<ExceptionEntity> notFoundDirector(InvalidInformationLogin e) {
+        String error = "User invalid!!!";
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
         return ResponseEntity.status(status).body(err);
     }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth/v1")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserControllerAuth {
 
 
@@ -22,13 +21,11 @@ public class UserControllerAuth {
     }
 
     @PostMapping (value = "/register")
-    @CrossOrigin(origins = "*")
     ResponseEntity<RegisterResponseDTO> register(@RequestBody RegisterDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.servicePort.register(dto));
     }
 
     @PostMapping(value = "/login")
-    @CrossOrigin(origins = "*")
     ResponseEntity<TokenResponseDTO> login(@RequestBody LoginDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.servicePort.login(dto));
     }

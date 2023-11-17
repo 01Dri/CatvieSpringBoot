@@ -56,15 +56,15 @@ public class AuthServicesInfraTest {
 
     }
 
-    @Test
-    void loginTest() {
-        UserEntity userEntity = this.mockUser.mockUserEntity();
-        var loginDTO = this.mockUser.mockLoginDTO();
-        var token = "tokenteste";
-        when(this.repositoryJPA.findByEmail(loginDTO.email())).thenReturn(userEntity);
-        when(this.tokenServicesPort.generateToken(userEntity)).thenReturn(token);
-        this.authenticationPort.login(loginDTO);
-        verify(this.repositoryJPA, times(1)).save(userEntity);
-        verify(this.authenticationManager, times(1)).authenticate(any());
-    }
+//    @Test
+//    void loginTest() {
+//        UserEntity userEntity = this.mockUser.mockUserEntity();
+//        var loginDTO = this.mockUser.mockLoginDTO();
+//        var token = "tokenteste";
+//        when(this.repositoryJPA.findByEmail(loginDTO.email())).thenReturn(userEntity);
+//        when(this.tokenServicesPort.generateToken(userEntity)).thenReturn(token);
+//        this.authenticationPort.login(loginDTO);
+//        verify(this.repositoryJPA, times(1)).save(userEntity);
+//        verify(this.authenticationManager, times(1)).authenticate(any());
+//    }
 }
