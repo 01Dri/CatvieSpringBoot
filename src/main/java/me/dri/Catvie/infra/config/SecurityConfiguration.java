@@ -41,12 +41,15 @@ public class SecurityConfiguration {
                         .requestMatchers(mvc.pattern("/api/auth/v1/register")).permitAll()
                         .requestMatchers(mvc.pattern("/api/auth/v1/login")).permitAll()
                         .requestMatchers(mvc.pattern("/api/film/v1/**")).authenticated()
+                        .requestMatchers(mvc.pattern("/oauth2/authorization/github")).permitAll()
                         .requestMatchers(toH2Console()).permitAll()
                         .anyRequest().permitAll()
                 )
-                .headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(Customizer.withDefaults())
+//                .oauth2Login(auth -> auth
+//                        .loginPage()
+//                )
                 .build();
     }
     @Bean
