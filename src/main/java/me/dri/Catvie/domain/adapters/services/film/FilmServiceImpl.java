@@ -62,7 +62,7 @@ public class FilmServiceImpl  implements FilmServicePort {
             throw new ContentInformationsFilmMissing("Missing information's in the object FilmDTO");
         }
         var genres = this.genreServicesPort.verifyExistingGenres(filmDto.genres());
-        var director = this.directorServicePort.findByName(filmDto.directorEntity().name());
+        var director = this.directorServicePort.findByName(filmDto.director().name());
         if (genres != null && director != null) {
             Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto, genres, director);
             this.filmRepositoryPort.create(film);

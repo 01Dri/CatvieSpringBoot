@@ -3,6 +3,10 @@ package me.dri.Catvie.integrationtest.filmservices;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperEntitiesImpl;
+import me.dri.Catvie.domain.enums.Genres;
+import me.dri.Catvie.domain.models.dto.director.DirectorCreateDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.ports.interfaces.film.MapperEntities;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.adapters.repositories.FilmAdapter;
@@ -12,7 +16,11 @@ import me.dri.Catvie.infra.ports.GenreRepositoryJPA;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
+import java.util.Set;
+
 import static io.restassured.RestAssured.get;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class FilmServiceTest {
@@ -26,15 +34,14 @@ public class FilmServiceTest {
 
     @BeforeEach
     void setup() {
-        RestAssured.baseURI = "http://localhost:8080/";
-        RestAssured.port = 8080;
+        RestAssured.baseURI = "http://localhost:8080/api/film/v1";
         mapperEntities = new MapperEntitiesImpl();
         filmRepositoryPort = new FilmAdapter(repositoryJPA, mapperEntities, genreRepositoryPort, directorRepositoryPort);
     }
 
     @Test
     void testFindById() {
-        get("/film/v1/findById/1")
+        get("/findById/1")
                 .then()
                 .contentType(ContentType.JSON)
                 .statusCode(200)
@@ -43,7 +50,7 @@ public class FilmServiceTest {
 
     @Test
     void testFindAll() {
-        get("/film/v1/findAll")
+        get("/findAll")
                 .then()
                 .contentType(ContentType.JSON)
                 .statusCode(200)
@@ -52,12 +59,25 @@ public class FilmServiceTest {
 
     @Test
     void testFindByTitle() {
-        get("/film/v1/findByTitle/AViagemdoTempo")
+        get("/findByTitle/AViagemdoTempo")
                 .then()
                 .contentType(ContentType.JSON)
                 .statusCode(200)
                 .body("writer", equalTo("Luisa May Alcott"));
     }
+
+    @Test
+    void testCreateFilm() {
+        GenreDTO genre = new GenreDTO(Genres.ACTION);
+        FilmDTO film = new FilmDTO("", Set.of(genre), "english",
+                new DirectorCreateDTO("diego"), "Diego",
+                new Date(),150, "disney",
+                "diego", 6.0,
+                8.5, "teste");
+        given().when().contentType(ContentType.JSON).body(film).post("/create")
+                .then().statusCode(201).body("writer", equalTo("Nome do Escrito"));
+    }
+
 
 
 }

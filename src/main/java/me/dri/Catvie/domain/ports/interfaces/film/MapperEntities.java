@@ -21,7 +21,7 @@ public interface MapperEntities {
     DirectorEntity convertyDirectorToDirectorEntity(Director director);
 
 
-    Film convertyFilmEntityToFilm(FilmEntity filmEntity, Set<Genre> genres, Director director, String distributor);
+    Film convertyFilmEntityToFilm(FilmEntity filmEntity);
 
     List<Film> convertyListFilmsEntityToListFilm(List<FilmEntity> filmEntities);
 

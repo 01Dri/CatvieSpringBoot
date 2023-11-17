@@ -39,8 +39,8 @@ public class MapperEntitiesImpl implements MapperEntities {
 
 
     @Override
-    public Film convertyFilmEntityToFilm(FilmEntity filmEntity, Set<Genre> genres, Director director, String distributor) {
-        return new Film(filmEntity.getId(), filmEntity.getTitle() ,genres, filmEntity.getOriginal_language(), director, filmEntity.getWriter(), filmEntity.getRelease_date(), filmEntity.getRuntime(), distributor, filmEntity.getProduction_co(), filmEntity.getAverage_rating_critic(), filmEntity.getAverage_rating_audience(), filmEntity.getUrl());
+    public Film convertyFilmEntityToFilm(FilmEntity filmEntity) {
+        return new Film(filmEntity.getId(), filmEntity.getTitle() ,filmEntity.getGenres().stream().map(genreEntity -> new Genre(genreEntity.getId(), genreEntity.getGenreName())).collect(Collectors.toSet()), filmEntity.getOriginal_language(), new Director(filmEntity.getDirector().getId(), filmEntity.getDirector().getName()), filmEntity.getWriter(), filmEntity.getRelease_date(), filmEntity.getRuntime(), filmEntity.getDistributor(), filmEntity.getProduction_co(), filmEntity.getAverage_rating_critic(), filmEntity.getAverage_rating_audience(), filmEntity.getUrl());
     }
 
 

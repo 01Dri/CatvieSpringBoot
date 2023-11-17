@@ -19,7 +19,7 @@ public class CorsConfig {
         configuration.setAllowedOrigins(List.of("http://localhost:4200")); // Permita apenas o domínio do frontend durante o desenvolvimento
         configuration.setAllowedMethods(Arrays.asList("GET", "POST")); // Métodos permitidos
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/films/**", configuration);
         return source;
     }
 }

@@ -2,10 +2,13 @@ package me.dri.Catvie.infra.adapters.repositories;
 
 import me.dri.Catvie.domain.exceptions.InvalidGenre;
 import me.dri.Catvie.domain.exceptions.NotFoundDirector;
+import me.dri.Catvie.domain.exceptions.NotFoundFilm;
 import me.dri.Catvie.domain.models.entities.Film;
+import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.interfaces.film.MapperEntities;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.entities.FilmEntity;
+import me.dri.Catvie.infra.entities.GenreEntity;
 import me.dri.Catvie.infra.ports.DirectorRepositoryJPA;
 import me.dri.Catvie.infra.ports.FilmRepositoryJPA;
 import me.dri.Catvie.infra.ports.GenreRepositoryJPA;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -63,8 +67,9 @@ public class FilmAdapter implements FilmRepositoryPort {
 
     @Override
     public Film findByTitle(String title) {
-
-        return null;
+        FilmEntity film = this.filmRepositoryJPA.findFilmByTitle(title).orElseThrow(() -> new NotFoundFilm("Film not found:  " + title));
+        Film filmService = this.mapperEntities.convertyFilmEntityToFilm(film);
+        return filmService;
     }
 
 //    @Override

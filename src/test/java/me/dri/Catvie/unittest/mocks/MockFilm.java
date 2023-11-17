@@ -7,6 +7,9 @@ import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
+import me.dri.Catvie.infra.entities.DirectorEntity;
+import me.dri.Catvie.infra.entities.FilmEntity;
+import me.dri.Catvie.infra.entities.GenreEntity;
 
 import java.util.Date;
 import java.util.Set;
@@ -32,8 +35,13 @@ public class MockFilm {
 
     public FilmDTO mockFilmDtoWithNullValue() {
         GenreDTO genre = new GenreDTO(Genres.ACTION);
-        Director directorEntity = new Director(1L, "Diego");
         FilmDTO film = new FilmDTO("", Set.of(genre), "english", new DirectorCreateDTO("diego"), "Diego", new Date(),150, "disney", "diego", 6.0, 8.5, "teste");
         return film;
+    }
+
+    public FilmEntity mockFilmEntity() {
+        GenreEntity genre = new GenreEntity(1L, Genres.ACTION);
+        DirectorEntity director = new DirectorEntity(1L , "Diego");
+        return new FilmEntity(1L, "Evangelion", Set.of(genre), "english", director, "Diego", new Date(),150, "distributoteste", "diego", 6.0, 8.5, "teste");
     }
 }

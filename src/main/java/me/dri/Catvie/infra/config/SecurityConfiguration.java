@@ -1,18 +1,24 @@
 package me.dri.Catvie.infra.config;
 
+import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
@@ -32,13 +38,15 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(mvc.pattern("/auth/v1/register")).permitAll()
-                        .requestMatchers(mvc.pattern("/auth/v1/login")).permitAll()
+                        .requestMatchers(mvc.pattern("/api/auth/v1/register")).permitAll()
+                        .requestMatchers(mvc.pattern("/api/auth/v1/login")).permitAll()
+                        .requestMatchers(mvc.pattern("/api/film/v1/**")).authenticated()
                         .requestMatchers(toH2Console()).permitAll()
                         .anyRequest().permitAll()
                 )
                 .headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(Customizer.withDefaults())
                 .build();
     }
     @Bean
@@ -58,5 +66,18 @@ public class SecurityConfiguration {
     }
 
 
+    @Bean
+    public ClientRegistrationRepository clientRegistrationRepository() {
+        return new InMemoryClientRegistrationRepository(this.githubClientRegistration());
+    }
+
+    @Autowired
+    private Environment environment;
+    private ClientRegistration githubClientRegistration() {
+        return CommonOAuth2Provider.GITHUB.getBuilder("github")
+                .clientId(environment.getProperty("spring.security.oauth2.client.registration.github.client-id"))
+                .clientSecret(environment.getProperty("spring.security.oauth2.client.registration.github.client-secret"))
+                .build();
+    }
 
 }

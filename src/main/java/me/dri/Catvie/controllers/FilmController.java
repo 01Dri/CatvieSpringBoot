@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/film/v1")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class FilmController {
 
 
@@ -24,7 +23,6 @@ public class FilmController {
 
 
     @GetMapping(value = "/findAll")
-    @CrossOrigin(origins = "*")
     List<FilmDTO> findAll () {
         return this.filmServicePort.findAll();
     }
