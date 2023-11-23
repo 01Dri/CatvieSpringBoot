@@ -1,5 +1,6 @@
 package me.dri.Catvie.infra.adapters.repositories;
 
+import me.dri.Catvie.controllers.FilmController;
 import me.dri.Catvie.domain.exceptions.InvalidGenre;
 import me.dri.Catvie.domain.exceptions.NotFoundDirector;
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
@@ -12,6 +13,8 @@ import me.dri.Catvie.infra.entities.GenreEntity;
 import me.dri.Catvie.infra.ports.DirectorRepositoryJPA;
 import me.dri.Catvie.infra.ports.FilmRepositoryJPA;
 import me.dri.Catvie.infra.ports.GenreRepositoryJPA;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +32,8 @@ public class FilmAdapter implements FilmRepositoryPort {
     private final GenreRepositoryJPA genreRepositoryPort;
 
     private final DirectorRepositoryJPA directorRepositoryJPA;
+
+    private static final Logger logger = LoggerFactory.getLogger(FilmController.class);
 
 
     @Autowired
@@ -60,16 +65,16 @@ public class FilmAdapter implements FilmRepositoryPort {
     }
 
     @Override
-    public List<Film> findAll() {
-        List<FilmEntity> films = this.filmRepositoryJPA.findAll();
+    public List<Film> findAllFilmEntity() {
+        logger.info("Endpoints films accessed");
+        List<FilmEntity> films = this.filmRepositoryJPA.findAllFilms().orElseThrow(() -> new NotFoundFilm("Empty"));
         return this.mapperEntities.convertyListFilmsEntityToListFilm(films);
     }
 
     @Override
     public Film findByTitle(String title) {
         FilmEntity film = this.filmRepositoryJPA.findFilmByTitle(title).orElseThrow(() -> new NotFoundFilm("Film not found:  " + title));
-        Film filmService = this.mapperEntities.convertyFilmEntityToFilm(film);
-        return filmService;
+        return this.mapperEntities.convertyFilmEntityToFilm(film);
     }
 
 //    @Override

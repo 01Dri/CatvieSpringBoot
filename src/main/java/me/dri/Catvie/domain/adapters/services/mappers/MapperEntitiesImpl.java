@@ -46,12 +46,8 @@ public class MapperEntitiesImpl implements MapperEntities {
 
     @Override
     public List<Film> convertyListFilmsEntityToListFilm(List<FilmEntity> filmEntities) {
-        List<Film> films = new ArrayList<>();
-        for (FilmEntity f : filmEntities ) {
-            Film film = new Film(f.getId(), f.getTitle(), convertGenreEntityToGenre(f.getGenres()), f.getOriginal_language(), convertyDirectorEntityToDirector(f.getDirector()), f.getWriter(), f.getRelease_date(), f.getRuntime(), f.getDistributor(), f.getProduction_co(), f.getAverage_rating_critic(), f.getAverage_rating_audience(), f.getUrl());
-            films.add(film);
-        }
-        return films;
+        return filmEntities.stream().map(filmEntity -> new Film(filmEntity.getId(), filmEntity.getTitle(),  filmEntity.getGenres().stream().map(genreEntity -> new Genre(genreEntity.getId(), genreEntity.getGenreName())).collect(Collectors.toSet()), filmEntity.getOriginal_language(), new Director(filmEntity.getDirector().getId(), filmEntity.getDirector().getName()), filmEntity.getWriter(),
+                filmEntity.getRelease_date(), filmEntity.getRuntime(), filmEntity.getDistributor(), filmEntity.getProduction_co(), filmEntity.getAverage_rating_critic(), filmEntity.getAverage_rating_audience(), filmEntity.getUrl())).collect(Collectors.toList());
     }
 
     @Override

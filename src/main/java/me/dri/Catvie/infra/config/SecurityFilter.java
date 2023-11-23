@@ -5,6 +5,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import me.dri.Catvie.domain.enums.UserRole;
+import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
 import me.dri.Catvie.infra.ports.UserRepositoryJPA;
 import me.dri.Catvie.infra.tokens.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -28,10 +31,10 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        if (token != null) {
+        if (token != null ) {
             var login = tokenServices.validateToken(token);
             UserDetails user = this.userRepositoryJPA.findByEmail(login).orElseThrow(() -> new UsernameNotFoundException("Not found user"));
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            var authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
@@ -39,9 +42,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private String recoverToken(HttpServletRequest request) {
         var authReader = request.getHeader("Authorization");
-        if (authReader == null) {
-            return  null;
+        if (authReader != null) {
+            return authReader.replace("Bearer ", "");
         }
-        return authReader.replace("Bearer ", "");
+        return null;
     }
 }

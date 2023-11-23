@@ -42,7 +42,7 @@ public class FilmServiceImpl  implements FilmServicePort {
 
     @Override
     public List<FilmDTO> findAll() {
-        List<Film> films = this.filmRepositoryPort.findAll();
+        List<Film> films = this.filmRepositoryPort.findAllFilmEntity();
         return this.mapperEntitiesPort.convertListFilmToListDto(films);
     }
 

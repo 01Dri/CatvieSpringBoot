@@ -2,6 +2,7 @@ package me.dri.Catvie.infra.exceptions.handler;
 
 import me.dri.Catvie.domain.exceptions.*;
 import me.dri.Catvie.domain.exceptions.auth.InvalidInformationLogin;
+import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,10 +43,18 @@ public class ExceptionHandler {
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(InvalidInformationLogin.class)
-    public ResponseEntity<ExceptionEntity> notFoundDirector(InvalidInformationLogin e) {
+    public ResponseEntity<ExceptionEntity> invalidInformation(InvalidInformationLogin e) {
         String error = "User invalid!!!";
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
         return ResponseEntity.status(status).body(err);
     }
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidJWTException.class)
+    public ResponseEntity<ExceptionEntity> InvalidJWTException(InvalidJWTException e) {
+        String error = "Token invalid!!!!";
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
+        return ResponseEntity.status(status).body(err);
+    }
+
 }

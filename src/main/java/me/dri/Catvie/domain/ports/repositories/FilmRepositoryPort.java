@@ -8,7 +8,7 @@ public interface FilmRepositoryPort {
 
     Film findById(Long id);
 
-    List<Film> findAll();
+    List<Film> findAllFilmEntity();
 
     Film findByTitle(String title);
 
