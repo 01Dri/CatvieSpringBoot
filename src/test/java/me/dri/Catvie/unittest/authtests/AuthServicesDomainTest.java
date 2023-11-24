@@ -195,11 +195,11 @@ public class AuthServicesDomainTest {
     @Test
     void loginTest() {
         var loginDto = this.mockUser.mockLoginDTO();
-        var tokenResponseDTO = this.mockUser.mockResponseToken();
-        when(this.authenticationPort.login(loginDto)).thenReturn(tokenResponseDTO);
-        var token = this.service.login(loginDto);
+        String token = "Tokenteste";
+        when(this.authenticationPort.login(loginDto)).thenReturn(token);
+        var tokenResponseDTO = this.service.login(loginDto);
         verify(this.authenticationPort, times(1)).login(loginDto);
-        assertEquals(token.token(), tokenResponseDTO.token());
+        assertEquals(token, tokenResponseDTO.token());
     }
 
 

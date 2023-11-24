@@ -6,5 +6,5 @@ import me.dri.Catvie.domain.models.entities.User;
 
 public interface AuthenticationPort {
     void register(User register);
-    TokenResponseDTO login(LoginDTO user);
+    String login(LoginDTO user);
 }

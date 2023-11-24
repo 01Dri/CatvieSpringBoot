@@ -45,13 +45,14 @@ public class AuthenticationAdapter implements AuthenticationPort {
     }
 
     @Override
-    public TokenResponseDTO login(LoginDTO user) {
-        var userLogin = this.repositoryJPA.findByEmail(user.email()).orElseThrow(() -> new InvalidInformationLogin("Not found user"));
-        var token = new TokenResponseDTO(this.tokenServicesPort.generateToken((UserEntity) userLogin));
-        ((UserEntity) userLogin).setToken(token.token());
+    public String login(LoginDTO user) {
+        var userLogin = this.repositoryJPA.findByEmail(user.email()).orElseThrow(
+                () -> new InvalidInformationLogin("Not found user by email: " + user.email()));
+        String token = this.tokenServicesPort.generateToken((UserEntity) userLogin);
+        ((UserEntity) userLogin).setToken(token);
         this.repositoryJPA.save((UserEntity) userLogin);
         var usernamePassword = new UsernamePasswordAuthenticationToken(user.email(), user.password());
         this.authenticationManager.authenticate(usernamePassword);
-        return new TokenResponseDTO(((UserEntity) userLogin).getToken());
+        return ((UserEntity) userLogin).getToken();
     }
 }

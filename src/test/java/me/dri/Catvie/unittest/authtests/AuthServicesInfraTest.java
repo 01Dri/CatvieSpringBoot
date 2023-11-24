@@ -1,5 +1,8 @@
 package me.dri.Catvie.unittest.authtests;
 
+import me.dri.Catvie.domain.exceptions.auth.InvalidInformationLogin;
+import me.dri.Catvie.domain.exceptions.auth.NameRoleInvalid;
+import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
@@ -14,6 +17,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetails;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
+
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -67,4 +76,31 @@ public class AuthServicesInfraTest {
 //        verify(this.repositoryJPA, times(1)).save(userEntity);
 //        verify(this.authenticationManager, times(1)).authenticate(any());
 //    }
+
+
+    @Test
+    void loginTest() {
+        UserEntity userEntity = this.mockUser.mockUserEntity();
+        LoginDTO loginDTO = this.mockUser.mockLoginDTO();
+        String tokenMock = "TokenTeste";
+        when(this.repositoryJPA.findByEmail(loginDTO.email())).thenReturn(Optional.of(userEntity));
+        when(this.tokenServicesPort.generateToken(any())).thenReturn(tokenMock);
+        var tokenResponse = this.authenticationPort.login(loginDTO);
+        verify(this.repositoryJPA, times(1)).findByEmail(any());
+        verify(this.tokenServicesPort, times(1)).generateToken(any());
+        verify(this.authenticationManager, times(1)).authenticate(any());
+        assertEquals("TokenTeste", tokenResponse);
+
+    }
+    @Test
+    void loginTestExceptionNotFoundUserByEmail() {
+        LoginDTO loginDTO = this.mockUser.mockLoginDTO();
+        when(this.repositoryJPA.findByEmail(loginDTO.email())).thenReturn(Optional.empty());
+        var exception = assertThrows(InvalidInformationLogin.class, () -> this.authenticationPort.login(loginDTO));
+        verify(this.tokenServicesPort, times(0)).generateToken(any());
+        verify(this.authenticationManager, times(0)).authenticate(any());
+        assertEquals("Not found user by email: " + loginDTO.email(), exception.getMessage());
+
+    }
+
 }

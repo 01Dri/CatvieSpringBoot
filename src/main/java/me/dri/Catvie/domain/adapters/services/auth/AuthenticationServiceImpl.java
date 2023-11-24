@@ -43,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationServicePort {
         this.isValidUserLogin(login);
         var token = this.authenticationPort.login(login);
         logger.info("User logged!!!");
-        return new TokenResponseDTO(token.token());
+        return new TokenResponseDTO(token);
 
     }
 
