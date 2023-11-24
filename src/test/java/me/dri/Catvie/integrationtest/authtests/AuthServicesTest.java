@@ -34,7 +34,7 @@ public class AuthServicesTest {
 
     @BeforeEach
      void setup() {
-        RestAssured.baseURI = "http://localhost:8080/";
+        RestAssured.baseURI = "http://localhost:8080/api/auth/v1/";
         RestAssured.port = 8080;
         tokenServicesPort = new TokenService();
         mapperUserPort = new MapperEntityAdapter();
@@ -44,15 +44,15 @@ public class AuthServicesTest {
 
     @Test
     void registerTest() {
-        RegisterDTO obj = new RegisterDTO("diego", "henrique", "diego@gmail.com", "123", "", UserRole.USER);
-        given().when().contentType(ContentType.JSON).body(obj).when().post("/auth/v1/register")
+        RegisterDTO obj = new RegisterDTO("diego", "henrique", "diego@gmail.com", "123", UserRole.USER);
+        given().when().contentType(ContentType.JSON).body(obj).when().post("register")
                 .then().statusCode(201).body("user", equalTo(obj.email()));
     }
 
     @Test
     void loginTest() {
         LoginDTO loginDTO = new LoginDTO("heenrikk3@gmail.com", "codigo123");
-        given().when().contentType(ContentType.JSON).body(loginDTO).post("/auth/v1/login")
+        given().when().contentType(ContentType.JSON).body(loginDTO).post("login")
                 .then().statusCode(201);
     }
 

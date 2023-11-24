@@ -1,5 +1,6 @@
 package me.dri.Catvie.infra.exceptions.handler;
 
+import jakarta.servlet.http.HttpServletRequest;
 import me.dri.Catvie.domain.exceptions.*;
 import me.dri.Catvie.domain.exceptions.auth.InvalidInformationLogin;
 import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
@@ -13,47 +14,53 @@ import java.util.Date;
 public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(ContentInformationsFilmMissing.class)
-    public ResponseEntity<ExceptionEntity> contentIsMissingException(ContentInformationsFilmMissing e) {
+    public ResponseEntity<ExceptionEntity> contentIsMissingException(ContentInformationsFilmMissing e, HttpServletRequest request) {
         String error = "Content Is Missing";
         HttpStatus status = HttpStatus.NOT_FOUND;
-        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundFilm.class)
-    public ResponseEntity<ExceptionEntity> contentIsMissingException(NotFoundFilm e) {
+    public ResponseEntity<ExceptionEntity> contentIsMissingException(NotFoundFilm e, HttpServletRequest request) {
         String error = "Not found entity";
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);
     }
     @org.springframework.web.bind.annotation.ExceptionHandler(InvalidGenre.class)
-    public ResponseEntity<ExceptionEntity> invalidGenre(InvalidGenre e) {
+    public ResponseEntity<ExceptionEntity> invalidGenre(InvalidGenre e, HttpServletRequest request) {
         String error = "Genre not found";
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);
     }
     @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundDirector.class)
-    public ResponseEntity<ExceptionEntity> notFoundDirector(NotFoundDirector e) {
+    public ResponseEntity<ExceptionEntity> notFoundDirector(NotFoundDirector e, HttpServletRequest request) {
         String error = "Director not found";
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(InvalidInformationLogin.class)
-    public ResponseEntity<ExceptionEntity> invalidInformation(InvalidInformationLogin e) {
+    public ResponseEntity<ExceptionEntity> invalidInformation(InvalidInformationLogin e, HttpServletRequest request) {
         String error = "User invalid!!!";
         HttpStatus status = HttpStatus.UNAUTHORIZED;
-        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);
     }
     @org.springframework.web.bind.annotation.ExceptionHandler(InvalidJWTException.class)
-    public ResponseEntity<ExceptionEntity> InvalidJWTException(InvalidJWTException e) {
+    public ResponseEntity<ExceptionEntity> InvalidJWTException(InvalidJWTException e, HttpServletRequest request) {
         String error = "Token invalid!!!!";
         HttpStatus status = HttpStatus.UNAUTHORIZED;
-        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value());
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);
     }
 

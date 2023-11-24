@@ -147,7 +147,7 @@ public class FilmServicesTest  {
     void testFindAll() {
         List<Film> films = Collections.singletonList(mock(Film.class));
         List<FilmDTO> filmDtos = Collections.singletonList(mock(FilmDTO.class));
-        when(this.repository.findAll()).thenReturn(films);
+        when(this.repository.findAllFilmEntity()).thenReturn(films);
         when(this.mapperPort.convertListFilmToListDto(any())).thenReturn(filmDtos);
         var result = this.service.findAll();
 

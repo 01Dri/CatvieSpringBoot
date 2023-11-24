@@ -3,7 +3,9 @@ package me.dri.Catvie.domain.enums;
 public enum UserRole {
 
     ADMIN("admin"),
-    USER("user");
+    USER("user"),
+
+    EMPTY(" ");
 
 
     private String role;

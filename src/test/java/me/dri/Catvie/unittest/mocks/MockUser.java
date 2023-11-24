@@ -25,12 +25,12 @@ public class MockUser {
     }
 
     public RegisterDTO mockRegisterDTO() {
-        return new RegisterDTO("diego", "henrique", "diego@gmail", "testesenha", "tokentest", UserRole.ADMIN);
+        return new RegisterDTO("diego", "henrique", "diego@gmail", "testesenha", UserRole.ADMIN);
     }
 
 
-    public RegisterResponseDTO mockRegisterResponseDTO(String firstName, String lastName, String email, String token) {
-        return new RegisterResponseDTO(firstName, lastName, email, token);
+    public RegisterResponseDTO mockRegisterResponseDTO(String firstName, String lastName, String email) {
+        return new RegisterResponseDTO(firstName, lastName, email);
 
     }
 
@@ -46,5 +46,62 @@ public class MockUser {
         return new TokenResponseDTO("tokenteste");
     }
 
+    public RegisterDTO mockRegisterDTOWithoutFirstNameEmpty() {
+        return new RegisterDTO(" ", "henrique", "diego@gmail", "testesenha",  UserRole.ADMIN);
+    }
 
+    public RegisterDTO mockRegisterDTOWithoutFirstNameNull() {
+        return new RegisterDTO(null, "henrique", "diego@gmail", "testesenha",  UserRole.ADMIN);
+    }
+
+    public RegisterDTO mockRegisterDTOWithoutLastNameEmpty() {
+        return new RegisterDTO("Diego", "", "diego@gmail", "testesenha",  UserRole.ADMIN);
+    }
+
+    public RegisterDTO mockRegisterDTOWithoutLastNameNull() {
+        return new RegisterDTO("Diego", null, "diego@gmail", "testesenha",  UserRole.ADMIN);
+    }
+
+    public RegisterDTO mockRegisterDTOWithoutPasswordEmpty() {
+        return new RegisterDTO("Diego", "Henroque", "diego@gmail", "",  UserRole.ADMIN);
+    }
+
+    public RegisterDTO mockRegisterDTOWithoutPasswordNull() {
+        return new RegisterDTO("Diego", "Henrique", "diego@gmail", null,  UserRole.ADMIN);
+    }
+
+    public RegisterDTO mockRegisterDTOCharacterInvalidPassword() {
+        return new RegisterDTO("Diego", "Henrique", "diego@gmail.com", "teste senha",  null);
+    }
+
+
+    public RegisterDTO mockRegisterDTOWithoutEmailEmpty() {
+        return new RegisterDTO("Diego", "Henroque", "", "testesenha",  UserRole.ADMIN);
+    }
+
+    public RegisterDTO mockRegisterDTOWithoutEmailNull() {
+        return new RegisterDTO("Diego", "Henrique", null, "testesenha",  UserRole.ADMIN);
+    }
+    public RegisterDTO mockRegisterDTOWithoutInvalidEmail() {
+        return new RegisterDTO("Diego", "Henrique", "diego @gmail.com", "12345678",  UserRole.USER);
+
+    }
+
+    public RegisterDTO mockRegisterDTOWithoutRoleEmpty() {
+        return new RegisterDTO("Diego", "Henroque", "diego@gmail.com", "testesenha",  UserRole.EMPTY);
+    }
+
+    public RegisterDTO mockRegisterDTOWithoutRoleNull() {
+        return new RegisterDTO("Diego", "Henrique", "diego@gmail.com", "testesenha",  null);
+    }
+
+
+    public RegisterDTO mockRegisterDTOPasswordLengthInvalid() {
+        return new RegisterDTO("Diego", "Henrique", "diego@gmail.com", "1234567",  UserRole.USER);
+    }
+
+    public RegisterDTO mockRegisterDTOInvalidNameRole() {
+        return new RegisterDTO("Diego", "Henrique", "diego@gmail.com", "12345678",  UserRole.EMPTY);
+
+    }
 }

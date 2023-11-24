@@ -1,6 +1,7 @@
 package me.dri.Catvie.unittest.authtests;
 
 import me.dri.Catvie.domain.adapters.services.auth.AuthenticationServiceImpl;
+import me.dri.Catvie.domain.exceptions.auth.*;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 public class AuthServicesDomainTest {
 
@@ -47,6 +49,146 @@ public class AuthServicesDomainTest {
         this.service.register(registerDTO);
         verify(this.mapperUserPortDomain, times(1)).convertRegisterDTOToUser(registerDTO);
         verify(this.authenticationPort, times(1)).register(mockUser);
+    }
+
+    @Test
+    void registerTestExceptionMissingInformationFirstNameEmpty() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutFirstNameEmpty();
+        var exception = assertThrows(MissingInformationFirstName.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'firstname' is empty" , exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
+    }
+
+    @Test
+    void registerTestExceptionMissingInformationFirstNameNull() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutFirstNameNull();
+        var exception = assertThrows(MissingInformationFirstName.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'firstname' is null", exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+    }
+
+    @Test
+    void registerTestExceptionMissingInformationLastNameEmpty() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutLastNameEmpty();
+        var exception = assertThrows(MissingInformationLastName.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'lastname' is empty", exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
+    }
+
+
+    @Test
+    void registerTestExceptionMissingInformationLastNameNull() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutLastNameNull();
+        var exception = assertThrows(MissingInformationLastName.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'lastname' is null", exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
+    }
+
+
+
+    @Test
+    void registerTestExceptionMissingInformationPasswordEmpty() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutPasswordEmpty();
+        var exception = assertThrows(MissingInformationPassword.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'password' is empty", exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
+    }
+
+
+    @Test
+    void registerTestExceptionMissingInformationPasswordNull() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutPasswordNull();
+        var exception = assertThrows(MissingInformationPassword.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'password' is null", exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
+    }
+
+    @Test
+    void registerTestExceptionPasswordLengthInvalid() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOPasswordLengthInvalid();
+        var exception = assertThrows(PasswordLengthInvalid.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'password' must contain length '8'", exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+    }
+    @Test
+    void registerTestExceptionPasswordCharacterInvalid() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOCharacterInvalidPassword();
+        var exception = assertThrows(CharacterInvalidInPassword.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'password' contains invalid character", exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+    }
+
+
+    @Test
+    void registerTestExceptionMissingInformationEmailEmpty() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutEmailEmpty();
+        var exception = assertThrows(MissingInformationEmailRegister.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'email' is empty", exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
+    }
+    @Test
+    void registerTestExceptionInvalidCharacterEmail() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutInvalidEmail();
+        var exception = assertThrows(MissingInformationEmailRegister.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'email' contains a character invalid", exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
+    }
+
+
+
+    @Test
+    void registerTestExceptionMissingInformationEmailNull() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutEmailNull();
+        var exception = assertThrows(MissingInformationEmailRegister.class, () -> this.service.register(registerDTO));
+        assertEquals("Content 'email' is null", exception.getMessage());
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
+    }
+
+    @Test
+    void registerTestExceptionMissingInformationRoleEmpty() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutRoleEmpty();
+       assertThrows(NameRoleInvalid.class, () -> this.service.register(registerDTO));
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
+    }
+
+
+    @Test
+    void registerTestExceptionMissingInformationRoleNull() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutRoleNull();
+        assertThrows(MissingInformationRole.class, () -> this.service.register(registerDTO));
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
+    }
+
+    @Test
+    void registerTestExceptionInvalidRoleName() {
+        RegisterDTO registerDTO = this.mockUser.mockRegisterDTOInvalidNameRole();
+        assertThrows(NameRoleInvalid.class, () -> this.service.register(registerDTO));
+        verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
+        verify(this.authenticationPort, times(0)).register(any());
+
     }
 
     @Test

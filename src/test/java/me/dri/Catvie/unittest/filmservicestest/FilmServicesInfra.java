@@ -44,6 +44,5 @@ public class FilmServicesInfra {
     void AlreadyExistsFilm() {
         var filmeEntityMock = this.mockFilm.mockFilmEntity();
         when(this.filmRepositoryJPA.findFilmByTitle(filmeEntityMock.getTitle())).thenReturn(Optional.of(filmeEntityMock));
-
     }
 }
