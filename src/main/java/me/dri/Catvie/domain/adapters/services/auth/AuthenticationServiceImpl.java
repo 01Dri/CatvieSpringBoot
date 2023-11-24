@@ -40,26 +40,54 @@ public class AuthenticationServiceImpl implements AuthenticationServicePort {
 
     @Override
     public TokenResponseDTO login(LoginDTO login) {
+        this.isValidUserLogin(login);
         var token = this.authenticationPort.login(login);
         logger.info("User logged!!!");
         return new TokenResponseDTO(token.token());
 
     }
 
+
+    public void isValidUserLogin(LoginDTO loginDTO) {
+
+        try {
+            if (loginDTO.email().isBlank() || loginDTO.email().isEmpty()) {
+                throw new MissingInformationEmail("Content 'email' is empty");
+            }
+        } catch (NullPointerException e) {
+            throw  new MissingInformationEmail("Content 'email' is null");
+        }
+
+        if (loginDTO.email().contains(" ")) {
+            throw new InvalidCharacterEmail("Content 'email' contains a character invalid");
+        }
+
+        try {
+            if (loginDTO.password().isBlank() || loginDTO.password().isEmpty()) {
+                throw new MissingInformationPassword("Content 'password' is empty");
+            }
+        } catch (NullPointerException e) {
+            throw  new MissingInformationPassword("Content 'password' is null");
+        }
+
+        if (loginDTO.password().contains(" ")) {
+            throw new CharacterInvalidInPassword("Content 'password' contains a character invalid");
+        }
+    }
     public void isValidUserRegister(RegisterDTO registerDTO) {
         try {
             if (registerDTO.email().isEmpty() || registerDTO.email().isBlank()) {
                 logger.error("Email user is empty");
-                throw new MissingInformationEmailRegister("Content 'email' is empty");
+                throw new MissingInformationEmail("Content 'email' is empty");
             }
         } catch (NullPointerException e) {
             logger.error("Email user is null");
-            throw new MissingInformationEmailRegister("Content 'email' is null");
+            throw new MissingInformationEmail("Content 'email' is null");
         }
 
         if (registerDTO.email().contains(" ")) {
             logger.error("Email user contains invalid character");
-            throw new MissingInformationEmailRegister("Content 'email' contains a character invalid");
+            throw new InvalidCharacterEmail("Content 'email' contains a character invalid");
         }
         try {
             if (registerDTO.firstName().isEmpty() || registerDTO.firstName().isBlank()) {

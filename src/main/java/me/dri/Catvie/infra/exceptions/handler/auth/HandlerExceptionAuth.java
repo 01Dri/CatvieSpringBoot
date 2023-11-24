@@ -12,8 +12,8 @@ import java.util.Date;
 @ControllerAdvice
 public class HandlerExceptionAuth {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(MissingInformationEmailRegister.class)
-    public ResponseEntity<ExceptionEntity> contentIsMissingEmailInformation(MissingInformationEmailRegister e, HttpServletRequest request) {
+    @org.springframework.web.bind.annotation.ExceptionHandler(MissingInformationEmail.class)
+    public ResponseEntity<ExceptionEntity> contentIsMissingEmailInformation(MissingInformationEmail e, HttpServletRequest request) {
         String error = "Email validation error";
         HttpStatus status = HttpStatus.BAD_REQUEST;
         String path = request.getRequestURI();
@@ -81,4 +81,15 @@ public class HandlerExceptionAuth {
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidCharacterEmail.class)
+    public ResponseEntity<ExceptionEntity> contentIsMissingEmailCharacterInformation(InvalidCharacterEmail e, HttpServletRequest request) {
+        String error = "Email validation error";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
+        return ResponseEntity.status(status).body(err);
+    }
+
+
 }

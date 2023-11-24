@@ -104,4 +104,28 @@ public class MockUser {
         return new RegisterDTO("Diego", "Henrique", "diego@gmail.com", "12345678",  UserRole.EMPTY);
 
     }
+
+    public LoginDTO mockLoginDTOWithoutEmailEmpty() {
+        return new LoginDTO("", "12345678");
+    }
+
+    public LoginDTO mockLoginDTOWithoutEmailNull() {
+        return new LoginDTO(null, "12345678");
+    }
+
+    public LoginDTO mockLoginDTOWithoutPasswordEmpty() {
+        return new LoginDTO("diego@gmail.com", "");
+    }
+    public LoginDTO mockLoginDTOWithoutPasswordNull() {
+        return new LoginDTO("diego@gmail.com", null);
+    }
+
+    public LoginDTO mockLoginDTOWithoutEmailInvalidCharacter() {
+        return new LoginDTO("diego @gmail.com", "12345678");
+    }
+
+    public LoginDTO mockLoginDTOWithoutPasswordInvalidCharacter() {
+        return new LoginDTO("diego@gmail.com", "1234 5678");
+    }
+
 }

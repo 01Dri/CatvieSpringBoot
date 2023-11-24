@@ -2,6 +2,7 @@ package me.dri.Catvie.unittest.authtests;
 
 import me.dri.Catvie.domain.adapters.services.auth.AuthenticationServiceImpl;
 import me.dri.Catvie.domain.exceptions.auth.*;
+import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
@@ -135,7 +136,7 @@ public class AuthServicesDomainTest {
     @Test
     void registerTestExceptionMissingInformationEmailEmpty() {
         RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutEmailEmpty();
-        var exception = assertThrows(MissingInformationEmailRegister.class, () -> this.service.register(registerDTO));
+        var exception = assertThrows(MissingInformationEmail.class, () -> this.service.register(registerDTO));
         assertEquals("Content 'email' is empty", exception.getMessage());
         verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
         verify(this.authenticationPort, times(0)).register(any());
@@ -144,7 +145,7 @@ public class AuthServicesDomainTest {
     @Test
     void registerTestExceptionInvalidCharacterEmail() {
         RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutInvalidEmail();
-        var exception = assertThrows(MissingInformationEmailRegister.class, () -> this.service.register(registerDTO));
+        var exception = assertThrows(InvalidCharacterEmail.class, () -> this.service.register(registerDTO));
         assertEquals("Content 'email' contains a character invalid", exception.getMessage());
         verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
         verify(this.authenticationPort, times(0)).register(any());
@@ -156,7 +157,7 @@ public class AuthServicesDomainTest {
     @Test
     void registerTestExceptionMissingInformationEmailNull() {
         RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutEmailNull();
-        var exception = assertThrows(MissingInformationEmailRegister.class, () -> this.service.register(registerDTO));
+        var exception = assertThrows(MissingInformationEmail.class, () -> this.service.register(registerDTO));
         assertEquals("Content 'email' is null", exception.getMessage());
         verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
         verify(this.authenticationPort, times(0)).register(any());
@@ -200,6 +201,63 @@ public class AuthServicesDomainTest {
         verify(this.authenticationPort, times(1)).login(loginDto);
         assertEquals(token.token(), tokenResponseDTO.token());
     }
+
+
+    @Test
+    void loginTestExceptionMissingInformationEmailNull() {
+        LoginDTO loginDTO = this.mockUser.mockLoginDTOWithoutEmailNull();
+        var exception = assertThrows(MissingInformationEmail.class, () -> this.service.login(loginDTO));
+        assertEquals("Content 'email' is null", exception.getMessage());
+        verify(this.authenticationPort, times(0)).login(any());
+
+    }
+
+    @Test
+    void loginTestExceptionMissingInformationEmailEmpty() {
+        LoginDTO loginDTO = this.mockUser.mockLoginDTOWithoutEmailEmpty();
+        var exception = assertThrows(MissingInformationEmail.class, () -> this.service.login(loginDTO));
+        assertEquals("Content 'email' is empty", exception.getMessage());
+        verify(this.authenticationPort, times(0)).login(any());
+
+    }
+
+    @Test
+    void loginTestExceptionMissingInformationEmailInvalidCharacter() {
+        LoginDTO loginDTO = this.mockUser.mockLoginDTOWithoutEmailInvalidCharacter();
+        var exception = assertThrows(InvalidCharacterEmail.class, () -> this.service.login(loginDTO));
+        assertEquals("Content 'email' contains a character invalid", exception.getMessage());
+        verify(this.authenticationPort, times(0)).login(any());
+
+    }
+
+    @Test
+    void loginTestExceptionMissingInformationPasswordEmpty() {
+        LoginDTO loginDTO = this.mockUser.mockLoginDTOWithoutPasswordEmpty();
+        var exception = assertThrows(MissingInformationPassword.class, () -> this.service.login(loginDTO));
+        assertEquals("Content 'password' is empty", exception.getMessage());
+        verify(this.authenticationPort, times(0)).login(any());
+
+    }
+
+    @Test
+    void loginTestExceptionMissingInformationPasswordNull() {
+        LoginDTO loginDTO = this.mockUser.mockLoginDTOWithoutPasswordNull();
+        var exception = assertThrows(MissingInformationPassword.class, () -> this.service.login(loginDTO));
+        assertEquals("Content 'password' is null", exception.getMessage());
+        verify(this.authenticationPort, times(0)).login(any());
+
+    }
+
+    @Test
+    void loginTestExceptionMissingInformationInvalidCharacterPassword() {
+        LoginDTO loginDTO = this.mockUser.mockLoginDTOWithoutPasswordInvalidCharacter();
+        var exception = assertThrows(CharacterInvalidInPassword.class, () -> this.service.login(loginDTO));
+        assertEquals("Content 'password' contains a character invalid", exception.getMessage());
+        verify(this.authenticationPort, times(0)).login(any());
+
+    }
+
+
 
 
 
