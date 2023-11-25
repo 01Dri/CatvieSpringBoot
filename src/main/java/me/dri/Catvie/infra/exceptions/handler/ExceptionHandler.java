@@ -2,8 +2,9 @@ package me.dri.Catvie.infra.exceptions.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import me.dri.Catvie.domain.exceptions.*;
-import me.dri.Catvie.domain.exceptions.auth.InvalidInformationLogin;
+import me.dri.Catvie.domain.exceptions.auth.InvalidEmailLogin;
 import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
+import me.dri.Catvie.domain.exceptions.auth.InvalidLoginPassword;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -47,9 +48,18 @@ public class ExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidInformationLogin.class)
-    public ResponseEntity<ExceptionEntity> invalidInformation(InvalidInformationLogin e, HttpServletRequest request) {
-        String error = "User invalid!!!";
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidEmailLogin.class)
+    public ResponseEntity<ExceptionEntity> invalidInformation(InvalidEmailLogin e, HttpServletRequest request) {
+        String error = "Email invalid!!!";
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidLoginPassword.class)
+    public ResponseEntity<ExceptionEntity> invalidInformationPassword(InvalidLoginPassword e, HttpServletRequest request) {
+        String error = "Password invalid!!!";
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         String path = request.getRequestURI();
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);

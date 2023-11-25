@@ -1,8 +1,8 @@
 package me.dri.Catvie.infra.adapters;
 
-import me.dri.Catvie.domain.exceptions.auth.InvalidInformationLogin;
+import me.dri.Catvie.domain.exceptions.auth.InvalidEmailLogin;
+import me.dri.Catvie.domain.exceptions.auth.InvalidLoginPassword;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
-import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
@@ -13,7 +13,7 @@ import me.dri.Catvie.infra.ports.UserRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -46,13 +46,18 @@ public class AuthenticationAdapter implements AuthenticationPort {
 
     @Override
     public String login(LoginDTO user) {
-        var userLogin = this.repositoryJPA.findByEmail(user.email()).orElseThrow(
-                () -> new InvalidInformationLogin("Not found user by email: " + user.email()));
-        String token = this.tokenServicesPort.generateToken((UserEntity) userLogin);
-        ((UserEntity) userLogin).setToken(token);
-        this.repositoryJPA.save((UserEntity) userLogin);
+        var userLoginByEmail = this.repositoryJPA.findByEmail(user.email()).orElseThrow(
+                () -> new InvalidEmailLogin("Not found user by email: " + user.email()));
+
+        String token = this.tokenServicesPort.generateToken((UserEntity) userLoginByEmail);
+        ((UserEntity) userLoginByEmail).setToken(token);
+        this.repositoryJPA.save((UserEntity) userLoginByEmail);
         var usernamePassword = new UsernamePasswordAuthenticationToken(user.email(), user.password());
-        this.authenticationManager.authenticate(usernamePassword);
-        return ((UserEntity) userLogin).getToken();
+        try {
+            this.authenticationManager.authenticate(usernamePassword);
+        } catch (AuthenticationException e) { // Password invalid
+            throw  new InvalidLoginPassword("Not found user by password: " + user.password());
+        }
+        return ((UserEntity) userLoginByEmail).getToken();
     }
 }
