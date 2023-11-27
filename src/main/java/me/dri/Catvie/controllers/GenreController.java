@@ -11,6 +11,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/genre/v1")
+@CrossOrigin
 public class GenreController {
 
     private final GenreServicesPort servicesPort;

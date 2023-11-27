@@ -5,55 +5,69 @@ import io.restassured.http.ContentType;
 import me.dri.Catvie.domain.enums.UserRole;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
-import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
-import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
-import me.dri.Catvie.infra.adapters.AuthenticationAdapter;
-import me.dri.Catvie.infra.adapters.EncoderPasswordAdapter;
-import me.dri.Catvie.infra.adapters.mapper.MapperEntityAdapter;
-import me.dri.Catvie.infra.ports.EncoderPassword;
-import me.dri.Catvie.infra.ports.MapperUserPort;
-import me.dri.Catvie.infra.ports.UserRepositoryJPA;
-import me.dri.Catvie.infra.tokens.TokenService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.junit.jupiter.api.TestMethodOrder;
 
-import static  io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
 public class AuthServicesTest {
 
-    TokenServicesPort tokenServicesPort;
-    UserRepositoryJPA repositoryJPA;
-    MapperUserPort mapperUserPort;
-    EncoderPassword encoderPassword;
-    AuthenticationManager authenticationManager;
 
-    AuthenticationPort authenticationPort;
 
 
     @BeforeEach
-     void setup() {
-        RestAssured.baseURI = "http://localhost:8080/api/auth/v1/";
-        RestAssured.port = 8080;
-        tokenServicesPort = new TokenService();
-        mapperUserPort = new MapperEntityAdapter();
-        encoderPassword = new EncoderPasswordAdapter();
-        authenticationPort = new AuthenticationAdapter(tokenServicesPort, repositoryJPA, mapperUserPort, encoderPassword, authenticationManager);
+    public void setup() {
+        RestAssured.baseURI = "http://localhost:8080/api/auth/v1";
+
     }
 
     @Test
-    void registerTest() {
-        RegisterDTO obj = new RegisterDTO("diego", "henrique", "diego@gmail.com", "123", UserRole.USER);
-        given().when().contentType(ContentType.JSON).body(obj).when().post("register")
-                .then().statusCode(201).body("user", equalTo(obj.email()));
+    void registerTestSucessfull() {
+        RegisterDTO obj = new RegisterDTO("Diego", "Henrique", "heenrikk4@gmail.com", "12345678", UserRole.USER);
+        given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
+                .then().statusCode(201).body("email", equalTo(obj.email()));
     }
 
+
     @Test
-    void loginTest() {
-        LoginDTO loginDTO = new LoginDTO("heenrikk3@gmail.com", "codigo123");
-        given().when().contentType(ContentType.JSON).body(loginDTO).post("login")
+    void loginTestSuccessfull() {
+        LoginDTO loginDTO = new LoginDTO("heenrikk4@gmail.com", "12345678");
+        given().when().contentType(ContentType.JSON).body(loginDTO).post("/login")
                 .then().statusCode(201);
+    }
+
+    @Test
+    void registerUserFailedBecauseFirstNameIsIncorrect() {
+        RegisterDTO obj = new RegisterDTO("", "Henrique", "teste123@gmail.com", "12345678", UserRole.USER);
+        given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
+                .then().statusCode(400);
+    }
+
+
+    @Test
+    void registerUserFailedBecauseLastNameIsIncorrect() {
+        RegisterDTO obj = new RegisterDTO("Diego", "", "teste1234@gmail.com", "12345678", UserRole.USER);
+        given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
+                .then().statusCode(400);
+    }
+
+    @Test
+    void registerUserFailedBecauseEmailIsIncorrect() {
+        RegisterDTO obj = new RegisterDTO("Diego", "Henrique", "", "12345678", UserRole.USER);
+        given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
+                .then().statusCode(400);
+    }
+
+    @Test
+    void registerUserFailedBecausePasswordIsIncorrect() {
+        RegisterDTO obj = new RegisterDTO("Diego", "Henrique", "teste12345@gmail.com", "", UserRole.USER);
+        given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
+                .then().statusCode(400);
     }
 
 

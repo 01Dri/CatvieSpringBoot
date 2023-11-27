@@ -25,7 +25,7 @@ public class MockUser {
     }
 
     public RegisterDTO mockRegisterDTO() {
-        return new RegisterDTO("diego", "henrique", "diego@gmail", "testesenha", UserRole.ADMIN);
+        return new RegisterDTO("diego", "henrique", "diego@gmail.com", "testesenha", UserRole.ADMIN);
     }
 
 

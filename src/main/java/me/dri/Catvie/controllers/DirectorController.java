@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/director/v1")
+@CrossOrigin
 public class DirectorController  {
 
     private final DirectorServicePort servicePort;

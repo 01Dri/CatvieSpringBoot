@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth/v1")
+@CrossOrigin
 public class UserControllerAuth {
 
 

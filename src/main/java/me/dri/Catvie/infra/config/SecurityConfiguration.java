@@ -38,7 +38,6 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/auth/v1/register")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/auth/v1/login")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.GET, "/oauth2/authorization/github")).permitAll()
