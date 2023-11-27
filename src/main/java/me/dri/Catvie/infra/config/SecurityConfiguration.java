@@ -21,12 +21,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
     @Autowired
     SecurityFilter securityFilter;
 
@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                         .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/auth/v1/register")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/auth/v1/login")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.GET, "/oauth2/authorization/github")).permitAll()
+                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/film/v1/create")).hasRole("ADMIN")
                         .requestMatchers(toH2Console()).permitAll()
                         .anyRequest().authenticated()
                 )

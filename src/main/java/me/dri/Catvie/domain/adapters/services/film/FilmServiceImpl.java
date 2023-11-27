@@ -61,15 +61,11 @@ public class FilmServiceImpl  implements FilmServicePort {
         this.filmIsValid(filmDto);
         var genres = this.genreServicesPort.verifyExistingGenres(filmDto.genres());
         var director = this.directorServicePort.findByName(filmDto.director().name());
-        if (genres != null && director != null) {
-            Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto, genres, director);
-            this.filmRepositoryPort.create(film);
-            return new FilmResponseDTO(filmDto.title(), filmDto.genres(), filmDto.original_language(),
-                    filmDto.release_date(), filmDto.runtime(), filmDto.distributor(), filmDto.production_co(),
-                    filmDto.average_rating_critic(), filmDto.average_rating_audience(), filmDto.url());
-        } else {
-            throw new RuntimeException("Teste");
-        }
+        Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto, genres, director);
+        this.filmRepositoryPort.create(film);
+        return new FilmResponseDTO(filmDto.title(), filmDto.genres(), filmDto.original_language(),
+                filmDto.release_date(), filmDto.runtime(), filmDto.distributor(), filmDto.production_co(),
+                filmDto.average_rating_critic(), filmDto.average_rating_audience(), filmDto.url());
     }
 
     @Override
