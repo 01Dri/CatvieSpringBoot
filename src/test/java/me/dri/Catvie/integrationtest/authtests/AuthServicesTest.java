@@ -45,7 +45,7 @@ public class AuthServicesTest {
     void registerUserFailedBecauseFirstNameIsIncorrect() {
         RegisterDTO obj = new RegisterDTO("", "Henrique", "teste123@gmail.com", "12345678", UserRole.USER);
         given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
-                .then().statusCode(400);
+                .then().statusCode(400).body("message", equalTo("FirstName validation error"));;
     }
 
 
@@ -53,21 +53,21 @@ public class AuthServicesTest {
     void registerUserFailedBecauseLastNameIsIncorrect() {
         RegisterDTO obj = new RegisterDTO("Diego", "", "teste1234@gmail.com", "12345678", UserRole.USER);
         given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
-                .then().statusCode(400);
+                .then().statusCode(400).body("message", equalTo("LastName validation error"));
     }
 
     @Test
     void registerUserFailedBecauseEmailIsIncorrect() {
         RegisterDTO obj = new RegisterDTO("Diego", "Henrique", "", "12345678", UserRole.USER);
         given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
-                .then().statusCode(400);
+                .then().statusCode(400).body("message", equalTo("Email validation error"));;
     }
 
     @Test
     void registerUserFailedBecausePasswordIsIncorrect() {
         RegisterDTO obj = new RegisterDTO("Diego", "Henrique", "teste12345@gmail.com", "", UserRole.USER);
         given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
-                .then().statusCode(400);
+                .then().statusCode(400).body("message", equalTo("Password validation error"));;
     }
 
 
