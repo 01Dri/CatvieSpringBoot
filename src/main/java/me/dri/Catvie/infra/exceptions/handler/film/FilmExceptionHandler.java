@@ -75,6 +75,15 @@ public class FilmExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidWriterFilmException.class)
+    public ResponseEntity<ExceptionEntity> writerDateValidationError(InvalidWriterFilmException e, HttpServletRequest request) {
+        String error = "Writer validation error";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
+        return ResponseEntity.status(status).body(err);
+    }
+
     @org.springframework.web.bind.annotation.ExceptionHandler(InvalidTitleFilmException.class)
     public ResponseEntity<ExceptionEntity> titleDateValidationError(InvalidTitleFilmException e, HttpServletRequest request) {
         String error = "Title validation error";
@@ -92,10 +101,9 @@ public class FilmExceptionHandler {
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);
     }
-
-    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidWriterFilmException.class)
-    public ResponseEntity<ExceptionEntity> writerDateValidationError(InvalidWriterFilmException e, HttpServletRequest request) {
-        String error = "Writer validation error";
+    @org.springframework.web.bind.annotation.ExceptionHandler(IdFilmIsNullException.class)
+    public ResponseEntity<ExceptionEntity> idForFilmIsNull(IdFilmIsNullException e, HttpServletRequest request) {
+        String error = "Id Film validation error";
         HttpStatus status = HttpStatus.BAD_REQUEST;
         String path = request.getRequestURI();
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);

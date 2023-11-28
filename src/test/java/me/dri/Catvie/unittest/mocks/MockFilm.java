@@ -11,7 +11,9 @@ import me.dri.Catvie.infra.entities.DirectorEntity;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 public class MockFilm {
@@ -116,5 +118,23 @@ public class MockFilm {
     public FilmDTO mockFilmDtoAverageAudienceNull() {
         GenreDTO genre = new GenreDTO(Genres.ACTION);
         return new FilmDTO("Evangelion", Set.of(genre), "english", new DirectorCreateDTO("Diego"), "Diego", new Date(),189, "Diego", "Diego", 6.0, null, "teste");
+    }
+
+    public List<FilmEntity> mockListFilmsEntity() {
+        List<FilmEntity> filmEntities = new ArrayList<>();
+        var film1 = this.mockFilmEntity();
+        var film2 = this.mockFilmEntity();
+        filmEntities.add(film1);
+        filmEntities.add(film2);
+        return filmEntities;
+    }
+
+    public List<Film> mockListFilms() {
+        List<Film> filmEntities = new ArrayList<>();
+        var film1 = this.mockFilm();
+        var film2 = this.mockFilm();
+        filmEntities.add(film1);
+        filmEntities.add(film2);
+        return filmEntities;
     }
 }

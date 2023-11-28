@@ -11,7 +11,7 @@ public interface FilmServicePort {
     List<FilmDTO> findAll();
     FilmDTO findByTitle(String title);
     FilmResponseDTO create(FilmDTO filmDto);
-    void save(FilmDTO film);
     void deleteById(Long id);
+    FilmResponseDTO update(FilmDTO filmDTO);
 
 }

@@ -26,7 +26,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundFilm.class)
     public ResponseEntity<ExceptionEntity> contentIsMissingException(NotFoundFilm e, HttpServletRequest request) {
         String error = "Not found entity";
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpStatus status = HttpStatus.NOT_FOUND;
         String path = request.getRequestURI();
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);
@@ -34,7 +34,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(InvalidGenre.class)
     public ResponseEntity<ExceptionEntity> invalidGenre(InvalidGenre e, HttpServletRequest request) {
         String error = "Genre not found";
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpStatus status = HttpStatus.NOT_FOUND;
         String path = request.getRequestURI();
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);
@@ -42,7 +42,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundDirector.class)
     public ResponseEntity<ExceptionEntity> notFoundDirector(NotFoundDirector e, HttpServletRequest request) {
         String error = "Director not found";
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpStatus status = HttpStatus.NOT_FOUND;
         String path = request.getRequestURI();
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);

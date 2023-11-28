@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class AuthServicesTest {
+public class AuthServicesIntegrationTests {
 
 
 

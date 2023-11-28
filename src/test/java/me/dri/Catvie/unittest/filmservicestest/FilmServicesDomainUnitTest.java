@@ -7,6 +7,7 @@ import me.dri.Catvie.domain.exceptions.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.film.*;
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Film;
@@ -32,7 +33,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-public class FilmServicesTest  {
+public class FilmServicesDomainUnitTest {
 
     FilmServicePort service;
     @Mock
@@ -82,26 +83,11 @@ public class FilmServicesTest  {
         var director = this.directorServicePort.findByName("Diego");
         assertNotNull(director);
         when(this.mapperPort.convertFilmDtoToFilm(filmCreate, genreDTOS, mockDirectoDTO)).thenReturn(filmMock);
-        this.service.create(filmCreate);
+        FilmResponseDTO result = this.service.create(filmCreate);
         verify(this.mapperPort, times(1)).convertFilmDtoToFilm(any(), any(), any());
         verify(this.repository, times(1)).create(any());
     }
 
-
-    @Test
-    void testSaveFilm() {
-        FilmDTO filmDto = this.mockEntitys.mockFilmDto();
-        Film filmToSave = this.mockEntitys.mockFilm();
-        Genre mockGenre = this.mockGenre.mockGenre();
-        Director mockDirector = this.mockDirector.mockDirector();
-        DirectorResponseDTO mockDirectoDTO = this.mockDirector.mockDirectorDTO();
-        Set<GenreDTO> genres = this.mockGenre.mockGenres();
-        when(this.genreRepositoryPort.findByName(any())).thenReturn(mockGenre);
-        when(this.directorRepositoryPort.findByName(any())).thenReturn(mockDirector);
-        when(this.mapperPort.convertFilmDtoToFilm(filmDto, genres, mockDirectoDTO)).thenReturn(filmToSave);
-        this.service.save(filmDto);
-        verify(this.repository, times(1)).save(any());
-    }
 
     @Test
     void testFindFilmByTitle() {
@@ -110,7 +96,6 @@ public class FilmServicesTest  {
         when(this.repository.findByTitle("film test 1")).thenReturn(film);
         when(this.mapperPort.convertFilmToDto(any())).thenReturn(filmDto);
         var result = this.service.findByTitle("film test 1");
-        System.out.println(result);
         assertTrue(result instanceof FilmDTO);
         verify(this.mapperPort, times(1)).convertFilmToDto(any());
     }
@@ -134,7 +119,6 @@ public class FilmServicesTest  {
         when(this.repository.findAllFilmEntity()).thenReturn(films);
         when(this.mapperPort.convertListFilmToListDto(any())).thenReturn(filmDtos);
         var result = this.service.findAll();
-
         // Checking if result this a ListDto
         assertTrue(result instanceof List<FilmDTO>);
         verify(this.mapperPort, times(1)).convertListFilmToListDto(any());
@@ -154,20 +138,6 @@ public class FilmServicesTest  {
         when(this.repository.findByTitle(nameInvalid)).thenReturn(null);
         assertThrows(NotFoundFilm.class, () -> this.service.findByTitle(nameInvalid));
 
-    }
-
-    @Test
-    void testFailedToDeleteFilmById() {
-        when(this.repository.findById(1L)).thenReturn(null);
-        assertThrows(NotFoundFilm.class, () -> this.service.deleteById(1L));
-    }
-
-    @Test
-    void testDeleteFilm() {
-        Film filmToDelete = this.mockEntitys.mockFilm();
-        when(this.repository.findById(1L)).thenReturn(filmToDelete);
-        this.service.deleteById(1L);
-        verify(this.repository, times(1)).delete(filmToDelete);
     }
 
     @Test

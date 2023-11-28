@@ -1,7 +1,6 @@
 package me.dri.Catvie.unittest.authtests;
 
 import me.dri.Catvie.domain.exceptions.auth.InvalidEmailLogin;
-import me.dri.Catvie.domain.exceptions.auth.InvalidLoginPassword;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
@@ -17,17 +16,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 
-
-public class AuthServicesInfraTest {
+public class AuthServicesInfraUnitTest {
 
     @Mock
     TokenServicesPort tokenServicesPort;

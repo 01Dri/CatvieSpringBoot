@@ -14,9 +14,10 @@ public interface FilmRepositoryPort {
 
     void create(Film filmDto);
 
-    void save(Film film);
-
     void delete(Film film);
 
     Film update(Film film);
+
+    Long deleteById(Long id);
+
 }

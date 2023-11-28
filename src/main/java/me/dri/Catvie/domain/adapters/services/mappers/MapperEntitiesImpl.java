@@ -9,13 +9,13 @@ import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class MapperEntitiesImpl implements MapperEntities {
+
     @Override
     public Set<Genre> convertGenreEntityToGenre(Set<GenreEntity> genreEntities) {
         return genreEntities.stream().map(g ->  new Genre(g.getId(), g.getGenreName())).collect(Collectors.toSet());

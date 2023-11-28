@@ -63,27 +63,25 @@ public class FilmServiceImpl  implements FilmServicePort {
         var director = this.directorServicePort.findByName(filmDto.director().name());
         Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto, genres, director);
         this.filmRepositoryPort.create(film);
-        return new FilmResponseDTO(filmDto.title(), filmDto.genres(), filmDto.original_language(),
-                filmDto.release_date(), filmDto.runtime(), filmDto.distributor(), filmDto.production_co(),
-                filmDto.average_rating_critic(), filmDto.average_rating_audience(), filmDto.url());
-    }
-
-    @Override
-    public void save(FilmDTO film) {
-        this.filmIsValid(film);
-        var genres = this.genreServicesPort.verifyExistingGenres(film.genres());
-        var director = this.directorServicePort.findByName(film.title());
-        Film filmToSave = this.mapperEntitiesPort.convertFilmDtoToFilm(film, genres, director);
-        this.filmRepositoryPort.save(filmToSave);
+        return this.mapperEntitiesPort.convertFilmToResponseDTO(film);
     }
 
     @Override
     public void deleteById(Long id) {
-        Film film = this.filmRepositoryPort.findById(id);
-        if (film == null) {
-            throw new NotFoundFilm("Entity not found");
+        if (id == null) {
+            throw new IdFilmIsNullException("Content 'id' is null");
         }
-        this.filmRepositoryPort.delete(film);
+        this.filmRepositoryPort.deleteById(id);
+    }
+
+    @Override
+    public FilmResponseDTO update(FilmDTO filmDTO) {
+        this.filmIsValid(filmDTO);
+        var genres = this.genreServicesPort.verifyExistingGenres(filmDTO.genres());
+        var director = this.directorServicePort.findByName(filmDTO.director().name());
+        Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDTO, genres, director);
+        this.filmRepositoryPort.update(film);
+        return this.mapperEntitiesPort.convertFilmToResponseDTO(film);
     }
 
 

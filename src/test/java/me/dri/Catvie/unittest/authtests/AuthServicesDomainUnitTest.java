@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-public class AuthServicesDomainTest {
+public class AuthServicesDomainUnitTest {
 
 
     AuthenticationServicePort service;
