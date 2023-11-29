@@ -35,4 +35,4 @@ build/
 ### Arquivos Docker ###
 Dockerfile
 docker-compose.yml
-src/main/resources/application.properties
+src/main/resources/application.propertiestest

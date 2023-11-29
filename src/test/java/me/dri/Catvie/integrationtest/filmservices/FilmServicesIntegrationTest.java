@@ -90,12 +90,7 @@ public class FilmServicesIntegrationTest {
                 .statusCode(404);
     }
 
-    // Test the create and update to finish
-
-
-
-
-
+    // Test the create and update to finish ...
 
     public void authentication() {
         var token = registerUserForTests("digas@gamil.com");

@@ -3,7 +3,6 @@ package me.dri.Catvie.infra.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -11,12 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
@@ -33,7 +28,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, HandlerMappingIntrospector introspector) throws Exception {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
-        return  httpSecurity
+        return httpSecurity
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -42,7 +37,7 @@ public class SecurityConfiguration {
                         .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/auth/v1/login")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.GET, "/oauth2/authorization/github")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/film/v1/create")).hasRole("ADMIN")
-                        .requestMatchers(toH2Console()).permitAll()
+                        .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/api/film/v1/deleteById/**")).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -59,18 +54,6 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        return new InMemoryClientRegistrationRepository(this.githubClientRegistration());
-    }
-
-    @Autowired
-    private Environment environment;
-    private ClientRegistration githubClientRegistration() {
-        return CommonOAuth2Provider.GITHUB.getBuilder("github")
-                .clientId(environment.getProperty("spring.security.oauth2.client.registration.github.client-id"))
-                .clientSecret(environment.getProperty("spring.security.oauth2.client.registration.github.client-secret"))
-                .build();
-    }
 }
+
+

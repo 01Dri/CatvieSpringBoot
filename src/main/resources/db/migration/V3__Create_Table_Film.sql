@@ -9,7 +9,7 @@ CREATE TABLE films (
     release_date DATE,
     runtime INT,
     production_co VARCHAR(255),
-    AVERAGE_RATING_AUDIENCE DOUBLE,
-    average_rating_critic DOUBLE,
+    AVERAGE_RATING_AUDIENCE DOUBLE PRECISION,
+    average_rating_critic DOUBLE PRECISION,
     FOREIGN KEY (director_id) REFERENCES directors(id)
 );
