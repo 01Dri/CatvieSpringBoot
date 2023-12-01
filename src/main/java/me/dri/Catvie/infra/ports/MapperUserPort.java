@@ -6,4 +6,6 @@ import me.dri.Catvie.infra.entities.UserEntity;
 public interface MapperUserPort {
 
     UserEntity convertUserToUserEntity(User user, String pass);
+
+    User convertUserEntityToUser(UserEntity userEntity);
 }

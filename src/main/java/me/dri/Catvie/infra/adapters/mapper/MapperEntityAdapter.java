@@ -9,4 +9,9 @@ public class MapperEntityAdapter  implements MapperUserPort {
     public UserEntity convertUserToUserEntity(User user, String passEcrypted) {
         return new UserEntity(null, user.getFirstName(), user.getLastName(), user.getEmail(), passEcrypted, null, user.getRole());
     }
+
+    @Override
+    public User convertUserEntityToUser(UserEntity userEntity) {
+        return null;
+    }
 }

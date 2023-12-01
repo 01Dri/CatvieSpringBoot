@@ -23,9 +23,7 @@ public class AuthenticationAdapter implements AuthenticationPort {
     private final UserRepositoryJPA repositoryJPA;
 
     private final MapperUserPort mapperUserPort;
-
     private final EncoderPassword passwordEncoder;
-
     private final AuthenticationManager authenticationManager;
 
     @Autowired
