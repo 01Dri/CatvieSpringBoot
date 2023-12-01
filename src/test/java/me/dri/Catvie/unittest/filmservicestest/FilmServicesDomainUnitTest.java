@@ -5,6 +5,7 @@ import me.dri.Catvie.domain.adapters.services.film.FilmServiceImpl;
 import me.dri.Catvie.domain.adapters.services.genre.GenreServiceImpl;
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.film.*;
+import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
@@ -14,7 +15,7 @@ import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
-import me.dri.Catvie.domain.ports.interfaces.film.MapperEntitiesPort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
@@ -39,7 +40,7 @@ public class FilmServicesDomainUnitTest {
     @Mock
     FilmRepositoryPort repository;
     @Mock
-    MapperEntitiesPort mapperPort;
+    MapperFilmDomainPort mapperPort;
     @Mock
     GenreRepositoryPort genreRepositoryPort;
     GenreServicesPort genreServicesPort;
@@ -76,7 +77,7 @@ public class FilmServicesDomainUnitTest {
         Genre mockGenre = this.mockGenre.mockGenre();
         Set<GenreDTO> genreDTOS = this.mockGenre.mockGenres();
         Director mockDirector = this.mockDirector.mockDirector();
-        DirectorResponseDTO mockDirectoDTO = this.mockDirector.mockDirectorDTO();
+        DirectorDTO mockDirectoDTO = this.mockDirector.mockDirectorDTO();
         Film filmMock = this.mockEntitys.mockFilm();;
         when(this.genreRepositoryPort.findByName(any())).thenReturn(mockGenre);
         when(this.directorRepositoryPort.findByName(any())).thenReturn(mockDirector);

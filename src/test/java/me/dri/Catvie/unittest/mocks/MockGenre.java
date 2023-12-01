@@ -3,6 +3,7 @@ package me.dri.Catvie.unittest.mocks;
 import me.dri.Catvie.domain.enums.Genres;
 import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.models.entities.Genre;
+import me.dri.Catvie.infra.entities.GenreEntity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,10 @@ public class MockGenre {
 
     public Genre mockGenre() {
         return new Genre(1L, Genres.ACTION);
+    }
+
+    public GenreEntity mockGenreEntity() {
+        return new GenreEntity(1L, Genres.ACTION);
     }
 
 

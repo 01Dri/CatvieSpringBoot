@@ -1,10 +1,10 @@
-package me.dri.Catvie.infra.adapters.repositories;
+package me.dri.Catvie.infra.adapters;
 
 import me.dri.Catvie.domain.exceptions.NotFoundDirector;
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
 import me.dri.Catvie.infra.entities.DirectorEntity;
-import me.dri.Catvie.infra.ports.DirectorRepositoryJPA;
+import me.dri.Catvie.infra.jpa.DirectorRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

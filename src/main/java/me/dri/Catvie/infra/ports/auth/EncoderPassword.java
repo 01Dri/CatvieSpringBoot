@@ -1,4 +1,4 @@
-package me.dri.Catvie.infra.ports;
+package me.dri.Catvie.infra.ports.auth;
 
 public interface EncoderPassword {
 

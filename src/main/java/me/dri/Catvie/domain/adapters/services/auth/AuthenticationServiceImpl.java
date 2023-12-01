@@ -8,7 +8,7 @@ import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
-import me.dri.Catvie.domain.ports.interfaces.user.MapperUserPort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +17,13 @@ public class AuthenticationServiceImpl implements AuthenticationServicePort {
 
     private final AuthenticationPort authenticationPort;
 
-    private final MapperUserPort mapperUserPort;
+    private final MapperUserDomainPort mapperUserPort;
 
     private final UserRepositoryPort repositoryPort;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
-    public AuthenticationServiceImpl(AuthenticationPort authenticationPort, MapperUserPort mapperUserPort, UserRepositoryPort repositoryPort) {
+    public AuthenticationServiceImpl(AuthenticationPort authenticationPort, MapperUserDomainPort mapperUserPort, UserRepositoryPort repositoryPort) {
         this.authenticationPort = authenticationPort;
         this.mapperUserPort = mapperUserPort;
         this.repositoryPort = repositoryPort;

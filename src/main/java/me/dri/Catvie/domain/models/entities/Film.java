@@ -14,47 +14,44 @@ public class Film implements Serializable {
     private String title;
 
     private Set<Genre> genres;
-    private String original_language;
+    private String originalLanguage;
 
-    private Director directorEntity;
+    private Director director;
     private String writer;
-    private Date release_date;
+    private Date releaseDate;
     private Integer runtime;
 
     private String distributor;
-    private String production_co;
-    private Double average_rating_critic;
-    private Double average_rating_audience;
+    private String productioCo;
+    private Double averageRatingCritic;
+    private Double averageRatingAudience;
 
-    private String url;
+    private String posterUrl;
+
+    private User user;
+
+
 
 
     public Film() {
 
     }
 
-    public Film(Long id, String title, Set<Genre> genres, String original_language, Director directorEntity, String writer, Date release_date, Integer runtime, String distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
+    public Film(Long id, String title, Set<Genre> genres, String originalLanguage, Director director, String writer, Date releaseDate, Integer runtime, String distributor, String productioCo, Double averageRatingCritic, Double averageRatingAudience, String posterUrl, User user) {
         this.id = id;
         this.title = title;
         this.genres = genres;
-        this.original_language = original_language;
-        this.directorEntity = directorEntity;
+        this.originalLanguage = originalLanguage;
+        this.director = director;
         this.writer = writer;
-        this.release_date = release_date;
+        this.releaseDate = releaseDate;
         this.runtime = runtime;
         this.distributor = distributor;
-        this.production_co = production_co;
-        this.average_rating_critic = average_rating_critic;
-        this.average_rating_audience = average_rating_audience;
-        this.url = url;
-    }
-
-    public Set<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(Set<Genre> genres) {
-        this.genres = genres;
+        this.productioCo = productioCo;
+        this.averageRatingCritic = averageRatingCritic;
+        this.averageRatingAudience = averageRatingAudience;
+        this.posterUrl = posterUrl;
+        this.user = user;
     }
 
     public Long getId() {
@@ -73,21 +70,28 @@ public class Film implements Serializable {
         this.title = title;
     }
 
-
-    public String getOriginal_language() {
-        return original_language;
+    public Set<Genre> getGenres() {
+        return genres;
     }
 
-    public void setOriginal_language(String original_language) {
-        this.original_language = original_language;
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 
-    public Director getDirectorEntity() {
-        return directorEntity;
+    public String getOriginalLanguage() {
+        return originalLanguage;
     }
 
-    public void setDirectorEntity(Director directorEntity) {
-        this.directorEntity = directorEntity;
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public Director getDirector() {
+        return director;
+    }
+
+    public void setDirector(Director director) {
+        this.director = director;
     }
 
     public String getWriter() {
@@ -98,12 +102,12 @@ public class Film implements Serializable {
         this.writer = writer;
     }
 
-    public Date getRelease_date() {
-        return release_date;
+    public Date getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setRelease_date(Date release_date) {
-        this.release_date = release_date;
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Integer getRuntime() {
@@ -122,28 +126,44 @@ public class Film implements Serializable {
         this.distributor = distributor;
     }
 
-    public String getProduction_co() {
-        return production_co;
+    public String getProductioCo() {
+        return productioCo;
     }
 
-    public void setProduction_co(String production_co) {
-        this.production_co = production_co;
+    public void setProductioCo(String productioCo) {
+        this.productioCo = productioCo;
     }
 
-    public Double getAverage_rating_critic() {
-        return average_rating_critic;
+    public Double getAverageRatingCritic() {
+        return averageRatingCritic;
     }
 
-    public void setAverage_rating_critic(Double average_rating_critic) {
-        this.average_rating_critic = average_rating_critic;
+    public void setAverageRatingCritic(Double averageRatingCritic) {
+        this.averageRatingCritic = averageRatingCritic;
     }
 
-    public Double getAverage_rating_audience() {
-        return average_rating_audience;
+    public Double getAverageRatingAudience() {
+        return averageRatingAudience;
     }
 
-    public void setAverage_rating_audience(Double average_rating_audience) {
-        this.average_rating_audience = average_rating_audience;
+    public void setAverageRatingAudience(Double averageRatingAudience) {
+        this.averageRatingAudience = averageRatingAudience;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -151,12 +171,12 @@ public class Film implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Film film = (Film) o;
-        return Objects.equals(id, film.id) && Objects.equals(title, film.title) && Objects.equals(genres, film.genres) && Objects.equals(original_language, film.original_language) && Objects.equals(directorEntity, film.directorEntity) && Objects.equals(writer, film.writer) && Objects.equals(release_date, film.release_date) && Objects.equals(runtime, film.runtime) && Objects.equals(distributor, film.distributor) && Objects.equals(production_co, film.production_co) && Objects.equals(average_rating_critic, film.average_rating_critic) && Objects.equals(average_rating_audience, film.average_rating_audience);
+        return Objects.equals(id, film.id) && Objects.equals(title, film.title) && Objects.equals(genres, film.genres) && Objects.equals(originalLanguage, film.originalLanguage) && Objects.equals(director, film.director) && Objects.equals(writer, film.writer) && Objects.equals(releaseDate, film.releaseDate) && Objects.equals(runtime, film.runtime) && Objects.equals(distributor, film.distributor) && Objects.equals(productioCo, film.productioCo) && Objects.equals(averageRatingCritic, film.averageRatingCritic) && Objects.equals(averageRatingAudience, film.averageRatingAudience) && Objects.equals(posterUrl, film.posterUrl) && Objects.equals(user, film.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, genres, original_language, directorEntity, writer, release_date, runtime, distributor, production_co, average_rating_critic, average_rating_audience);
+        return Objects.hash(id, title, genres, originalLanguage, director, writer, releaseDate, runtime, distributor, productioCo, averageRatingCritic, averageRatingAudience, posterUrl, user);
     }
 
     @Override
@@ -165,24 +185,18 @@ public class Film implements Serializable {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", genres=" + genres +
-                ", original_language='" + original_language + '\'' +
-                ", directorEntity=" + directorEntity +
+                ", originalLanguage='" + originalLanguage + '\'' +
+                ", director=" + director +
                 ", writer='" + writer + '\'' +
-                ", release_date=" + release_date +
+                ", releaseDate=" + releaseDate +
                 ", runtime=" + runtime +
-                ", distributor=" + distributor +
-                ", production_co='" + production_co + '\'' +
-                ", average_rating_critic=" + average_rating_critic +
-                ", average_rating_audience=" + average_rating_audience +
+                ", distributor='" + distributor + '\'' +
+                ", productioCo='" + productioCo + '\'' +
+                ", averageRatingCritic=" + averageRatingCritic +
+                ", averageRatingAudience=" + averageRatingAudience +
+                ", posterUrl='" + posterUrl + '\'' +
+                ", user=" + user +
                 '}';
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }
 

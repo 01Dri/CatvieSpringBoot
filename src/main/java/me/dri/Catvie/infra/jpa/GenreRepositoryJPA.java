@@ -1,4 +1,4 @@
-package me.dri.Catvie.infra.ports;
+package me.dri.Catvie.infra.jpa;
 
 import me.dri.Catvie.domain.enums.Genres;
 import me.dri.Catvie.infra.entities.GenreEntity;

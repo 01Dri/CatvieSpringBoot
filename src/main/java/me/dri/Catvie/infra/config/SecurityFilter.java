@@ -5,9 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import me.dri.Catvie.domain.enums.UserRole;
-import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
-import me.dri.Catvie.infra.ports.UserRepositoryJPA;
+import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
 import me.dri.Catvie.infra.tokens.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {

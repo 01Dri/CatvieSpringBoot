@@ -7,9 +7,9 @@ import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.infra.entities.UserEntity;
-import me.dri.Catvie.infra.ports.EncoderPassword;
-import me.dri.Catvie.infra.ports.MapperUserPort;
-import me.dri.Catvie.infra.ports.UserRepositoryJPA;
+import me.dri.Catvie.infra.ports.auth.EncoderPassword;
+import me.dri.Catvie.infra.ports.mappers.MapperUserInfraPort;
+import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,12 +22,12 @@ public class AuthenticationAdapter implements AuthenticationPort {
     private final TokenServicesPort tokenServicesPort;
     private final UserRepositoryJPA repositoryJPA;
 
-    private final MapperUserPort mapperUserPort;
+    private final MapperUserInfraPort mapperUserPort;
     private final EncoderPassword passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthenticationAdapter(TokenServicesPort tokenServicesPort, UserRepositoryJPA repositoryJPA, MapperUserPort mapperUserPort, EncoderPassword passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthenticationAdapter(TokenServicesPort tokenServicesPort, UserRepositoryJPA repositoryJPA, MapperUserInfraPort mapperUserPort, EncoderPassword passwordEncoder, AuthenticationManager authenticationManager) {
         this.tokenServicesPort = tokenServicesPort;
         this.repositoryJPA = repositoryJPA;
         this.mapperUserPort = mapperUserPort;

@@ -1,14 +1,19 @@
 package me.dri.Catvie.domain.models.dto.film;
 
 import me.dri.Catvie.domain.models.dto.director.DirectorCreateDTO;
+import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
+import me.dri.Catvie.domain.models.dto.user.UserDTO;
+import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
 
 import java.util.Date;
 import java.util.Set;
 
 public record FilmDTO(String title, Set<GenreDTO> genres,
-                      String original_language, DirectorCreateDTO director,
-                      String writer, Date release_date,
+                      String originalLanguage, DirectorDTO director,
+                      String writer, Date releaseDate,
                       Integer runtime, String distributor,
-                      String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
+                      String productionCo, Double averageRatingCritic, Double averageRatingAudience,
+                      String posterUrl, UserDTO postedBy) {
 }
+

@@ -28,6 +28,8 @@ public class UserEntity implements UserDetails {
     private String token;
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    @OneToMany(mappedBy = "user")
+    private List<FilmEntity> films;
 
     public UserEntity(){}
 
@@ -127,6 +129,14 @@ public class UserEntity implements UserDetails {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public List<FilmEntity> getFilms() {
+        return films;
+    }
+
+    public void setFilms(List<FilmEntity> films) {
+        this.films = films;
     }
 
     @Override

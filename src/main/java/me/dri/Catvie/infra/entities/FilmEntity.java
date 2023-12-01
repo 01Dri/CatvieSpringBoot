@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -23,50 +24,56 @@ public class FilmEntity implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private Set<GenreEntity> genres;
-    private String original_language;
+    private String originalLanguage;
 
     @ManyToOne
     @JoinColumn(name = "director_id")
     private DirectorEntity director;
 
     private String writer;
-    private Date release_date;
+    @Column(name = "release_date")
+    private Date releaseDate;
     private Integer runtime;
     private String distributor;
-    private String production_co;
-    private Double average_rating_critic;
-    private Double average_rating_audience;
+    @Column(name = "production_co")
+    private String productionCo;
+    @Column(name = "average_rating_critic")
 
-    private String url;
+    private Double averageRatingCritic;
+    @Column(name = "average_rating_audience")
+
+    private Double averageRatingAudience;
+
+    @Column(name = "poster_url")
+    private String posterUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
 
     public FilmEntity() {
 
     }
 
-    public FilmEntity(Long id, String title, Set<GenreEntity> genres, String original_language, DirectorEntity director, String writer, Date release_date, Integer runtime, String distributor, String production_co, Double average_rating_critic, Double average_rating_audience, String url) {
+    public FilmEntity(Long id, String title, Set<GenreEntity> genres, String originalLanguage, DirectorEntity director, String writer, Date releaseDate, Integer runtime, String distributor, String productionCo, Double averageRatingCritic, Double averageRatingAudience, String posterUrl, UserEntity user) {
         this.id = id;
         this.title = title;
         this.genres = genres;
-        this.original_language = original_language;
+        this.originalLanguage = originalLanguage;
         this.director = director;
         this.writer = writer;
-        this.release_date = release_date;
+        this.releaseDate = releaseDate;
         this.runtime = runtime;
         this.distributor = distributor;
-        this.production_co = production_co;
-        this.average_rating_critic = average_rating_critic;
-        this.average_rating_audience = average_rating_audience;
-        this.url = url;
+        this.productionCo = productionCo;
+        this.averageRatingCritic = averageRatingCritic;
+        this.averageRatingAudience = averageRatingAudience;
+        this.posterUrl = posterUrl;
+        this.user = user;
     }
 
-    public Set<GenreEntity> getGenres() {
-        return genres;
-    }
 
-    public void setGenres(Set<GenreEntity> genres) {
-        this.genres = genres;
-    }
 
     public Long getId() {
         return id;
@@ -84,13 +91,20 @@ public class FilmEntity implements Serializable {
         this.title = title;
     }
 
-
-    public String getOriginal_language() {
-        return original_language;
+    public Set<GenreEntity> getGenres() {
+        return genres;
     }
 
-    public void setOriginal_language(String original_language) {
-        this.original_language = original_language;
+    public void setGenres(Set<GenreEntity> genres) {
+        this.genres = genres;
+    }
+
+    public String getOriginalLanguage() {
+        return originalLanguage;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
     }
 
     public DirectorEntity getDirector() {
@@ -109,12 +123,12 @@ public class FilmEntity implements Serializable {
         this.writer = writer;
     }
 
-    public Date getRelease_date() {
-        return release_date;
+    public Date getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setRelease_date(Date release_date) {
-        this.release_date = release_date;
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Integer getRuntime() {
@@ -133,35 +147,43 @@ public class FilmEntity implements Serializable {
         this.distributor = distributor;
     }
 
-    public String getProduction_co() {
-        return production_co;
+    public String getProductionCo() {
+        return productionCo;
     }
 
-    public void setProduction_co(String production_co) {
-        this.production_co = production_co;
+    public void setProductionCo(String productionCo) {
+        this.productionCo = productionCo;
     }
 
-    public Double getAverage_rating_critic() {
-        return average_rating_critic;
+    public Double getAverageRatingCritic() {
+        return averageRatingCritic;
     }
 
-    public void setAverage_rating_critic(Double average_rating_critic) {
-        this.average_rating_critic = average_rating_critic;
+    public void setAverageRatingCritic(Double averageRatingCritic) {
+        this.averageRatingCritic = averageRatingCritic;
     }
 
-    public Double getAverage_rating_audience() {
-        return average_rating_audience;
+    public Double getAverageRatingAudience() {
+        return averageRatingAudience;
     }
 
-    public void setAverage_rating_audience(Double average_rating_audience) {
-        this.average_rating_audience = average_rating_audience;
+    public void setAverageRatingAudience(Double averageRatingAudience) {
+        this.averageRatingAudience = averageRatingAudience;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPosterUrl() {
+        return posterUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

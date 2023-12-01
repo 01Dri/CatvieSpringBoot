@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface FilmServicePort {
 
-    FilmDTO findById(Long id);
-    List<FilmDTO> findAll();
-    FilmDTO findByTitle(String title);
+    FilmResponseDTO findById(Long id);
+    List<FilmResponseDTO> findAll();
+    FilmResponseDTO findByTitle(String title);
     FilmResponseDTO create(FilmDTO filmDto);
     void deleteById(Long id);
     FilmResponseDTO update(FilmDTO filmDTO);

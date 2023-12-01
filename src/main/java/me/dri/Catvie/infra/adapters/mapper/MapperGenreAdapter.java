@@ -2,12 +2,14 @@ package me.dri.Catvie.infra.adapters.mapper;
 
 import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.infra.entities.GenreEntity;
-import me.dri.Catvie.infra.ports.MapperGenrePort;
+import me.dri.Catvie.infra.ports.mappers.MapperGenreInfraPort;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MapperGenreAdapter implements MapperGenrePort {
+@Component
+public class MapperGenreAdapter implements MapperGenreInfraPort {
     @Override
     public GenreEntity convertGenreToGenreEntity(Genre genre) {
         return new GenreEntity(null, genre.getGenreName());

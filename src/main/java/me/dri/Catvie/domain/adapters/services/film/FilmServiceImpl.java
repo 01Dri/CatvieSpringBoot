@@ -7,7 +7,7 @@ import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
-import me.dri.Catvie.domain.ports.interfaces.film.MapperEntitiesPort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 
@@ -17,14 +17,14 @@ public class FilmServiceImpl  implements FilmServicePort {
 
     private final FilmRepositoryPort filmRepositoryPort;
 
-    private final MapperEntitiesPort mapperEntitiesPort;
+    private final MapperFilmDomainPort mapperEntitiesPort;
 
     private final GenreServicesPort genreServicesPort;
 
     private final DirectorServicePort directorServicePort;
 
 
-    public FilmServiceImpl(FilmRepositoryPort filmRepositoryPort, MapperEntitiesPort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort) {
+    public FilmServiceImpl(FilmRepositoryPort filmRepositoryPort, MapperFilmDomainPort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort) {
         this.filmRepositoryPort = filmRepositoryPort;
         this.mapperEntitiesPort = mapperEntitiesPort;
         this.genreServicesPort = genreServicesPort;
@@ -32,27 +32,27 @@ public class FilmServiceImpl  implements FilmServicePort {
     }
 
     @Override
-    public FilmDTO findById(Long id) {
+    public FilmResponseDTO findById(Long id) {
         Film film = this.filmRepositoryPort.findById(id);
         if (film == null ) {
             throw new NotFoundFilm("Film not exists");
         }
-        return this.mapperEntitiesPort.convertFilmToDto(film);
+        return this.mapperEntitiesPort.convertFilmToResponseDTO(film);
     }
 
     @Override
-    public List<FilmDTO> findAll() {
+    public List<FilmResponseDTO> findAll() {
         List<Film> films = this.filmRepositoryPort.findAllFilmEntity();
         return this.mapperEntitiesPort.convertListFilmToListDto(films);
     }
 
     @Override
-    public FilmDTO findByTitle(String title) {
+    public FilmResponseDTO findByTitle(String title) {
         Film film = this.filmRepositoryPort.findByTitle(title);
         if (film == null) {
             throw new NotFoundFilm("Film with name " + title + " Not exists!");
         }
-        return this.mapperEntitiesPort.convertFilmToDto(film);
+        return this.mapperEntitiesPort.convertFilmToResponseDTO(film);
 
     }
 
@@ -95,7 +95,7 @@ public class FilmServiceImpl  implements FilmServicePort {
         }
 
         try {
-            if(filmDto.original_language().isEmpty() || filmDto.original_language().isBlank()) {
+            if(filmDto.originalLanguage().isEmpty() || filmDto.originalLanguage().isBlank()) {
                 throw new InvalidLanguageFilmException("Content 'original_language' is empty");
             }
         } catch (NullPointerException e) {
@@ -118,7 +118,7 @@ public class FilmServiceImpl  implements FilmServicePort {
         }
 
         try {
-            if(filmDto.production_co().isEmpty() || filmDto.production_co().isBlank()) {
+            if(filmDto.productionCo().isEmpty() || filmDto.productionCo().isBlank()) {
                 throw new InvalidProdutionFilmException("Content 'prodution' is empty");
             }
         } catch (NullPointerException e) {
@@ -126,7 +126,7 @@ public class FilmServiceImpl  implements FilmServicePort {
         }
 
         try {
-            if(filmDto.url().isEmpty() || filmDto.url().isBlank()) {
+            if(filmDto.posterUrl().isEmpty() || filmDto.posterUrl().isBlank()) {
                 throw new InvalidUrlImageFilmException("Content 'url' is empty");
             }
         } catch (NullPointerException e) {
@@ -137,14 +137,14 @@ public class FilmServiceImpl  implements FilmServicePort {
             throw new InvalidRuntimeFilmException("Content 'runtime' is null");
         }
 
-        if (filmDto.release_date() == null) {
+        if (filmDto.releaseDate() == null) {
             throw new InvalidReleaseDateFilmException("Content 'release_date' is null");
         }
 
-        if (filmDto.average_rating_critic() == null) {
+        if (filmDto.averageRatingCritic() == null) {
             throw new InvalidAverageCriticFilmException("Content 'average_rating_critic' is null");
         }
-        if (filmDto.average_rating_audience() == null) {
+        if (filmDto.averageRatingAudience() == null) {
             throw new InvalidAverageAudienceFilmException("Content 'average_rating_audience' is null");
         }
     }

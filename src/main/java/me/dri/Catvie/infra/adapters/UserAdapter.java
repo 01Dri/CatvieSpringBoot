@@ -1,4 +1,4 @@
-package me.dri.Catvie.infra.adapters.repositories;
+package me.dri.Catvie.infra.adapters;
 
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;

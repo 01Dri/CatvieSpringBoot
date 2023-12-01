@@ -7,7 +7,7 @@ import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
-import me.dri.Catvie.domain.ports.interfaces.user.MapperUserPort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ public class AuthServicesDomainUnitTest {
     AuthenticationPort authenticationPort;
 
     @Mock
-    MapperUserPort mapperUserPortDomain;
+    MapperUserDomainPort mapperUserPortDomain;
 
     @Mock
     UserRepositoryPort userRepositoryPort;

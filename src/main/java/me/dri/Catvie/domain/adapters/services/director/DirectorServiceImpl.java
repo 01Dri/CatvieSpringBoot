@@ -30,12 +30,12 @@ public class DirectorServiceImpl  implements DirectorServicePort {
     }
 
     @Override
-    public DirectorResponseDTO findByName(String title) {
+    public DirectorDTO findByName(String title) {
         Director director = this.repositoryPort.findByName(title);
         if (director == null) {
             throw  new NotFoundDirector("Director with name " + title + " Not exists");
         }
-        return new DirectorResponseDTO(director.getName(), director.getFilms());
+        return new DirectorDTO(director.getName(), director.getFilms());
     }
 
     @Override

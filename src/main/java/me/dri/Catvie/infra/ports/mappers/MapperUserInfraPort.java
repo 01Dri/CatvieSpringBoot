@@ -1,9 +1,11 @@
-package me.dri.Catvie.infra.ports;
+package me.dri.Catvie.infra.ports.mappers;
 
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.infra.entities.UserEntity;
+import org.springframework.stereotype.Component;
 
-public interface MapperUserPort {
+@Component
+public interface MapperUserInfraPort {
 
     UserEntity convertUserToUserEntity(User user, String pass);
 

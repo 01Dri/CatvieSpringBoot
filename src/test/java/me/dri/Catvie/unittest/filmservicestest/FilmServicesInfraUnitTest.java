@@ -2,13 +2,13 @@ package me.dri.Catvie.unittest.filmservicestest;
 
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
 import me.dri.Catvie.domain.models.entities.Film;
-import me.dri.Catvie.domain.ports.interfaces.film.MapperEntities;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
-import me.dri.Catvie.infra.adapters.repositories.FilmAdapter;
+import me.dri.Catvie.infra.adapters.FilmAdapter;
 import me.dri.Catvie.infra.entities.FilmEntity;
-import me.dri.Catvie.infra.ports.DirectorRepositoryJPA;
-import me.dri.Catvie.infra.ports.FilmRepositoryJPA;
-import me.dri.Catvie.infra.ports.GenreRepositoryJPA;
+import me.dri.Catvie.infra.jpa.DirectorRepositoryJPA;
+import me.dri.Catvie.infra.jpa.FilmRepositoryJPA;
+import me.dri.Catvie.infra.jpa.GenreRepositoryJPA;
+import me.dri.Catvie.infra.ports.mappers.MapperFilmInfraPort;
 import me.dri.Catvie.unittest.mocks.MockFilm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ public class FilmServicesInfraUnitTest {
     @Mock
     DirectorRepositoryJPA directorRepositoryJPA;
     @Mock
-    MapperEntities mapperEntities;
+    MapperFilmInfraPort mapperEntities;
 
     FilmRepositoryPort service;
 

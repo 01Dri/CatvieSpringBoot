@@ -12,7 +12,7 @@ public interface DirectorServicePort {
 
     Set<DirectorDTO> findAll();
 
-    DirectorResponseDTO findByName(String name);
+    DirectorDTO findByName(String name);
 
     void create(DirectorDTO genre);
 

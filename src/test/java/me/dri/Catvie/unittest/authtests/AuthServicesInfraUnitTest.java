@@ -7,9 +7,9 @@ import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.infra.adapters.AuthenticationAdapter;
 import me.dri.Catvie.infra.entities.UserEntity;
-import me.dri.Catvie.infra.ports.EncoderPassword;
-import me.dri.Catvie.infra.ports.MapperUserPort;
-import me.dri.Catvie.infra.ports.UserRepositoryJPA;
+import me.dri.Catvie.infra.ports.auth.EncoderPassword;
+import me.dri.Catvie.infra.ports.mappers.MapperUserInfraPort;
+import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
 import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ public class AuthServicesInfraUnitTest {
     @Mock
     UserRepositoryJPA repositoryJPA;
     @Mock
-    MapperUserPort mapperUserPort;
+    MapperUserInfraPort mapperUserPort;
 
     @Mock
     EncoderPassword encoderPassword;

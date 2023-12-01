@@ -2,7 +2,7 @@ package me.dri.Catvie.domain.adapters.services.user;
 
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.user.MapperUserPort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
 import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 
@@ -12,9 +12,9 @@ public class UserServiceImpl implements UserServicePort {
 
     private final UserRepositoryPort userRepositoryPort;
 
-    private final MapperUserPort mapperUserPort;
+    private final MapperUserDomainPort mapperUserPort;
 
-    public UserServiceImpl(UserRepositoryPort userRepositoryPort, MapperUserPort mapperUserPort) {
+    public UserServiceImpl(UserRepositoryPort userRepositoryPort, MapperUserDomainPort mapperUserPort) {
         this.userRepositoryPort = userRepositoryPort;
         this.mapperUserPort = mapperUserPort;
     }

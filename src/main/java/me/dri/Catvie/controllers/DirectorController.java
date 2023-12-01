@@ -19,7 +19,7 @@ public class DirectorController  {
     }
 
     @GetMapping(value = "/findByName/{name}")
-    ResponseEntity<DirectorResponseDTO> findByName(@PathVariable String name) {
+    ResponseEntity<DirectorDTO> findByName(@PathVariable String name) {
         return ResponseEntity.ok().body(this.servicePort.findByName(name));
     }
 }

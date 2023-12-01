@@ -1,4 +1,4 @@
-package me.dri.Catvie.infra.ports;
+package me.dri.Catvie.infra.jpa;
 
 import me.dri.Catvie.infra.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
