@@ -93,20 +93,20 @@ public class FilmServicesDomainUnitTest {
     @Test
     void testFindFilmByTitle() {
         Film film = mock(Film.class);
-        FilmDTO filmDto = mock(FilmDTO.class);
+        FilmResponseDTO filmDto = mock(FilmResponseDTO.class);
         when(this.repository.findByTitle("film test 1")).thenReturn(film);
-        when(this.mapperPort.convertFilmToDto(any())).thenReturn(filmDto);
+        when(this.mapperPort.convertFilmToResponseDTO(any())).thenReturn(filmDto);
         var result = this.service.findByTitle("film test 1");
-        assertTrue(result instanceof FilmDTO);
-        verify(this.mapperPort, times(1)).convertFilmToDto(any());
+        assertTrue(result instanceof FilmResponseDTO);
+        verify(this.mapperPort, times(1)).convertFilmToResponseDTO(any());
     }
 
     @Test
     void testFindFilmById() {
         Film film = mock(Film.class);
-        FilmDTO filmDTO = mock(FilmDTO.class);
+        FilmResponseDTO filmDTO = mock(FilmResponseDTO.class);
         when(this.repository.findById(1L)).thenReturn(film);
-        when(this.mapperPort.convertFilmToDto(any())).thenReturn(filmDTO);
+        when(this.mapperPort.convertFilmToResponseDTO(any())).thenReturn(filmDTO);
         var result = this.service.findById(1L);
         System.out.println(result);
         assertEquals(result, filmDTO);
@@ -116,12 +116,12 @@ public class FilmServicesDomainUnitTest {
     @Test
     void testFindAll() {
         List<Film> films = Collections.singletonList(mock(Film.class));
-        List<FilmDTO> filmDtos = Collections.singletonList(mock(FilmDTO.class));
+        List<FilmResponseDTO> filmDtos = Collections.singletonList(mock(FilmResponseDTO.class));
         when(this.repository.findAllFilmEntity()).thenReturn(films);
         when(this.mapperPort.convertListFilmToListDto(any())).thenReturn(filmDtos);
         var result = this.service.findAll();
         // Checking if result this a ListDto
-        assertTrue(result instanceof List<FilmDTO>);
+        assertTrue(result instanceof List<FilmResponseDTO>);
         verify(this.mapperPort, times(1)).convertListFilmToListDto(any());
     }
 

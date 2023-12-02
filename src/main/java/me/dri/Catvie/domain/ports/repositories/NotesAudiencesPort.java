@@ -5,7 +5,7 @@ import me.dri.Catvie.domain.models.entities.Film;
 public interface NotesAudiencesPort {
 
 
-    Long addNote(Double note, Film film);
+    Film addNoteByFilmId(Double note, Long id);
     Double getAverageNotesByFilmId(Long id);
 
     Double getAverageNotesByFilmName(String name);
