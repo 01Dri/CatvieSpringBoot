@@ -60,17 +60,20 @@ public class NotesAudienceServicesInfraTests {
     void testAddNotesByFilmId() {
         FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
         UserEntity mockUserEntity = this.mockUser.mockUserEntity();
+        UserEntity user = this.mockUser.mockUserEntity();
         when(this.filmRepositoryJPA.findFilmById(1L)).thenReturn(Optional.of(mockFilmEntity));
+        when(this.userRepositoryJPA.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
         Film mockFilm = this.mockFilm.mockFilm();
         when(this.mapperFilmInfraPort.convertyFilmEntityToFilm(mockFilmEntity)).thenReturn(mockFilm);
         when(this.userRepositoryJPA.findById(1L)).thenReturn(Optional.of(mockUserEntity));
-        var result = this.service.addNoteByFilmId(2.0, 1L, 1L);
+        var result = this.service.addNoteByFilmId(2.0,  1L, user.getEmail());
         assertEquals("Evangelion", result.getTitle());
     }
     @Test
     void testAddNotesByFilmIdNotFound() {
+        UserEntity user = this.mockUser.mockUserEntity();
         when(this.filmRepositoryJPA.findFilmById(1L)).thenReturn(Optional.empty());
-        var exception = assertThrows(NotFoundFilm.class, () -> this.service.addNoteByFilmId(2.0, 1L, 1L));
+        var exception = assertThrows(NotFoundFilm.class, () -> this.service.addNoteByFilmId(2.0, 1L, user.getEmail()));
         verify(this.mapperFilmInfraPort, times(0)).convertyFilmEntityToFilm(any());
         assertEquals("Film by id not found", exception.getMessage());
 

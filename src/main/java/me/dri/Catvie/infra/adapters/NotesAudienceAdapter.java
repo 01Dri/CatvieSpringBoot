@@ -37,16 +37,22 @@ public class NotesAudienceAdapter implements NotesAudiencesPort {
 
 
     @Override
-    public Film addNoteByFilmId(Double note, Long idFilm, Long idUser) {
+    public Film addNoteByFilmId(Double note, Long idFilm, String emailUser) {
         var filmEntity = this.filmRepositoryJPA.findFilmById(idFilm).orElseThrow(() -> new NotFoundFilm("Film by id not found"));
-        var userEntity = this.userRepositoryJPA.findById(idUser).orElseThrow(() -> new NotFoundUser("User not found by id"));
-        this.verifyIfUserAlreadyRated(userEntity);
-        NotesAudienceEntity notesAudienceEntity = new NotesAudienceEntity(null, filmEntity, userEntity, note);
+        var userEntity = this.userRepositoryJPA.findByEmail(emailUser).orElseThrow(() -> new NotFoundUser("User not found by id"));
+        this.verifyIfUserAlreadyRated((UserEntity) userEntity);
+        NotesAudienceEntity notesAudienceEntity = new NotesAudienceEntity(null, filmEntity,(UserEntity) userEntity, note);
         this.audiencesRepositoryJPA.save(notesAudienceEntity);
         var averageNoteAudience = this.getAverageNotesByFilmId(filmEntity.getId());
         filmEntity.setAverageRatingAudience(averageNoteAudience);
         this.filmRepositoryJPA.save(filmEntity);
         return this.mapperFilmInfraPort.convertyFilmEntityToFilm(filmEntity);
+    }
+
+    @Override
+    public Film changeNoteByFilmId(Double newNote, Long idFilm, String emailUser) { //
+        // Verify if your old note exist on database, else throw exception for the user
+        return null;
     }
 
     @Override

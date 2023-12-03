@@ -24,10 +24,10 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
         this.filmRepositoryPort = filmRepositoryPort;
     }
     @Override
-    public FilmResponseDTO addNotesByFilmId(Double note, Long filmId, Long idUser) {
+    public FilmResponseDTO addNotesByFilmId(Double note, Long filmId, String emailUser) {
         this.validateInputId(filmId);
         this.validaInputNote(note);
-        Film filmByInfraAdapter = this.repositoryPort.addNoteByFilmId(note, filmId, idUser);
+        Film filmByInfraAdapter = this.repositoryPort.addNoteByFilmId(note, filmId, emailUser);
         return this.mapperFilmDomainPort.convertFilmToResponseDTO(filmByInfraAdapter);
     }
 

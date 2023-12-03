@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import jakarta.servlet.http.HttpServletRequest;
 import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.infra.entities.UserEntity;
@@ -44,6 +45,12 @@ public class TokenService  implements TokenServicesPort {
         } catch (JWTVerificationException e) {
             throw new InvalidJWTException("Error validation token " + e.getMessage());
         }
+    }
+
+    @Override
+    public String getTokenForHeaders(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        return bearerToken.replace("Bearer ", "");
     }
 
     @Override

@@ -41,7 +41,6 @@ public class FilmEntity implements Serializable {
 
     private Double averageRatingCritic;
     @Column(name = "average_rating_audience")
-
     private Double averageRatingAudience;
 
     @Column(name = "poster_url")
