@@ -3,6 +3,7 @@ package me.dri.Catvie.infra.exceptions.handler.auth;
 import jakarta.servlet.http.HttpServletRequest;
 import me.dri.Catvie.domain.exceptions.ExceptionEntity;
 import me.dri.Catvie.domain.exceptions.auth.*;
+import me.dri.Catvie.domain.exceptions.user.AlreadyExistsUserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -86,6 +87,15 @@ public class HandlerExceptionAuth {
     public ResponseEntity<ExceptionEntity> contentIsMissingEmailCharacterInformation(InvalidCharacterEmail e, HttpServletRequest request) {
         String error = "Email validation error";
         HttpStatus status = HttpStatus.BAD_REQUEST;
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(AlreadyExistsUserException.class)
+    public ResponseEntity<ExceptionEntity> userAlreadyExist(AlreadyExistsUserException e, HttpServletRequest request) {
+        String error = "User already exist";
+        HttpStatus status = HttpStatus.CONFLICT;
         String path = request.getRequestURI();
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);

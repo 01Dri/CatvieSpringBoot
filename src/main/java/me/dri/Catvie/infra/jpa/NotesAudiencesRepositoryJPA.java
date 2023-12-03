@@ -1,13 +1,17 @@
 package me.dri.Catvie.infra.jpa;
 
 
+import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.NotesAudienceEntity;
+import me.dri.Catvie.infra.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Repository
 public interface NotesAudiencesRepositoryJPA extends JpaRepository<NotesAudienceEntity, Long> {
@@ -24,5 +28,9 @@ public interface NotesAudiencesRepositoryJPA extends JpaRepository<NotesAudience
     @Transactional
     @Query("DELETE FROM NotesAudienceEntity n WHERE n.film.id = :filmId")
     void deleteByFilmId(@Param("filmId") Long id);
+
+    @Query("SELECT n.user FROM NotesAudienceEntity n WHERE n.user.id = :userId")
+    Optional<UserEntity> findUserById(@Param("userId") Long userId);
+
 
 }

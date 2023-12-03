@@ -1,10 +1,12 @@
 package me.dri.Catvie.infra.adapters;
 
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
+import me.dri.Catvie.domain.exceptions.notes.UserAlreadyRatedException;
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
 import me.dri.Catvie.infra.entities.NotesAudienceEntity;
+import me.dri.Catvie.infra.entities.UserEntity;
 import me.dri.Catvie.infra.jpa.FilmRepositoryJPA;
 import me.dri.Catvie.infra.jpa.NotesAudiencesRepositoryJPA;
 import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
@@ -38,6 +40,7 @@ public class NotesAudienceAdapter implements NotesAudiencesPort {
     public Film addNoteByFilmId(Double note, Long idFilm, Long idUser) {
         var filmEntity = this.filmRepositoryJPA.findFilmById(idFilm).orElseThrow(() -> new NotFoundFilm("Film by id not found"));
         var userEntity = this.userRepositoryJPA.findById(idUser).orElseThrow(() -> new NotFoundUser("User not found by id"));
+        this.verifyIfUserAlreadyRated(userEntity);
         NotesAudienceEntity notesAudienceEntity = new NotesAudienceEntity(null, filmEntity, userEntity, note);
         this.audiencesRepositoryJPA.save(notesAudienceEntity);
         return this.mapperFilmInfraPort.convertyFilmEntityToFilm(filmEntity);
@@ -51,5 +54,12 @@ public class NotesAudienceAdapter implements NotesAudiencesPort {
     @Override
     public Double getAverageNotesByFilmName(String name) {
         return null;
+    }
+
+    private void verifyIfUserAlreadyRated(UserEntity user) {
+        var entity = this.audiencesRepositoryJPA.findUserById(user.getId());
+        if (entity.isPresent()) {
+            throw new UserAlreadyRatedException("User has already rated this film ");
+        }
     }
 }

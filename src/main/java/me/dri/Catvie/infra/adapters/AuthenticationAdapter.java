@@ -2,6 +2,7 @@ package me.dri.Catvie.infra.adapters;
 
 import me.dri.Catvie.domain.exceptions.auth.InvalidEmailLogin;
 import me.dri.Catvie.domain.exceptions.auth.InvalidLoginPassword;
+import me.dri.Catvie.domain.exceptions.user.AlreadyExistsUserException;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
@@ -39,6 +40,7 @@ public class AuthenticationAdapter implements AuthenticationPort {
     public void register(User register) {
         String password = this.passwordEncoder.encode(register.getPassword());
         var user = this.mapperUserPort.convertUserToUserEntity(register, password);
+        this.verifyIfUserAlreadyExists(user.getEmail());
         this.repositoryJPA.save(user);
     }
 
@@ -58,4 +60,12 @@ public class AuthenticationAdapter implements AuthenticationPort {
         }
         return ((UserEntity) userLoginByEmail).getToken();
     }
+
+    private void verifyIfUserAlreadyExists(String email) {
+        var entity = this.repositoryJPA.findByEmail(email);
+        if (entity.isPresent()) {
+            throw new AlreadyExistsUserException("User already exist!!!");
+        }
+    }
+
 }
