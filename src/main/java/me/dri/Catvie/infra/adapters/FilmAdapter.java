@@ -12,6 +12,7 @@ import me.dri.Catvie.infra.entities.GenreEntity;
 import me.dri.Catvie.infra.jpa.DirectorRepositoryJPA;
 import me.dri.Catvie.infra.jpa.FilmRepositoryJPA;
 import me.dri.Catvie.infra.jpa.GenreRepositoryJPA;
+import me.dri.Catvie.infra.jpa.NotesAudiencesRepositoryJPA;
 import me.dri.Catvie.infra.ports.mappers.MapperFilmInfraPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,17 +34,18 @@ public class FilmAdapter implements FilmRepositoryPort {
 
     private final DirectorRepositoryJPA directorRepositoryJPA;
 
+    private final NotesAudiencesRepositoryJPA audiencesRepositoryJPA;
     private static final Logger logger = LoggerFactory.getLogger(FilmController.class);
 
 
     @Autowired
-    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, MapperFilmInfraPort mapperFilm, GenreRepositoryJPA genreRepositoryPort, DirectorRepositoryJPA directorRepositoryJPA) {
+    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, MapperFilmInfraPort mapperFilm, GenreRepositoryJPA genreRepositoryPort, DirectorRepositoryJPA directorRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA) {
         this.filmRepositoryJPA = filmRepositoryJPA;
         this.mapperFilm = mapperFilm;
         this.genreRepositoryPort = genreRepositoryPort;
         this.directorRepositoryJPA = directorRepositoryJPA;
+        this.audiencesRepositoryJPA = audiencesRepositoryJPA;
     }
-
 
     @Override
     public Film findById(Long id) {
@@ -93,6 +95,7 @@ public class FilmAdapter implements FilmRepositoryPort {
     public Long deleteById(Long id) {
         FilmEntity filmEntity = this.filmRepositoryJPA.findFilmById(id).orElseThrow(
                 () -> new NotFoundFilm("The film was not found")); // Why this doesn't work
+        this.audiencesRepositoryJPA.deleteByFilmId(filmEntity.getId());
         this.filmRepositoryJPA.delete(filmEntity);
         return id;
     }

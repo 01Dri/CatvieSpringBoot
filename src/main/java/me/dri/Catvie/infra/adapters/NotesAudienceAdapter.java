@@ -1,11 +1,13 @@
 package me.dri.Catvie.infra.adapters;
 
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
+import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
 import me.dri.Catvie.infra.entities.NotesAudienceEntity;
 import me.dri.Catvie.infra.jpa.FilmRepositoryJPA;
 import me.dri.Catvie.infra.jpa.NotesAudiencesRepositoryJPA;
+import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
 import me.dri.Catvie.infra.ports.mappers.MapperFilmInfraPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,19 +21,23 @@ public class NotesAudienceAdapter implements NotesAudiencesPort {
 
     private final NotesAudiencesRepositoryJPA audiencesRepositoryJPA;
 
+    private final UserRepositoryJPA userRepositoryJPA;
+
     private final MapperFilmInfraPort mapperFilmInfraPort;
 
     @Autowired
-    public NotesAudienceAdapter(FilmRepositoryJPA filmRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA, MapperFilmInfraPort mapperFilmInfraPort) {
+    public NotesAudienceAdapter(FilmRepositoryJPA filmRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA, UserRepositoryJPA userRepositoryJPA, MapperFilmInfraPort mapperFilmInfraPort) {
         this.filmRepositoryJPA = filmRepositoryJPA;
         this.audiencesRepositoryJPA = audiencesRepositoryJPA;
+        this.userRepositoryJPA = userRepositoryJPA;
         this.mapperFilmInfraPort = mapperFilmInfraPort;
     }
 
+
     @Override
-    public Film addNoteByFilmId(Double note, Long id) {
-        var filmEntity = this.filmRepositoryJPA.findFilmById(id).orElseThrow(() -> new NotFoundFilm("Film by id not found"));
-        var userEntity = filmEntity.getUser();
+    public Film addNoteByFilmId(Double note, Long idFilm, Long idUser) {
+        var filmEntity = this.filmRepositoryJPA.findFilmById(idFilm).orElseThrow(() -> new NotFoundFilm("Film by id not found"));
+        var userEntity = this.userRepositoryJPA.findById(idUser).orElseThrow(() -> new NotFoundUser("User not found by id"));
         NotesAudienceEntity notesAudienceEntity = new NotesAudienceEntity(null, filmEntity, userEntity, note);
         this.audiencesRepositoryJPA.save(notesAudienceEntity);
         return this.mapperFilmInfraPort.convertyFilmEntityToFilm(filmEntity);

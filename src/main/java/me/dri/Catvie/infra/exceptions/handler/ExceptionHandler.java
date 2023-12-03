@@ -5,6 +5,7 @@ import me.dri.Catvie.domain.exceptions.*;
 import me.dri.Catvie.domain.exceptions.auth.InvalidEmailLogin;
 import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
 import me.dri.Catvie.domain.exceptions.auth.InvalidLoginPassword;
+import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -69,6 +70,14 @@ public class ExceptionHandler {
     public ResponseEntity<ExceptionEntity> InvalidJWTException(InvalidJWTException e, HttpServletRequest request) {
         String error = "Token invalid!!!!";
         HttpStatus status = HttpStatus.UNAUTHORIZED;
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
+        return ResponseEntity.status(status).body(err);
+    }
+    @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundUser.class)
+    public ResponseEntity<ExceptionEntity> notFoundUser(NotFoundUser e, HttpServletRequest request) {
+        String error = "Not found user";
+        HttpStatus status = HttpStatus.NOT_FOUND;
         String path = request.getRequestURI();
         ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
         return ResponseEntity.status(status).body(err);

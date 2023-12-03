@@ -2,8 +2,10 @@ package me.dri.Catvie.unittest.mocks;
 
 import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
+import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
@@ -36,6 +38,8 @@ public class MockFilm {
 
     private final GenreDTO genreDTO = this.mockGenre.mockGenreDTO();
     private final UserDTO userDTO = this.mockUser.mockUserDTO();
+
+    private final UserResponseDTO userResponseDTO = this.mockUser.mockUserResponseDTO();
     private final DirectorDTO directorDTO = this.mockDirector.mockDirectorDTO();
 
 
@@ -161,7 +165,14 @@ public class MockFilm {
                 "Diego", 6.0, null, "teste", this.userDTO);
     }
 
-    public List<FilmEntity> mockListFilmsEntity() {
+    public FilmResponseDTO mockFilmResponseDTO() {
+        return new FilmResponseDTO("Evangelion",
+        Set.of(genreDTO), "English",new Date(),
+        120, "Teste", "Teste", "teste", 2.5, 3.4, "http", this.userResponseDTO);
+        }
+
+
+        public List<FilmEntity> mockListFilmsEntity() {
         List<FilmEntity> filmEntities = new ArrayList<>();
         var film1 = this.mockFilmEntity();
         var film2 = this.mockFilmEntity();

@@ -7,6 +7,7 @@ import me.dri.Catvie.domain.adapters.services.film.FilmServiceImpl;
 import me.dri.Catvie.domain.adapters.services.genre.GenreServiceImpl;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperFilmImpl;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperUserImpl;
+import me.dri.Catvie.domain.adapters.services.notes.NotesAudienceServicesImpl;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
@@ -15,10 +16,8 @@ import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
-import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
-import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
-import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
-import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
+import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
+import me.dri.Catvie.domain.ports.repositories.*;
 import me.dri.Catvie.infra.tokens.TokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -65,5 +64,9 @@ public class BeanConfiguration {
         return new DirectorServiceImpl(repositoryPort);
     }
 
+    @Bean
+    NotesAudienceServicesPort notesAudienceServicesPort(NotesAudiencesPort audiencesPort, MapperFilmDomainPort mapperFilmDomainPort) {
+        return new NotesAudienceServicesImpl(audiencesPort, mapperFilmDomainPort);
+    }
 
 }

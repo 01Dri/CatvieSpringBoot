@@ -3,11 +3,13 @@ package me.dri.Catvie.unittest.filmservicestest;
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
+import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
 import me.dri.Catvie.infra.adapters.FilmAdapter;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.jpa.DirectorRepositoryJPA;
 import me.dri.Catvie.infra.jpa.FilmRepositoryJPA;
 import me.dri.Catvie.infra.jpa.GenreRepositoryJPA;
+import me.dri.Catvie.infra.jpa.NotesAudiencesRepositoryJPA;
 import me.dri.Catvie.infra.ports.mappers.MapperFilmInfraPort;
 import me.dri.Catvie.unittest.mocks.MockFilm;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +35,9 @@ public class FilmServicesInfraUnitTest {
     @Mock
     MapperFilmInfraPort mapperEntities;
 
+    @Mock
+    NotesAudiencesRepositoryJPA notesAudiencesPort;
+
     FilmRepositoryPort service;
 
     MockFilm mockFilm;
@@ -41,7 +46,7 @@ public class FilmServicesInfraUnitTest {
     void setup() {
         MockitoAnnotations.openMocks(this);
         mockFilm = new MockFilm();
-        service = new FilmAdapter(filmRepositoryJPA, mapperEntities, genreRepositoryJPA, directorRepositoryJPA);
+        service = new FilmAdapter(filmRepositoryJPA, mapperEntities, genreRepositoryJPA, directorRepositoryJPA, notesAudiencesPort);
     }
     
     @Test
@@ -108,6 +113,7 @@ public class FilmServicesInfraUnitTest {
         when(this.filmRepositoryJPA.findFilmById(mockFilm.getId())).thenReturn(Optional.of(mockFilmEntity));
         var result = this.service.deleteById(mockFilm.getId());
         verify(this.filmRepositoryJPA, times(1)).findFilmById(mockFilm.getId());
+        verify(this.notesAudiencesPort, times(1)).deleteByFilmId(any());
         verify(this.filmRepositoryJPA, times(1)).delete(mockFilmEntity);
         assertEquals(mockFilm.getId(), result);
     }

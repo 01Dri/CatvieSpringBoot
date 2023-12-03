@@ -16,8 +16,6 @@ import java.util.List;
 @CrossOrigin
 public class FilmController {
 
-
-
     private final FilmServicePort filmServicePort;
 
 

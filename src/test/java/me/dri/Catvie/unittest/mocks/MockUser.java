@@ -7,6 +7,7 @@ import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterResponseDTO;
 import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
+import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.infra.entities.UserEntity;
 
@@ -103,6 +104,11 @@ public class MockUser {
     public RegisterDTO mockRegisterDTOInvalidNameRole() {
         return new RegisterDTO("Diego", "Henrique", "diego@gmail.com", "12345678",  UserRole.EMPTY);
 
+    }
+
+
+    public UserResponseDTO mockUserResponseDTO() {
+        return new UserResponseDTO("diego@gmail.com");
     }
 
     public LoginDTO mockLoginDTOWithoutEmailEmpty() {

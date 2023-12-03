@@ -1,9 +1,9 @@
 package me.dri.Catvie.domain.ports.interfaces.notes;
 
-import me.dri.Catvie.domain.models.dto.film.FilmDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 
 public interface NotesAudienceServicesPort {
 
-    FilmDTO addNotesByFilmId(Double note, Long filmId);
+    FilmResponseDTO addNotesByFilmId(Double note, Long filmId, Long idUser);
 
 }
