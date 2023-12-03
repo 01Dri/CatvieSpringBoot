@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -73,5 +74,20 @@ public class NotesAudienceServicesInfraTests {
         verify(this.mapperFilmInfraPort, times(0)).convertyFilmEntityToFilm(any());
         assertEquals("Film by id not found", exception.getMessage());
 
+    }
+
+    @Test
+    void testGetAverageNotesByFilmId() {
+        List<Double> notesMock = List.of(7.2, 8.9, 3.2, 4.5);
+        double sumMock = 0;
+        for (Double n:
+             notesMock) {
+            sumMock += n;
+        }
+        Double averageMock = sumMock / notesMock.size();
+        Double averageMockRounded = Math.round(averageMock * 10.0) / 10.0;
+        when(this.notesAudiencesRepositoryJPA.findAllNotesByFilmId(1L)).thenReturn(notesMock);
+        var result = this.service.getAverageNotesByFilmId(1L);
+        assertEquals(averageMockRounded, result);
     }
 }

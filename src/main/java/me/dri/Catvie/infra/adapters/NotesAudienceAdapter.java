@@ -43,12 +43,21 @@ public class NotesAudienceAdapter implements NotesAudiencesPort {
         this.verifyIfUserAlreadyRated(userEntity);
         NotesAudienceEntity notesAudienceEntity = new NotesAudienceEntity(null, filmEntity, userEntity, note);
         this.audiencesRepositoryJPA.save(notesAudienceEntity);
+        var averageNoteAudience = this.getAverageNotesByFilmId(filmEntity.getId());
+        filmEntity.setAverageRatingAudience(averageNoteAudience);
+        this.filmRepositoryJPA.save(filmEntity);
         return this.mapperFilmInfraPort.convertyFilmEntityToFilm(filmEntity);
     }
 
     @Override
     public Double getAverageNotesByFilmId(Long id) {
-        return null;
+        var notes = this.audiencesRepositoryJPA.findAllNotesByFilmId(id);
+        double sum = 0;
+        for (Double note: notes) {
+            sum += note;
+        }
+        double average = sum / notes.size();
+        return Math.round(average * 10.0) / 10.0;
     }
 
     @Override

@@ -6,4 +6,7 @@ public interface NotesAudienceServicesPort {
 
     FilmResponseDTO addNotesByFilmId(Double note, Long filmId, Long idUser);
 
+
+
+
 }

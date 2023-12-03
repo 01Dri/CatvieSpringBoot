@@ -65,8 +65,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    NotesAudienceServicesPort notesAudienceServicesPort(NotesAudiencesPort audiencesPort, MapperFilmDomainPort mapperFilmDomainPort) {
-        return new NotesAudienceServicesImpl(audiencesPort, mapperFilmDomainPort);
+    NotesAudienceServicesPort notesAudienceServicesPort(NotesAudiencesPort audiencesPort, MapperFilmDomainPort mapperFilmDomainPort, FilmRepositoryPort filmRepositoryPort) {
+        return new NotesAudienceServicesImpl(audiencesPort, mapperFilmDomainPort, filmRepositoryPort);
     }
 
 }

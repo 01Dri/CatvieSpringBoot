@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -32,5 +33,7 @@ public interface NotesAudiencesRepositoryJPA extends JpaRepository<NotesAudience
     @Query("SELECT n.user FROM NotesAudienceEntity n WHERE n.user.id = :userId")
     Optional<UserEntity> findUserById(@Param("userId") Long userId);
 
+    @Query("SELECT n.note FROM NotesAudienceEntity n WHERE n.film.id = :idFilm" )
+    List<Double> findAllNotesByFilmId(@Param("idFilm") Long idFilm);
 
 }

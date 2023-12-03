@@ -100,7 +100,7 @@ public class FilmAdapter implements FilmRepositoryPort {
         return id;
     }
 
-    public Set<GenreEntity> getGenresToSetGenreEntity(Set<Genre> genres) {
+    private Set<GenreEntity> getGenresToSetGenreEntity(Set<Genre> genres) {
         return genres.stream().map(g -> this.genreRepositoryPort.findBygenreName(g.getGenreName()).orElseThrow(() -> new InvalidGenre("The genre was not found")))
                 .collect(Collectors.toSet());
     }

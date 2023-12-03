@@ -20,4 +20,7 @@ public interface FilmRepositoryJPA  extends JpaRepository<FilmEntity, Long> {
 
     @Query("SELECT f FROM FilmEntity f WHERE f.title = :title")
     Optional<FilmEntity> findFilmByTitle(@Param("title") String title);
+
+
+
 }

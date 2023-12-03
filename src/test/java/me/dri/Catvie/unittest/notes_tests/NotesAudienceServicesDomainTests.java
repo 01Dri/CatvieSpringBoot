@@ -7,6 +7,7 @@ import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
+import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
 import me.dri.Catvie.unittest.mocks.MockFilm;
 import me.dri.Catvie.unittest.mocks.MockUser;
@@ -27,6 +28,8 @@ public class NotesAudienceServicesDomainTests {
     @Mock
     NotesAudiencesPort reposity;
 
+    @Mock
+    FilmRepositoryPort filmRepositoryPort;
     NotesAudienceServicesPort service;
 
     MockFilm mockFilm;
@@ -38,7 +41,7 @@ public class NotesAudienceServicesDomainTests {
         MockitoAnnotations.openMocks(this);
         this.mockUser = new MockUser();
         this.mockFilm = new MockFilm();
-        this.service = new NotesAudienceServicesImpl(this.reposity, this.mapperFilmDomainPort);
+        this.service = new NotesAudienceServicesImpl(this.reposity, this.mapperFilmDomainPort, this.filmRepositoryPort);
     }
 
     @Test
