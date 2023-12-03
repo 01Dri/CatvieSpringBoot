@@ -69,6 +69,20 @@ public class NotesAudienceServicesInfraTests {
         var result = this.service.addNoteByFilmId(2.0,  1L, user.getEmail());
         assertEquals("Evangelion", result.getTitle());
     }
+
+    @Test
+    void testAddNotesByFilmTitle() {
+        FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
+        UserEntity mockUserEntity = this.mockUser.mockUserEntity();
+        UserEntity user = this.mockUser.mockUserEntity();
+        when(this.filmRepositoryJPA.findFilmByTitle(mockFilmEntity.getTitle())).thenReturn(Optional.of(mockFilmEntity));
+        when(this.userRepositoryJPA.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+        Film mockFilm = this.mockFilm.mockFilm();
+        when(this.mapperFilmInfraPort.convertyFilmEntityToFilm(mockFilmEntity)).thenReturn(mockFilm);
+        when(this.userRepositoryJPA.findById(1L)).thenReturn(Optional.of(mockUserEntity));
+        var result = this.service.addNoteByFilmTitle(2.0,  mockFilmEntity.getTitle(), user.getEmail());
+        assertEquals("Evangelion", result.getTitle());
+    }
     @Test
     void testAddNotesByFilmIdNotFound() {
         UserEntity user = this.mockUser.mockUserEntity();
@@ -76,6 +90,16 @@ public class NotesAudienceServicesInfraTests {
         var exception = assertThrows(NotFoundFilm.class, () -> this.service.addNoteByFilmId(2.0, 1L, user.getEmail()));
         verify(this.mapperFilmInfraPort, times(0)).convertyFilmEntityToFilm(any());
         assertEquals("Film by id not found", exception.getMessage());
+
+    }
+
+    @Test
+    void testAddNotesByFilmTitleNotFound() {
+        UserEntity user = this.mockUser.mockUserEntity();
+        when(this.filmRepositoryJPA.findFilmByTitle("Evangelion")).thenReturn(Optional.empty());
+        var exception = assertThrows(NotFoundFilm.class, () -> this.service.addNoteByFilmTitle(2.0, "Evangelion", user.getEmail()));
+        verify(this.mapperFilmInfraPort, times(0)).convertyFilmEntityToFilm(any());
+        assertEquals("Not found film by title", exception.getMessage());
 
     }
 

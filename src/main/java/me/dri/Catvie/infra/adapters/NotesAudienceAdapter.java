@@ -5,6 +5,7 @@ import me.dri.Catvie.domain.exceptions.notes.UserAlreadyRatedException;
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
+import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.NotesAudienceEntity;
 import me.dri.Catvie.infra.entities.UserEntity;
 import me.dri.Catvie.infra.jpa.FilmRepositoryJPA;
@@ -40,8 +41,21 @@ public class NotesAudienceAdapter implements NotesAudiencesPort {
     public Film addNoteByFilmId(Double note, Long idFilm, String emailUser) {
         var filmEntity = this.filmRepositoryJPA.findFilmById(idFilm).orElseThrow(() -> new NotFoundFilm("Film by id not found"));
         var userEntity = this.userRepositoryJPA.findByEmail(emailUser).orElseThrow(() -> new NotFoundUser("User not found by id"));
-        this.verifyIfUserAlreadyRated((UserEntity) userEntity);
+        this.verifyIfUserAlreadyRated((UserEntity) userEntity, filmEntity);
         NotesAudienceEntity notesAudienceEntity = new NotesAudienceEntity(null, filmEntity,(UserEntity) userEntity, note);
+        this.audiencesRepositoryJPA.save(notesAudienceEntity);
+        var averageNoteAudience = this.getAverageNotesByFilmId(filmEntity.getId());
+        filmEntity.setAverageRatingAudience(averageNoteAudience);
+        this.filmRepositoryJPA.save(filmEntity);
+        return this.mapperFilmInfraPort.convertyFilmEntityToFilm(filmEntity);
+    }
+
+    @Override
+    public Film addNoteByFilmTitle(Double note, String titleFilm, String emailUser) {
+        var filmEntity = this.filmRepositoryJPA.findFilmByTitle(titleFilm).orElseThrow(() -> new NotFoundFilm("Not found film by title"));
+        var userEntity = this.userRepositoryJPA.findByEmail(emailUser).orElseThrow(() -> new NotFoundUser("Not found user by title"));
+        this.verifyIfUserAlreadyRated((UserEntity) userEntity, filmEntity);
+        NotesAudienceEntity notesAudienceEntity = new NotesAudienceEntity(null, filmEntity, (UserEntity) userEntity, note);
         this.audiencesRepositoryJPA.save(notesAudienceEntity);
         var averageNoteAudience = this.getAverageNotesByFilmId(filmEntity.getId());
         filmEntity.setAverageRatingAudience(averageNoteAudience);
@@ -71,8 +85,8 @@ public class NotesAudienceAdapter implements NotesAudiencesPort {
         return null;
     }
 
-    private void verifyIfUserAlreadyRated(UserEntity user) {
-        var entity = this.audiencesRepositoryJPA.findUserById(user.getId());
+    private void verifyIfUserAlreadyRated(UserEntity user, FilmEntity film) {
+        var entity = this.audiencesRepositoryJPA.findUserAlreadyRatedFilm(user.getId(), film.getId());
         if (entity.isPresent()) {
             throw new UserAlreadyRatedException("User has already rated this film ");
         }

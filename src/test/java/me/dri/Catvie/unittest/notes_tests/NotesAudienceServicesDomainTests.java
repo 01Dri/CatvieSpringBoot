@@ -1,6 +1,7 @@
 package me.dri.Catvie.unittest.notes_tests;
 
 import me.dri.Catvie.domain.adapters.services.notes.NotesAudienceServicesImpl;
+import me.dri.Catvie.domain.exceptions.film.InvalidTitleFilmException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidIdException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidNoteException;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
@@ -57,6 +58,18 @@ public class NotesAudienceServicesDomainTests {
     }
 
     @Test
+    void testAddNotesByFilmTitle() {
+        Film filmMock = this.mockFilm.mockFilm();
+        FilmResponseDTO filmResponse = this.mockFilm.mockFilmResponseDTO();
+        UserDTO userDTO = this.mockUser.mockUserDTO();
+        when(this.reposity.addNoteByFilmTitle(2.0, filmMock.getTitle(), userDTO.email())).thenReturn(filmMock);
+        when(this.mapperFilmDomainPort.convertFilmToResponseDTO(filmMock)).thenReturn(filmResponse);
+        var result = this.service.addNotesByFilmTitle(2.0, filmMock.getTitle(), userDTO.email());
+        assertEquals("Evangelion", result.title());
+    }
+
+
+    @Test
     void testAddNotesByFilmIdNull() {
         var result = assertThrows(InvalidIdException.class,
                 () -> this.service.addNotesByFilmId(2.0, null, null));
@@ -68,5 +81,11 @@ public class NotesAudienceServicesDomainTests {
         var result = assertThrows(InvalidNoteException.class,
                 () -> this.service.addNotesByFilmId(null, 2L, null));
         assertEquals("Content 'note' is invalid!!!", result.getMessage());
+    }
+    @Test
+    void testAddNotesByFilmTitleNull() {
+        var result = assertThrows(InvalidTitleFilmException.class,
+                () -> this.service.addNotesByFilmTitle(2.5, null, "teste@gmail.com"));
+        assertEquals("Content 'title' is null", result.getMessage());
     }
 }

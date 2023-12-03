@@ -30,8 +30,9 @@ public interface NotesAudiencesRepositoryJPA extends JpaRepository<NotesAudience
     @Query("DELETE FROM NotesAudienceEntity n WHERE n.film.id = :filmId")
     void deleteByFilmId(@Param("filmId") Long id);
 
-    @Query("SELECT n.user FROM NotesAudienceEntity n WHERE n.user.id = :userId")
-    Optional<UserEntity> findUserById(@Param("userId") Long userId);
+    @Query("SELECT n.user FROM NotesAudienceEntity n WHERE n.user.id = :userId  AND  n.film.id = :filmId")
+    Optional<UserEntity> findUserAlreadyRatedFilm(@Param("userId") Long userId, @Param("filmId") Long filmId);
+
 
     @Query("SELECT n.note FROM NotesAudienceEntity n WHERE n.film.id = :idFilm" )
     List<Double> findAllNotesByFilmId(@Param("idFilm") Long idFilm);

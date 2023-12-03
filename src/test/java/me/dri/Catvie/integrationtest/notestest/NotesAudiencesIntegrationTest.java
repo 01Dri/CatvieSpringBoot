@@ -26,8 +26,18 @@ public class NotesAudiencesIntegrationTest {
     void testAddNotesByFilmId() {
         given()
                 .headers(this.header)
-                .when().post(this.API_NOTES + "addNotesByFilmId/3.5/2/1")
+                .when().post(this.API_NOTES + "addNotesByFilmId/3.5/2")
                 .then().assertThat().statusCode(201);
     }
+
+    @Test
+    void testAddNotesByFilmTitle() {
+        given()
+                .headers(this.header)
+                .when().post(this.API_NOTES + "addNotesByFilmTitle/3.5/Não Abra!")
+                .then().assertThat().statusCode(201);
+    }
+
+
 
 }

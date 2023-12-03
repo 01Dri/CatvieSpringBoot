@@ -1,5 +1,6 @@
 package me.dri.Catvie.domain.adapters.services.notes;
 
+import me.dri.Catvie.domain.exceptions.film.InvalidTitleFilmException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidIdException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidNoteException;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
@@ -31,6 +32,14 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
         return this.mapperFilmDomainPort.convertFilmToResponseDTO(filmByInfraAdapter);
     }
 
+    @Override
+    public FilmResponseDTO addNotesByFilmTitle(Double note, String filmTitle, String emailUser) {
+        this.validaInputNote(note);
+        this.validateInputTitle(filmTitle);
+        Film filmByInfraAdapter = this.repositoryPort.addNoteByFilmTitle(note, filmTitle, emailUser);
+        return this.mapperFilmDomainPort.convertFilmToResponseDTO(filmByInfraAdapter);
+    }
+
 
     private void validaInputNote(Double note) {
         if (note == null) {
@@ -38,6 +47,12 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
         }
         if (!Double.isNaN(note) && !Double.isFinite(note)) {
             throw new InvalidNoteException("Content 'note' is invalid!!!");
+        }
+    }
+
+    private void validateInputTitle(String title) {
+        if (title == null) {
+            throw new InvalidTitleFilmException("Content 'title' is null");
         }
     }
 
