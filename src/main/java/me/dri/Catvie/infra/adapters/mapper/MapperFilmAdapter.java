@@ -3,6 +3,7 @@ package me.dri.Catvie.infra.adapters.mapper;
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
+import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.infra.entities.DirectorEntity;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
@@ -29,9 +30,6 @@ public class MapperFilmAdapter implements MapperFilmInfraPort {
 
     @Override
     public Film convertyFilmEntityToFilm(FilmEntity filmEntity) {
-        var userTeste = this.mapperUserPort.convertUserEntityToUser(filmEntity.getUser());
-        System.out.println("ESTOU NO MAPPER");
-        System.out.println(userTeste.getEmail());
         return new Film(filmEntity.getId(), filmEntity.getTitle(), filmEntity.getGenres().stream().map(genreEntity -> new Genre(genreEntity.getId(),
                 genreEntity.getGenreName())).collect(Collectors.toSet()),
                 filmEntity.getOriginalLanguage(), new Director(filmEntity.getDirector().getId(),
@@ -55,8 +53,7 @@ public class MapperFilmAdapter implements MapperFilmInfraPort {
                 genre.getGenreName())).collect(Collectors.toSet()),
                 f.getOriginalLanguage(), new DirectorEntity(f.getDirector().getId(), f.getDirector().getName()),
                 f.getWriter(), f.getReleaseDate(), f.getRuntime(), f.getDistributor(),
-                f.getProductioCo(), f.getAverageRatingCritic(), f.getAverageRatingAudience(), f.getPosterUrl(),
-                this.mapperUserPort.convertUserToUserEntity(f.getUser(), f.getUser().getPassword()));
+                f.getProductioCo(), f.getAverageRatingCritic(), f.getAverageRatingAudience(), f.getPosterUrl(), null);
     }
 }
 

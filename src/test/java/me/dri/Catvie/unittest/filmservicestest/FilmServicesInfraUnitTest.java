@@ -1,23 +1,29 @@
 package me.dri.Catvie.unittest.filmservicestest;
 
+import me.dri.Catvie.domain.exceptions.InvalidGenre;
+import me.dri.Catvie.domain.exceptions.NotFoundDirector;
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
+import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
-import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
 import me.dri.Catvie.infra.adapters.FilmAdapter;
+import me.dri.Catvie.infra.entities.DirectorEntity;
 import me.dri.Catvie.infra.entities.FilmEntity;
-import me.dri.Catvie.infra.jpa.DirectorRepositoryJPA;
-import me.dri.Catvie.infra.jpa.FilmRepositoryJPA;
-import me.dri.Catvie.infra.jpa.GenreRepositoryJPA;
-import me.dri.Catvie.infra.jpa.NotesAudiencesRepositoryJPA;
+import me.dri.Catvie.infra.entities.GenreEntity;
+import me.dri.Catvie.infra.entities.UserEntity;
+import me.dri.Catvie.infra.jpa.*;
 import me.dri.Catvie.infra.ports.mappers.MapperFilmInfraPort;
+import me.dri.Catvie.unittest.mocks.MockDirector;
 import me.dri.Catvie.unittest.mocks.MockFilm;
+import me.dri.Catvie.unittest.mocks.MockGenre;
+import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,27 +44,123 @@ public class FilmServicesInfraUnitTest {
     @Mock
     NotesAudiencesRepositoryJPA notesAudiencesPort;
 
+    @Mock
+    UserRepositoryJPA userRepositoryJPA;
+
     FilmRepositoryPort service;
 
     MockFilm mockFilm;
+
+    MockGenre mockGenre;
+
+    MockDirector mockDirector;
+
+    MockUser mockUser;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
         mockFilm = new MockFilm();
-        service = new FilmAdapter(filmRepositoryJPA, mapperEntities, genreRepositoryJPA, directorRepositoryJPA, notesAudiencesPort);
+        service = new FilmAdapter(filmRepositoryJPA, mapperEntities, genreRepositoryJPA, directorRepositoryJPA, notesAudiencesPort, userRepositoryJPA);
+        mockDirector =new MockDirector(mockFilm);
+        mockUser = new MockUser();
+        mockGenre = new MockGenre();
+    }
+
+
+    @Test
+    void testCreateFilm() {
+        // Mocks
+        FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
+        GenreEntity mockGenreEntity = this.mockGenre.mockGenreEntity();
+        DirectorEntity mockDirectorEntity = this.mockDirector.mockDirectorEntity();
+        UserEntity mockUserEntity = this.mockUser.mockUserEntity();;
+        Film mockFilm = this.mockFilm.mockFilm();
+        String subjectEmail = "diego@gmail.com";
+
+        when(this.genreRepositoryJPA.findBygenreName(any())).thenReturn(Optional.of(mockGenreEntity));
+        when(this.directorRepositoryJPA.findByName(mockFilm.getDirector().getName())).thenReturn(Optional.of(mockDirectorEntity));
+        when(this.userRepositoryJPA.findByEmail(subjectEmail)).thenReturn(Optional.of(mockUserEntity));
+        when(this.mapperEntities.convertyFilmToFilmEntity(mockFilm)).thenReturn(mockFilmEntity);
+        when(this.mapperEntities.convertyFilmEntityToFilm(mockFilmEntity)).thenReturn(mockFilm);
+
+        var result = this.service.create(mockFilm, subjectEmail);
+        assertEquals(mockFilm.getId(), result.getId());
+        assertEquals(mockFilm.getTitle(), result.getTitle());
+        assertEquals(mockFilm.getGenres(), result.getGenres());
+        assertEquals(mockFilm.getDirector(), result.getDirector());
+        assertEquals(mockFilm.getUser(), result.getUser());
+
+        verify(this.filmRepositoryJPA, times(1)).save(mockFilmEntity);
+        verify(this.mapperEntities, times(1)).convertyFilmEntityToFilm(mockFilmEntity);
+
+
+    }
+
+    @Test
+    void testErrorNotFoundDirectorCreateFilm() {
+        Film mockFilm = this.mockFilm.mockFilm();
+        GenreEntity mockGenreEntity = this.mockGenre.mockGenreEntity();
+        FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
+        String subjectTest = "diego@gmail.com";
+        when(this.genreRepositoryJPA.findBygenreName(any())).thenReturn(Optional.of(mockGenreEntity));
+        when(this.directorRepositoryJPA.findByName(mockFilm.getDirector().getName())).thenReturn(Optional.empty());
+        var exception = assertThrows(NotFoundDirector.class, () -> this.service.create(mockFilm, subjectTest));
+        assertEquals("Director not found", exception.getMessage());
+        verify(this.filmRepositoryJPA, times(0)).save(mockFilmEntity);
+        verify(this.mapperEntities, times(0)).convertyFilmEntityToFilm(mockFilmEntity);
+
+    }
+
+    @Test
+    void testErrorNotFoundGenreCreateFilm() {
+        Film mockFilm = this.mockFilm.mockFilm();
+        FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
+        String subjectTest = "diego@gmail.com";
+        when(this.genreRepositoryJPA.findBygenreName(any())).thenReturn(Optional.empty());
+        var exception = assertThrows(InvalidGenre.class, () -> this.service.create(mockFilm, subjectTest));
+        assertEquals("The genre was not found", exception.getMessage());
+        verify(this.filmRepositoryJPA, times(0)).save(mockFilmEntity);
+        verify(this.mapperEntities, times(0)).convertyFilmEntityToFilm(mockFilmEntity);
+
+    }
+
+    @Test
+    void testErrorNotFoundUserBySubjectCreateFilm() {
+        Film mockFilm = this.mockFilm.mockFilm();
+        GenreEntity mockGenres = this.mockGenre.mockGenreEntity();
+        DirectorEntity mockDirector = this.mockDirector.mockDirectorEntity();
+        FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
+        String subjectTest = "diego@gmail.com";
+
+        when(this.genreRepositoryJPA.findBygenreName(any())).thenReturn(Optional.of(mockGenres));
+        when(this.directorRepositoryJPA.findByName(mockFilm.getDirector().getName())).thenReturn(Optional.of(mockDirector));
+        when(this.userRepositoryJPA.findByEmail(subjectTest)).thenReturn(Optional.empty());
+
+        var exception = assertThrows(NotFoundUser.class, () -> this.service.create(mockFilm, subjectTest));
+
+        assertEquals("User not found", exception.getMessage());
+        verify(this.filmRepositoryJPA, times(0)).save(mockFilmEntity);
+        verify(this.mapperEntities, times(0)).convertyFilmEntityToFilm(mockFilmEntity);
+
     }
     
     @Test
     void testFindById() {
         FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
         Film mockFilm = this.mockFilm.mockFilm();
+
         when(this.filmRepositoryJPA.findFilmById(1L)).thenReturn(Optional.of(mockFilmEntity));
         when(this.mapperEntities.convertyFilmEntityToFilm(mockFilmEntity)).thenReturn(mockFilm);
+
         var result = this.service.findById(1L);
+
         verify(this.filmRepositoryJPA, times(1)).findFilmById(1L);
         verify(this.mapperEntities, times(1)).convertyFilmEntityToFilm(mockFilmEntity);
+
+
         assertEquals(mockFilmEntity.getTitle(), result.getTitle());
+
     }
 
     @Test
@@ -110,11 +212,14 @@ public class FilmServicesInfraUnitTest {
     void testDeleteFilmById() {
         Film mockFilm = this.mockFilm.mockFilm();
         FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
+
         when(this.filmRepositoryJPA.findFilmById(mockFilm.getId())).thenReturn(Optional.of(mockFilmEntity));
         var result = this.service.deleteById(mockFilm.getId());
+
         verify(this.filmRepositoryJPA, times(1)).findFilmById(mockFilm.getId());
         verify(this.notesAudiencesPort, times(1)).deleteByFilmId(any());
         verify(this.filmRepositoryJPA, times(1)).delete(mockFilmEntity);
+
         assertEquals(mockFilm.getId(), result);
     }
 

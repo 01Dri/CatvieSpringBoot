@@ -1,12 +1,19 @@
 package me.dri.Catvie.integrationtest.filmservices;
 
+import io.restassured.http.ContentType;
+import me.dri.Catvie.domain.enums.Genres;
 import me.dri.Catvie.domain.enums.UserRole;
+import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.integrationtest.config.ConfigAuthHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -16,11 +23,24 @@ public class FilmServicesIntegrationTest {
     Map<String, String> header = new HashMap<>();
     private final String API_FILM = "http://localhost:8080/api/film/v1/";
     private final ConfigAuthHeaders configAuthHeaders = new ConfigAuthHeaders("melteste@gmail.com", UserRole.ADMIN); // Config Register to get token header authorization
+
     @BeforeEach
     void setup() {
         configAuthHeaders.authentication(this.header);
     }
 
+
+    @Test
+    void testCreate() {
+        GenreDTO genre1 = new GenreDTO(Genres.ACTION);
+        GenreDTO genre2 = new GenreDTO(Genres.HORROR);
+        DirectorDTO directorDTO = new DirectorDTO("Diretor 1", null);
+        FilmDTO teste =  new FilmDTO("ZedDaSilvaMovie", Set.of(genre1, genre2), "english", directorDTO,
+                "Diego", new Date(),150, "disney", "diego",
+                 "zedurlfilmesiveira");
+        given().headers(this.header).when().contentType(ContentType.JSON).body(teste).when().post(this.API_FILM + "create")
+        .then().statusCode(201).body("title", equalTo(teste.title()));
+    }
     @Test
     void testFindAll() {
         given()

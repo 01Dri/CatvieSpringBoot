@@ -8,9 +8,9 @@ import me.dri.Catvie.domain.models.entities.Distributor;
 import java.util.Date;
 import java.util.Set;
 
-public record FilmResponseDTO(String title, Set<GenreDTO> genres, String originalLanguage, Date releaseDate, Integer runtime,
+public record FilmResponseDTO(Long id, String title, Set<GenreDTO> genres, String originalLanguage, Date releaseDate, Integer runtime,
                               String distributor, String writer,
                               String productionGo, Double averageRatingCritic,
-                              Double averageRatingAudience, String posterUrl, UserResponseDTO postedBy) {
+                              Double averageRatingAudience, String posterUrl, UserResponseDTO postedByUser) {
 }
 

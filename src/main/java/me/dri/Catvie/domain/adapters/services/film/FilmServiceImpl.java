@@ -9,6 +9,8 @@ import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
+import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 
 import java.util.List;
@@ -23,13 +25,20 @@ public class FilmServiceImpl  implements FilmServicePort {
 
     private final DirectorServicePort directorServicePort;
 
+    private final UserServicePort userServicePort;
 
-    public FilmServiceImpl(FilmRepositoryPort filmRepositoryPort, MapperFilmDomainPort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort) {
+    private final MapperUserDomainPort mapperUserDomainPort;
+
+    public FilmServiceImpl(FilmRepositoryPort filmRepositoryPort, MapperFilmDomainPort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort, UserServicePort userServicePort, MapperUserDomainPort mapperUserDomainPort) {
         this.filmRepositoryPort = filmRepositoryPort;
         this.mapperEntitiesPort = mapperEntitiesPort;
         this.genreServicesPort = genreServicesPort;
         this.directorServicePort = directorServicePort;
+        this.userServicePort = userServicePort;
+        this.mapperUserDomainPort = mapperUserDomainPort;
     }
+
+
 
     @Override
     public FilmResponseDTO findById(Long id) {
@@ -57,13 +66,11 @@ public class FilmServiceImpl  implements FilmServicePort {
     }
 
     @Override
-    public FilmResponseDTO create(FilmDTO filmDto) {
+    public FilmResponseDTO create(FilmDTO filmDto, String subjectByToken) {
         this.filmIsValid(filmDto);
-        var genres = this.genreServicesPort.verifyExistingGenres(filmDto.genres());
-        var director = this.directorServicePort.findByName(filmDto.director().name());
-        Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto, genres, director);
-        this.filmRepositoryPort.create(film);
-        return this.mapperEntitiesPort.convertFilmToResponseDTO(film);
+        var film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto, filmDto.genres(), filmDto.director());
+        var filmByInfraAdapter = this.filmRepositoryPort.create(film, subjectByToken);
+        return this.mapperEntitiesPort.convertFilmToResponseDTO(filmByInfraAdapter);
     }
 
     @Override
@@ -141,12 +148,6 @@ public class FilmServiceImpl  implements FilmServicePort {
             throw new InvalidReleaseDateFilmException("Content 'release_date' is null");
         }
 
-        if (filmDto.averageRatingCritic() == null) {
-            throw new InvalidAverageCriticFilmException("Content 'average_rating_critic' is null");
-        }
-        if (filmDto.averageRatingAudience() == null) {
-            throw new InvalidAverageAudienceFilmException("Content 'average_rating_audience' is null");
-        }
     }
 
 }

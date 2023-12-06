@@ -1,14 +1,14 @@
 package me.dri.Catvie.domain.ports.repositories;
 
-import me.dri.Catvie.domain.models.entities.Film;
+import me.dri.Catvie.domain.models.entities.NotesAudience;
 
 public interface NotesAudiencesPort {
 
 
-    Film addNoteByFilmId(Double note, Long idFilm, String emailUser);
-    Film addNoteByFilmTitle(Double note, String titleFilm, String emailUser);
+    NotesAudience addNoteByFilmId(Double note, Long idFilm, String emailUser);
+    NotesAudience addNoteByFilmTitle(Double note, String titleFilm, String emailUser);
 
-    Film changeNoteByFilmId(Double newNote, Long idFilm, String  emailUser);
+    NotesAudience changeNoteByFilmId(Double newNote, Long idFilm, String  emailUser, Long idNote);
     Double getAverageNotesByFilmId(Long id);
     Double getAverageNotesByFilmName(String name);
 

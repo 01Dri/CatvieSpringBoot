@@ -29,13 +29,13 @@ public class MapperFilmImpl implements MapperFilmDomainPort {
        return new FilmDTO(film.getTitle(), genreDTOS, film.getOriginalLanguage(),
                new DirectorDTO(film.getDirector().getName(), film.getDirector().getFilms()), film.getWriter(),
                film.getReleaseDate(), film.getRuntime(), film.getDistributor(),
-               film.getProductioCo(), film.getAverageRatingCritic(), film.getAverageRatingAudience(),
-               film.getPosterUrl(), this.mapperUserDomainPort.convertUserToDTO(film.getUser()));
+               film.getProductioCo(),
+               film.getPosterUrl());
     }
 
     @Override
     public List<FilmResponseDTO> convertListFilmToListDto(List<Film> films) {
-        return films.stream().map(f -> new FilmResponseDTO(
+        return films.stream().map(f -> new FilmResponseDTO(f.getId(),
                 f.getTitle(), f.getGenres().stream().map(g -> new GenreDTO(g.getGenreName())).collect(Collectors.toSet()),
                 f.getOriginalLanguage(), f.getReleaseDate(), f.getRuntime(), f.getDistributor(), f.getWriter(), f.getProductioCo(),
                 f.getAverageRatingCritic(), f.getAverageRatingAudience(), f.getPosterUrl(), this.mapperUserDomainPort.convertUserDTOToResponseDTO(f.getUser())
@@ -46,13 +46,13 @@ public class MapperFilmImpl implements MapperFilmDomainPort {
     public Film convertFilmDtoToFilm(FilmDTO filmDTO, Set<GenreDTO> genres, DirectorDTO dto) {
         return new Film(null, filmDTO.title(), genres.stream().map(genreDTO -> new Genre(null, genreDTO.genreName())).collect(Collectors.toSet()),
                 filmDTO.originalLanguage(), new Director(null, dto.name()), filmDTO.writer(), filmDTO.releaseDate(),
-                filmDTO.runtime(), filmDTO.distributor(), filmDTO.productionCo(), filmDTO.averageRatingCritic(),
-                filmDTO.averageRatingAudience(), filmDTO.posterUrl(),this.mapperUserDomainPort.convertUserDTOToUser(filmDTO.postedBy()));
+                filmDTO.runtime(), filmDTO.distributor(), filmDTO.productionCo(), 0.0,
+                0.0, filmDTO.posterUrl(), null);
     }
 
     @Override
     public FilmResponseDTO convertFilmToResponseDTO(Film film) {
-        return new FilmResponseDTO(
+        return new FilmResponseDTO(film.getId(),
                 film.getTitle(), film.getGenres().stream().map(g -> new GenreDTO(g.getGenreName())).collect(Collectors.toSet()), film.getOriginalLanguage(),
                 film.getReleaseDate(), film.getRuntime(), film.getDistributor(), film.getWriter(), film.getProductioCo(),
                 film.getAverageRatingCritic(), film.getAverageRatingAudience(), film.getPosterUrl(), this.mapperUserDomainPort.convertUserDTOToResponseDTO(film.getUser()));

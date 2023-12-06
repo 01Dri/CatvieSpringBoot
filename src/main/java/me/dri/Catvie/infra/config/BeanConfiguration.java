@@ -8,6 +8,7 @@ import me.dri.Catvie.domain.adapters.services.genre.GenreServiceImpl;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperFilmImpl;
 import me.dri.Catvie.domain.adapters.services.mappers.MapperUserImpl;
 import me.dri.Catvie.domain.adapters.services.notes.NotesAudienceServicesImpl;
+import me.dri.Catvie.domain.adapters.services.user.UserServiceImpl;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
@@ -17,6 +18,7 @@ import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
+import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
 import me.dri.Catvie.domain.ports.repositories.*;
 import me.dri.Catvie.infra.tokens.TokenService;
 import org.springframework.context.annotation.Bean;
@@ -44,8 +46,8 @@ public class BeanConfiguration {
 
 
     @Bean
-    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperFilmDomainPort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort) {
-        return new FilmServiceImpl(filmRepositoryPort, mapperEntitiesPort, genreServicesPort, directorServicePort);
+    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperFilmDomainPort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort, UserServicePort userServicePort, MapperUserDomainPort mapperUserDomainPort) {
+        return new FilmServiceImpl(filmRepositoryPort, mapperEntitiesPort, genreServicesPort, directorServicePort, userServicePort, mapperUserDomainPort);
     }
 
     @Bean
@@ -53,9 +55,14 @@ public class BeanConfiguration {
         return new TokenService();
     }
 
+    @Bean
+    UserServicePort userServicePort(UserRepositoryPort userRepositoryPort, MapperUserDomainPort mapperUserDomainPort) {
+        return new UserServiceImpl(userRepositoryPort, mapperUserDomainPort);
+    }
+
 
     @Bean
-    AuthenticationServicePort userServicePort(AuthenticationPort authenticationPort, MapperUserDomainPort mapperUserPort, UserRepositoryPort userRepositoryPort) {
+    AuthenticationServicePort userAuthServicePort(AuthenticationPort authenticationPort, MapperUserDomainPort mapperUserPort, UserRepositoryPort userRepositoryPort) {
         return new AuthenticationServiceImpl(authenticationPort, mapperUserPort, userRepositoryPort);
     }
 

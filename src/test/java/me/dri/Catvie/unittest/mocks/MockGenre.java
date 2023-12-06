@@ -22,6 +22,13 @@ public class MockGenre {
         return genreDTOS;
     }
 
+    public Set<Genre> mockSetGenres() {
+        HashSet<Genre> genreDTOS = new HashSet<>();
+        genreDTOS.add(mockGenre());
+        genreDTOS.add(mockGenre());
+        return genreDTOS;
+    }
+
     public Genre mockGenre() {
         return new Genre(1L, Genres.ACTION);
     }

@@ -108,7 +108,7 @@ public class MockUser {
 
 
     public UserResponseDTO mockUserResponseDTO() {
-        return new UserResponseDTO("diego@gmail.com");
+        return new UserResponseDTO(1L);
     }
 
     public LoginDTO mockLoginDTOWithoutEmailEmpty() {

@@ -36,7 +36,7 @@ public class MockFilm {
     private final GenreEntity genreEntity = this.mockGenre.mockGenreEntity();
     private final DirectorEntity directorEntity= this.mockDirector.mockDirectorEntity();
 
-    private final GenreDTO genreDTO = this.mockGenre.mockGenreDTO();
+private final GenreDTO genreDTO = this.mockGenre.mockGenreDTO();
     private final UserDTO userDTO = this.mockUser.mockUserDTO();
 
     private final UserResponseDTO userResponseDTO = this.mockUser.mockUserResponseDTO();
@@ -49,13 +49,13 @@ public class MockFilm {
     }
     public Film mockFilm() {
         return new Film(1L, "Evangelion", Set.of(this.genre), "english", this.director, "Diego",
-                new Date(),150, "distributoteste", "diego", 6.0, 8.5, "teste", this.user);
+                new Date(),150, "distributoteste", "diego", 5.4, 3.3, "teste", this.user);
     }
 
     public FilmDTO mockFilmDto() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "disney", "diego",
-                6.0, 8.5, "teste", this.userDTO);
+                 "teste");
     }
 
 
@@ -69,67 +69,67 @@ public class MockFilm {
     public FilmDTO mockFilmDtoTitleEmpty() {
         return new FilmDTO("", Set.of(genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "disney", "diego",
-                6.0, 8.5, "teste", this.userDTO);
+                 "teste");
     }
 
     public FilmDTO mockFilmDtoTitleNull() {
         return new FilmDTO(null, Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "disney", "diego",
-                6.0, 8.5, "teste", this.userDTO);
+                 "teste");
     }
     public FilmDTO mockFilmDtoLanguageEmpty() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "", this.directorDTO,
                 "Diego", new Date(),150, "disney", "diego",
-                6.0, 8.5, "teste", this.userDTO);
+                 "teste");
     }
 
     public FilmDTO mockFilmDtoLanguageNull() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), null, this.directorDTO,
                 "Diego", new Date(),150, "disney",
-                "diego", 6.0, 8.5, "teste", this.userDTO);
+                "diego",  "teste");
     }
 
     public FilmDTO mockFilmDtoWriterEmpty() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "", new Date(),150, "disney",
-                "diego", 6.0, 8.5, "teste", this.userDTO);
+                "diego",  "teste");
     }
 
     public FilmDTO mockFilmDtoWriterNull() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 null, new Date(),150, "disney",
-                "diego", 6.0,
-                8.5, "teste", this.userDTO);
+                "diego",
+                "teste");
     }
 
     public FilmDTO mockFilmDtoDistributorEmpty() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "", "diego",
-                6.0, 8.5, "teste", this.userDTO);
+                 "teste");
     }
 
     public FilmDTO mockFilmDtoDistributorNull() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, null, "diego",
-                6.0, 8.5, "teste", this.userDTO);
+                 "teste");
     }
 
     public FilmDTO mockFilmDtoUrlNull() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "Diego", "Diego",
-                6.0, 8.5, null, this.userDTO);
+                 null);
     }
 
     public FilmDTO mockFilmDtoProductionEmpty() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "Diego", "",
-                6.0, 8.5, "teste", this.userDTO);
+                 "teste");
     }
 
     public FilmDTO mockFilmDtoProductionNully() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "Diego",
-                null, 6.0, 8.5, "teste", this.userDTO);
+                null,  "teste");
     }
 
 
@@ -137,36 +137,25 @@ public class MockFilm {
     public FilmDTO mockFilmDtoUrlEmpty() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "Diego", "Diego",
-                6.0, 8.5, "", this.userDTO);
+                 "");
     }
 
     public FilmDTO mockFilmDtoRuntimeNull() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),null, "Diego",
-                "Diego", 6.0, 8.5, "teste", this.userDTO);
+                "Diego",  "teste");
     }
 
 
     public FilmDTO mockFilmDtoReleaseDateNull() {
         return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", null,189, "Diego",
-                "Diego", 6.0, 8.5, "teste", this.userDTO);
+                "Diego",  "teste");
     }
 
-    public FilmDTO mockFilmDtoAverageCriticNull() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
-                "Diego", new Date(),189, "Diego",
-                "Diego", null, 8.5, "teste", this.userDTO);
-    }
-
-    public FilmDTO mockFilmDtoAverageAudienceNull() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
-                "Diego", new Date(),189, "Diego",
-                "Diego", 6.0, null, "teste", this.userDTO);
-    }
 
     public FilmResponseDTO mockFilmResponseDTO() {
-        return new FilmResponseDTO("Evangelion",
+        return new FilmResponseDTO(1L, "Evangelion",
         Set.of(genreDTO), "English",new Date(),
         120, "Teste", "Teste", "teste", 2.5, 3.4, "http", this.userResponseDTO);
         }

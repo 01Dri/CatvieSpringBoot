@@ -33,6 +33,6 @@ public class MapperUserImpl implements MapperUserDomainPort {
 
     @Override
     public UserResponseDTO convertUserDTOToResponseDTO(User user) {
-        return new UserResponseDTO(user.getEmail());
+        return new UserResponseDTO(user.getId());
     }
 }

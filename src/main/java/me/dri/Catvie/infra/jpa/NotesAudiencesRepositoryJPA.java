@@ -33,8 +33,12 @@ public interface NotesAudiencesRepositoryJPA extends JpaRepository<NotesAudience
     @Query("SELECT n.user FROM NotesAudienceEntity n WHERE n.user.id = :userId  AND  n.film.id = :filmId")
     Optional<UserEntity> findUserAlreadyRatedFilm(@Param("userId") Long userId, @Param("filmId") Long filmId);
 
-
+    @Modifying
+    @Transactional
     @Query("SELECT n.note FROM NotesAudienceEntity n WHERE n.film.id = :idFilm" )
     List<Double> findAllNotesByFilmId(@Param("idFilm") Long idFilm);
+
+    @Query("SELECT n FROM NotesAudienceEntity n WHERE n.user.id = :userId")
+    Optional<NotesAudienceEntity> findByUserId(@Param("userId") Long userId);
 
 }

@@ -10,7 +10,7 @@ public interface FilmServicePort {
     FilmResponseDTO findById(Long id);
     List<FilmResponseDTO> findAll();
     FilmResponseDTO findByTitle(String title);
-    FilmResponseDTO create(FilmDTO filmDto);
+    FilmResponseDTO create(FilmDTO filmDto, String subjectByToken);
     void deleteById(Long id);
     FilmResponseDTO update(FilmDTO filmDTO);
 

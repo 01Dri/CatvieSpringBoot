@@ -4,15 +4,14 @@ import me.dri.Catvie.controllers.FilmController;
 import me.dri.Catvie.domain.exceptions.InvalidGenre;
 import me.dri.Catvie.domain.exceptions.NotFoundDirector;
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
+import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
-import me.dri.Catvie.infra.jpa.DirectorRepositoryJPA;
-import me.dri.Catvie.infra.jpa.FilmRepositoryJPA;
-import me.dri.Catvie.infra.jpa.GenreRepositoryJPA;
-import me.dri.Catvie.infra.jpa.NotesAudiencesRepositoryJPA;
+import me.dri.Catvie.infra.entities.UserEntity;
+import me.dri.Catvie.infra.jpa.*;
 import me.dri.Catvie.infra.ports.mappers.MapperFilmInfraPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,16 +34,19 @@ public class FilmAdapter implements FilmRepositoryPort {
     private final DirectorRepositoryJPA directorRepositoryJPA;
 
     private final NotesAudiencesRepositoryJPA audiencesRepositoryJPA;
+
+    private final UserRepositoryJPA userRepositoryJPA;
     private static final Logger logger = LoggerFactory.getLogger(FilmController.class);
 
 
     @Autowired
-    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, MapperFilmInfraPort mapperFilm, GenreRepositoryJPA genreRepositoryPort, DirectorRepositoryJPA directorRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA) {
+    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, MapperFilmInfraPort mapperFilm, GenreRepositoryJPA genreRepositoryPort, DirectorRepositoryJPA directorRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA, UserRepositoryJPA userRepositoryJPA) {
         this.filmRepositoryJPA = filmRepositoryJPA;
         this.mapperFilm = mapperFilm;
         this.genreRepositoryPort = genreRepositoryPort;
         this.directorRepositoryJPA = directorRepositoryJPA;
         this.audiencesRepositoryJPA = audiencesRepositoryJPA;
+        this.userRepositoryJPA = userRepositoryJPA;
     }
 
     @Override
@@ -68,13 +70,16 @@ public class FilmAdapter implements FilmRepositoryPort {
 
 
     @Override
-    public void create(Film film) {
+    public Film create(Film film, String subjectEmail) {
         var genresEntity = this.getGenresToSetGenreEntity(film.getGenres());
         var directorEntity = this.directorRepositoryJPA.findByName(film.getDirector().getName()).orElseThrow(() -> new NotFoundDirector("Director not found"));
+        var userEntity = this.userRepositoryJPA.findByEmail(subjectEmail).orElseThrow(() -> new NotFoundUser("User not found"));
         FilmEntity filmEntity = this.mapperFilm.convertyFilmToFilmEntity(film);
         filmEntity.setGenres(genresEntity);
         filmEntity.setDirector(directorEntity);
+        filmEntity.setUser((UserEntity) userEntity);
         this.filmRepositoryJPA.save(filmEntity);
+        return this.mapperFilm.convertyFilmEntityToFilm(filmEntity);
     }
 
 

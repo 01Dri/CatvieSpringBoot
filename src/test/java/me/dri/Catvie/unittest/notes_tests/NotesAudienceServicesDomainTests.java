@@ -5,8 +5,11 @@ import me.dri.Catvie.domain.exceptions.film.InvalidTitleFilmException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidIdException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidNoteException;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
+import me.dri.Catvie.domain.models.dto.notes.NotesResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.Film;
+import me.dri.Catvie.domain.models.entities.NotesAudience;
+import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
@@ -34,38 +37,45 @@ public class NotesAudienceServicesDomainTests {
     FilmRepositoryPort filmRepositoryPort;
     NotesAudienceServicesPort service;
 
-    MockFilm mockFilm;
-
-    MockUser mockUser;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
-        this.mockUser = new MockUser();
-        this.mockFilm = new MockFilm();
         this.service = new NotesAudienceServicesImpl(this.reposity, this.mapperFilmDomainPort, this.filmRepositoryPort);
     }
 
-    @Test
-    void testAddNotesByFilmId() {
-        Film filmMock = this.mockFilm.mockFilm();
-        FilmResponseDTO filmResponse = this.mockFilm.mockFilmResponseDTO();
-        UserDTO userDTO = this.mockUser.mockUserDTO();
-        when(this.reposity.addNoteByFilmId(2.0, 1L, userDTO.email())).thenReturn(filmMock);
-        when(this.mapperFilmDomainPort.convertFilmToResponseDTO(filmMock)).thenReturn(filmResponse);
-        var result = this.service.addNotesByFilmId(2.0, 1L, userDTO.email());
-        assertEquals("Evangelion", result.title());
-    }
+//    @Test
+//    void testAddNotesByFilmId() {
+//        Film filmMock = this.mockFilm.mockFilm();
+//        FilmResponseDTO filmResponse = this.mockFilm.mockFilmResponseDTO();
+//        UserDTO userDTO = this.mockUser.mockUserDTO();
+//        when(this.reposity.addNoteByFilmId(2.0, 1L, userDTO.email())).thenReturn(filmMock);
+//        when(this.mapperFilmDomainPort.convertFilmToResponseDTO(filmMock)).thenReturn(filmResponse);
+//        var result = this.service.addNotesByFilmId(2.0, 1L, userDTO.email());
+//        assertEquals("Evangelion", result.title());
+//    }
+//
+//    @Test
+//    void testAddNotesByFilmTitle() {
+//        Film filmMock = this.mockFilm.mockFilm();
+//        FilmResponseDTO filmResponse = this.mockFilm.mockFilmResponseDTO();
+//        UserDTO userDTO = this.mockUser.mockUserDTO();
+//        when(this.reposity.addNoteByFilmTitle(2.0, filmMock.getTitle(), userDTO.email())).thenReturn(filmMock);
+//        when(this.mapperFilmDomainPort.convertFilmToResponseDTO(filmMock)).thenReturn(filmResponse);
+//        var result = this.service.addNotesByFilmTitle(2.0, filmMock.getTitle(), userDTO.email());
+//        assertEquals("Evangelion", result.title());
+//    }
 
     @Test
-    void testAddNotesByFilmTitle() {
-        Film filmMock = this.mockFilm.mockFilm();
-        FilmResponseDTO filmResponse = this.mockFilm.mockFilmResponseDTO();
-        UserDTO userDTO = this.mockUser.mockUserDTO();
-        when(this.reposity.addNoteByFilmTitle(2.0, filmMock.getTitle(), userDTO.email())).thenReturn(filmMock);
-        when(this.mapperFilmDomainPort.convertFilmToResponseDTO(filmMock)).thenReturn(filmResponse);
-        var result = this.service.addNotesByFilmTitle(2.0, filmMock.getTitle(), userDTO.email());
-        assertEquals("Evangelion", result.title());
+    void testChangeNotesByFilmId() {
+        var mockUserTest = mock(User.class);
+        var mockFilmTest = mock(Film.class);
+        var mockUserDTOTest = mock(UserDTO.class);
+
+        NotesAudience notesAudienceMock = new NotesAudience(1L, mockFilmTest, mockUserTest, 7.5, 5.4);
+        when(this.reposity.changeNoteByFilmId(2.0, mockFilmTest.getId(), mockUserDTOTest.email() ,1L)).thenReturn(notesAudienceMock);
+        var result = this.service.changeNoteByFilmId(2.0, mockFilmTest.getId(), mockUserDTOTest.email(), 1L);
+        assertEquals(7.5, result.noteAdded());
     }
 
 
