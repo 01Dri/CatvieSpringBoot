@@ -4,12 +4,14 @@ import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
+import me.dri.Catvie.domain.models.dto.user.UserResponseFilmDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
 
 public class MapperUserImpl implements MapperUserDomainPort {
 
-    public MapperUserImpl(){}
+    public MapperUserImpl() {
+    }
 
     @Override
     public User convertRegisterDTOToUser(RegisterDTO user) {
@@ -32,7 +34,14 @@ public class MapperUserImpl implements MapperUserDomainPort {
     }
 
     @Override
-    public UserResponseDTO convertUserDTOToResponseDTO(User user) {
-        return new UserResponseDTO(user.getId());
+    public UserResponseFilmDTO convertUserToUserResponseFilmDTO(User user) {
+            return new UserResponseFilmDTO(user.getId());
     }
+
+    @Override
+    public UserResponseDTO converUserToUserResponseDTO(User user) {
+        return new UserResponseDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(),user.getRole());
+    }
+
 }
+

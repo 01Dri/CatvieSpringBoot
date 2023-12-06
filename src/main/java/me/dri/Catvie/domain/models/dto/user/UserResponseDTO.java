@@ -1,6 +1,6 @@
-package me.dri.Catvie.domain.models.dto;
+package me.dri.Catvie.domain.models.dto.user;
 
 import me.dri.Catvie.domain.enums.UserRole;
 
-public record UserResponseDTO(String name, String firstName, String email, UserRole role) {
+public record UserResponseDTO(Long id, String firstName, String lastName, String email, UserRole role) {
 }

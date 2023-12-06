@@ -5,7 +5,7 @@ import me.dri.Catvie.domain.models.dto.film.FilmDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
-import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
+import me.dri.Catvie.domain.models.dto.user.UserResponseFilmDTO;
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
@@ -39,7 +39,7 @@ public class MockFilm {
 private final GenreDTO genreDTO = this.mockGenre.mockGenreDTO();
     private final UserDTO userDTO = this.mockUser.mockUserDTO();
 
-    private final UserResponseDTO userResponseDTO = this.mockUser.mockUserResponseDTO();
+    private final UserResponseFilmDTO userResponseDTO = this.mockUser.mockUserResponseDTO();
     private final DirectorDTO directorDTO = this.mockDirector.mockDirectorDTO();
 
 

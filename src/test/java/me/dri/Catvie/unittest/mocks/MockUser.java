@@ -7,7 +7,7 @@ import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterResponseDTO;
 import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
-import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
+import me.dri.Catvie.domain.models.dto.user.UserResponseFilmDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.infra.entities.UserEntity;
 
@@ -107,8 +107,8 @@ public class MockUser {
     }
 
 
-    public UserResponseDTO mockUserResponseDTO() {
-        return new UserResponseDTO(1L);
+    public UserResponseFilmDTO mockUserResponseDTO() {
+        return new UserResponseFilmDTO(1L);
     }
 
     public LoginDTO mockLoginDTOWithoutEmailEmpty() {

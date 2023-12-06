@@ -4,6 +4,7 @@ import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
+import me.dri.Catvie.domain.models.dto.user.UserResponseFilmDTO;
 import me.dri.Catvie.domain.models.entities.User;
 
 
@@ -18,8 +19,10 @@ public interface MapperUserDomainPort {
 
     User convertUserDTOToUser(UserDTO userDTO);
 
-    UserResponseDTO convertUserDTOToResponseDTO(User user);
+    UserResponseFilmDTO convertUserToUserResponseFilmDTO(User user);
 
+
+    UserResponseDTO converUserToUserResponseDTO(User user);
 
 
 

@@ -38,7 +38,7 @@ public class MapperFilmImpl implements MapperFilmDomainPort {
         return films.stream().map(f -> new FilmResponseDTO(f.getId(),
                 f.getTitle(), f.getGenres().stream().map(g -> new GenreDTO(g.getGenreName())).collect(Collectors.toSet()),
                 f.getOriginalLanguage(), f.getReleaseDate(), f.getRuntime(), f.getDistributor(), f.getWriter(), f.getProductioCo(),
-                f.getAverageRatingCritic(), f.getAverageRatingAudience(), f.getPosterUrl(), this.mapperUserDomainPort.convertUserDTOToResponseDTO(f.getUser())
+                f.getAverageRatingCritic(), f.getAverageRatingAudience(), f.getPosterUrl(), this.mapperUserDomainPort.convertUserToUserResponseFilmDTO(f.getUser())
         )).collect(Collectors.toList());
     }
 
@@ -55,7 +55,7 @@ public class MapperFilmImpl implements MapperFilmDomainPort {
         return new FilmResponseDTO(film.getId(),
                 film.getTitle(), film.getGenres().stream().map(g -> new GenreDTO(g.getGenreName())).collect(Collectors.toSet()), film.getOriginalLanguage(),
                 film.getReleaseDate(), film.getRuntime(), film.getDistributor(), film.getWriter(), film.getProductioCo(),
-                film.getAverageRatingCritic(), film.getAverageRatingAudience(), film.getPosterUrl(), this.mapperUserDomainPort.convertUserDTOToResponseDTO(film.getUser()));
+                film.getAverageRatingCritic(), film.getAverageRatingAudience(), film.getPosterUrl(), this.mapperUserDomainPort.convertUserToUserResponseFilmDTO(film.getUser()));
     }
 
 }

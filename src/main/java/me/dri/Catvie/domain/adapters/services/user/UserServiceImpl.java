@@ -1,5 +1,6 @@
 package me.dri.Catvie.domain.adapters.services.user;
 
+import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
@@ -21,22 +22,23 @@ public class UserServiceImpl implements UserServicePort {
 
 
     @Override
-    public UserDTO findById(Long id) {
+    public UserResponseDTO findById(Long id) {
+        User userByInfraAdapter = this.userRepositoryPort.findById(id);
+        return this.mapperUserPort.converUserToUserResponseDTO(userByInfraAdapter);
+    }
+
+    @Override
+    public List<UserResponseDTO> findAll() {
         return null;
     }
 
     @Override
-    public List<UserDTO> findAll() {
+    public UserResponseDTO findByName(String title) {
         return null;
     }
 
     @Override
-    public UserDTO findByName(String title) {
-        return null;
-    }
-
-    @Override
-    public UserDTO findByEmail(String email) {
+    public UserResponseDTO findByEmail(String email) {
         return null;
     }
 
