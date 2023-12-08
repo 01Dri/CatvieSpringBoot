@@ -2,6 +2,7 @@ package me.dri.Catvie.unittest.mocks;
 
 import me.dri.Catvie.domain.enums.Genres;
 import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
 import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.infra.entities.GenreEntity;
 
@@ -15,10 +16,21 @@ public class MockGenre {
         return new GenreRequestDTO(Genres.ACTION);
     }
 
+    public GenreResponseDTO mockGenreResponseDTO() {
+        return new GenreResponseDTO(1L, Genres.ACTION);
+    }
+
     public Set<GenreRequestDTO> mockGenres() {
         HashSet<GenreRequestDTO> genreDTOS = new HashSet<>();
         genreDTOS.add(mockGenreDTO());
         genreDTOS.add(mockGenreDTO());
+        return genreDTOS;
+    }
+
+    public Set<GenreResponseDTO> mockGenresResponseDto() {
+        HashSet<GenreResponseDTO> genreDTOS = new HashSet<>();
+        genreDTOS.add(mockGenreResponseDTO());
+        genreDTOS.add(mockGenreResponseDTO());
         return genreDTOS;
     }
 

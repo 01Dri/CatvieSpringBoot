@@ -1,17 +1,19 @@
 package me.dri.Catvie.integrationtest.filmservices;
 
 import io.restassured.http.ContentType;
-import me.dri.Catvie.domain.enums.Genres;
 import me.dri.Catvie.domain.enums.UserRole;
-import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
+import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
 import me.dri.Catvie.integrationtest.config.ConfigAuthHeaders;
+import me.dri.Catvie.unittest.mocks.MockDirector;
+import me.dri.Catvie.unittest.mocks.MockFilm;
+import me.dri.Catvie.unittest.mocks.MockGenre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -21,23 +23,27 @@ public class FilmServicesIntegrationTest {
     Map<String, String> header = new HashMap<>();
     private final String API_FILM = "http://localhost:8080/api/film/v1/";
     private final ConfigAuthHeaders configAuthHeaders = new ConfigAuthHeaders("melteste@gmail.com", UserRole.ADMIN); // Config Register to get token header authorization
+    MockGenre mockerGenre;
+    MockDirector mockerDirector;
 
+    MockFilm mockerFilm;
     @BeforeEach
     void setup() {
         configAuthHeaders.authentication(this.header);
+        this.mockerGenre = new MockGenre();
+        this.mockerFilm = new MockFilm();
+        this.mockerDirector = new MockDirector(mockerFilm);
     }
 
 
     @Test
     void testCreate() {
-        GenreDTO genre1 = new GenreDTO(Genres.ACTION);
-        GenreDTO genre2 = new GenreDTO(Genres.HORROR);
-        DirectorDTO directorDTO = new DirectorDTO("Diretor 1", null);
-        FilmRequestDTO teste =  new FilmRequestDTO("ZedDaSilvaMovie", Set.of(genre1, genre2), "english", directorDTO,
-                "Diego", new Date(),150, "disney", "diego",
-                 "zedurlfilmesiveira");
-        given().headers(this.header).when().contentType(ContentType.JSON).body(teste).when().post(this.API_FILM + "create")
-        .then().statusCode(201).body("title", equalTo(teste.title()));
+        FilmRequestDTO mockFilm = this.mockerFilm.mockFilmRequestDTO();
+        mockFilm.setDirector(new DirectorRequestDTO("Diretor 1"));
+        mockFilm.setTitle("TituloNemValeDeNada");
+        mockFilm.setPosterUrl("http:posterurl/teste");
+        given().headers(this.header).when().contentType(ContentType.JSON).body(mockFilm).when().post(this.API_FILM + "create")
+        .then().statusCode(201).body("title", equalTo(mockFilm.getTitle()));
     }
     @Test
     void testFindAll() {
@@ -54,7 +60,7 @@ public class FilmServicesIntegrationTest {
                 .headers(this.header)
                 .when().get(this.API_FILM + "findByTitle/O Convento")
                 .then()
-                .body("productionGo", equalTo("Metro-Goldwyn-Mayer"))
+                .body("productionCo", equalTo("Metro-Goldwyn-Mayer"))
                 .statusCode(200);
     }
 
@@ -72,9 +78,9 @@ public class FilmServicesIntegrationTest {
     void testFindById()  {
         given()
                 .headers(this.header)
-                .when().get(this.API_FILM + "findById/2")
+                .when().get(this.API_FILM + "findById/5")
                 .then()
-                .body("title", equalTo("Uma Fada Veio Me Visitar"))
+                .body("title", equalTo("O Convento"))
                 .statusCode(200);
     }
 

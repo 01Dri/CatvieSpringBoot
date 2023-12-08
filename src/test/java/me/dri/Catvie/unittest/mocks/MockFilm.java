@@ -1,10 +1,11 @@
 package me.dri.Catvie.unittest.mocks;
 
-import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
 import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
+import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.dto.user.UserResponseFilmRequestDTO;
 import me.dri.Catvie.domain.models.entities.Director;
@@ -28,7 +29,7 @@ public class MockFilm {
     private final MockUser mockUser = new MockUser();
 
 
-    private final Genre genre= this.mockGenre.mockGenre();
+    private final Genre genre = this.mockGenre.mockGenre();
     private final Director director = this.mockDirector.mockDirector();
     private final User user = this.mockUser.mockUser();
 
@@ -42,15 +43,19 @@ public class MockFilm {
 
     private final UserResponseFilmRequestDTO userResponseDTO = this.mockUser.mockUserFilmResponseDTO();
     private final DirectorRequestDTO directorDTO = this.mockDirector.mockDirectorDTO();
+    private final DirectorResponseDTO directorResponseDTO = this.mockDirector.mockDirectorResponseDTO();
 
-
+    private final GenreResponseDTO mockGenreResponseDTO = this.mockGenre.mockGenreResponseDTO();
 
 
     public MockFilm() {
     }
     public Film mockFilm() {
-        return new Film(1L, "Evangelion", Set.of(this.genre), "english", this.director, "Diego",
-                new Date(),150, "distributoteste", "diego", 5.4, 3.3, "teste", this.user);
+        return new Film(1L, "Evangelion", Set.of(this.genre),
+                "english", this.director, "Diego",
+                new Date(),150, "distributoteste",
+                "diego", 5.4, 3.3,
+                "teste", this.user);
     }
 
     public FilmRequestDTO mockFilmRequestDTO() {
@@ -164,6 +169,13 @@ public class MockFilm {
         return filmEntities;
     }
 
+    public FilmResponseDTO mockFilmResponseDTO() {
+        return new FilmResponseDTO(1L, "Test Title",
+                Set.of(this.mockGenreResponseDTO), "English" ,
+                new Date(), 120, "Distributor", "EuDiego", "DiegoGames",
+                7.6, 7.8, this.directorResponseDTO, "https:images", this.userResponseDTO);
+    }
+
     public List<Film> mockListFilms() {
         List<Film> filmEntities = new ArrayList<>();
         var film1 = this.mockFilm();
@@ -172,5 +184,14 @@ public class MockFilm {
         filmEntities.add(film2);
         return filmEntities;
     }
+    public List<FilmResponseDTO> mockListFilmsResponseDTO() {
+        List<FilmResponseDTO> filmEntities = new ArrayList<>();
+        var film1 = this.mockFilmResponseDTO();
+        var film2 = this.mockFilmResponseDTO();
+        filmEntities.add(film1);
+        filmEntities.add(film2);
+        return filmEntities;
+    }
+
 
 }

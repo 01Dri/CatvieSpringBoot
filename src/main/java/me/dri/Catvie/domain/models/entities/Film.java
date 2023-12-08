@@ -22,7 +22,7 @@ public class Film implements Serializable {
     private Integer runtime;
 
     private String distributor;
-    private String productioCo;
+    private String productionCo;
     private Double averageRatingCritic;
     private Double averageRatingAudience;
 
@@ -37,7 +37,7 @@ public class Film implements Serializable {
 
     }
 
-    public Film(Long id, String title, Set<Genre> genres, String originalLanguage, Director director, String writer, Date releaseDate, Integer runtime, String distributor, String productioCo, Double averageRatingCritic, Double averageRatingAudience, String posterUrl, User user) {
+    public Film(Long id, String title, Set<Genre> genres, String originalLanguage, Director director, String writer, Date releaseDate, Integer runtime, String distributor, String productionCo, Double averageRatingCritic, Double averageRatingAudience, String posterUrl, User user) {
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -47,11 +47,19 @@ public class Film implements Serializable {
         this.releaseDate = releaseDate;
         this.runtime = runtime;
         this.distributor = distributor;
-        this.productioCo = productioCo;
+        this.productionCo = productionCo;
         this.averageRatingCritic = averageRatingCritic;
         this.averageRatingAudience = averageRatingAudience;
         this.posterUrl = posterUrl;
         this.user = user;
+    }
+
+    public String getProductionCo() {
+        return productionCo;
+    }
+
+    public void setProductionCo(String productionCo) {
+        this.productionCo = productionCo;
     }
 
     public Long getId() {
@@ -126,13 +134,6 @@ public class Film implements Serializable {
         this.distributor = distributor;
     }
 
-    public String getProductioCo() {
-        return productioCo;
-    }
-
-    public void setProductioCo(String productioCo) {
-        this.productioCo = productioCo;
-    }
 
     public Double getAverageRatingCritic() {
         return averageRatingCritic;
@@ -171,16 +172,17 @@ public class Film implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Film film = (Film) o;
-        return Objects.equals(id, film.id) && Objects.equals(title, film.title) && Objects.equals(genres, film.genres) && Objects.equals(originalLanguage, film.originalLanguage) && Objects.equals(director, film.director) && Objects.equals(writer, film.writer) && Objects.equals(releaseDate, film.releaseDate) && Objects.equals(runtime, film.runtime) && Objects.equals(distributor, film.distributor) && Objects.equals(productioCo, film.productioCo) && Objects.equals(averageRatingCritic, film.averageRatingCritic) && Objects.equals(averageRatingAudience, film.averageRatingAudience) && Objects.equals(posterUrl, film.posterUrl) && Objects.equals(user, film.user);
+        return Objects.equals(id, film.id) && Objects.equals(title, film.title) && Objects.equals(genres, film.genres) && Objects.equals(originalLanguage, film.originalLanguage) && Objects.equals(director, film.director) && Objects.equals(writer, film.writer) && Objects.equals(releaseDate, film.releaseDate) && Objects.equals(runtime, film.runtime) && Objects.equals(distributor, film.distributor) && Objects.equals(productionCo, film.productionCo) && Objects.equals(averageRatingCritic, film.averageRatingCritic) && Objects.equals(averageRatingAudience, film.averageRatingAudience) && Objects.equals(posterUrl, film.posterUrl) && Objects.equals(user, film.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, genres, originalLanguage, director, writer, releaseDate, runtime, distributor, productioCo, averageRatingCritic, averageRatingAudience, posterUrl, user);
+        return Objects.hash(id, title, genres, originalLanguage, director, writer, releaseDate, runtime, distributor, productionCo, averageRatingCritic, averageRatingAudience, posterUrl, user);
     }
 
     @Override
-    public String toString() {
+    public String
+    toString() {
         return "Film{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
@@ -191,7 +193,7 @@ public class Film implements Serializable {
                 ", releaseDate=" + releaseDate +
                 ", runtime=" + runtime +
                 ", distributor='" + distributor + '\'' +
-                ", productioCo='" + productioCo + '\'' +
+                ", productionCo='" + productionCo + '\'' +
                 ", averageRatingCritic=" + averageRatingCritic +
                 ", averageRatingAudience=" + averageRatingAudience +
                 ", posterUrl='" + posterUrl + '\'' +

@@ -1,8 +1,6 @@
 package me.dri.Catvie.domain.adapters.services.director;
 
 import me.dri.Catvie.domain.exceptions.NotFoundDirector;
-import me.dri.Catvie.domain.models.dto.director.DirectorCreateDTO;
-import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
 import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.models.entities.Director;
@@ -36,22 +34,22 @@ public class DirectorServiceImpl  implements DirectorServicePort {
         if (director == null) {
             throw  new NotFoundDirector("Director with name " + title + " Not exists");
         }
-        return new DirectorResponseDTO(director.getName(), director.getFilms());
+        return new DirectorResponseDTO(director.getId(), director.getName());
     }
 
     @Override
-    public DirectorResponseDTO create(DirectorDTO genre) {
+    public DirectorResponseDTO create(DirectorRequestDTO genre) {
         return  null;
     }
 
     @Override
-    public DirectorResponseDTO save(DirectorDTO genre) {
+    public DirectorResponseDTO save(DirectorRequestDTO genre) {
         return  null;
 
     }
 
     @Override
-    public DirectorResponseDTO delete(DirectorDTO genre) {
+    public DirectorResponseDTO delete(DirectorRequestDTO genre) {
         return  null;
 
     }

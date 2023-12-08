@@ -90,8 +90,33 @@ public class FilmServicesInfraUnitTest {
         assertEquals(mockFilm.getUser(), result.getUser());
         verify(this.filmRepositoryJPA, times(1)).save(mockFilmEntity);
 
+    }
+
+    @Test
+    void testFindById() {
+        Long ID_DEFAULT_FOR_TESTS = 1L;
+        FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
+        Film mockFilm = this.mockFilm.mockFilm();
+        when(this.filmRepositoryJPA.findFilmById(ID_DEFAULT_FOR_TESTS)).thenReturn(Optional.of(mockFilmEntity));
+        when(this.modelMapper.map(mockFilmEntity, Film.class)).thenReturn(mockFilm);
+        var result = this.service.findById(ID_DEFAULT_FOR_TESTS);
+        verify(this.filmRepositoryJPA, times(1)).findFilmById(ID_DEFAULT_FOR_TESTS);
+        assertEquals(mockFilmEntity.getTitle(), result.getTitle());
 
     }
+
+    @Test
+    void testFindByTitle() {
+        String FILM_TITLE_DEFAULT_FOR_TESTS = "FilmTesteTitle";
+        FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
+        Film mockFilm = this.mockFilm.mockFilm();
+        when(this.filmRepositoryJPA.findFilmByTitle(FILM_TITLE_DEFAULT_FOR_TESTS)).thenReturn(Optional.of(mockFilmEntity));
+        when(this.modelMapper.map(mockFilmEntity, Film.class)).thenReturn(mockFilm);
+        var result = this.service.findByTitle(FILM_TITLE_DEFAULT_FOR_TESTS);
+        verify(this.filmRepositoryJPA, times(1)).findFilmByTitle(FILM_TITLE_DEFAULT_FOR_TESTS);
+        assertEquals(mockFilmEntity.getTitle(), result.getTitle());
+    }
+
 
     @Test
     void testErrorNotFoundDirectorCreateFilm() {
@@ -138,31 +163,6 @@ public class FilmServicesInfraUnitTest {
 
     }
     
-    @Test
-    void testFindById() {
-        Long ID_DEFAULT_FOR_TESTS = 1L;
-        FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
-        Film mockFilm = this.mockFilm.mockFilm();
-        when(this.filmRepositoryJPA.findFilmById(ID_DEFAULT_FOR_TESTS)).thenReturn(Optional.of(mockFilmEntity));
-        when(this.modelMapper.map(mockFilmEntity, Film.class)).thenReturn(mockFilm);
-        var result = this.service.findById(ID_DEFAULT_FOR_TESTS);
-        verify(this.filmRepositoryJPA, times(1)).findFilmById(ID_DEFAULT_FOR_TESTS);
-        assertEquals(mockFilmEntity.getTitle(), result.getTitle());
-
-    }
-
-    @Test
-    void testFindByTitle() {
-        String FILM_TITLE_DEFAULT_FOR_TESTS = "FilmTesteTitle";
-        FilmEntity mockFilmEntity = this.mockFilm.mockFilmEntity();
-        Film mockFilm = this.mockFilm.mockFilm();
-        when(this.filmRepositoryJPA.findFilmByTitle(FILM_TITLE_DEFAULT_FOR_TESTS)).thenReturn(Optional.of(mockFilmEntity));
-        when(this.modelMapper.map(mockFilmEntity, Film.class)).thenReturn(mockFilm);
-        var result = this.service.findByTitle(FILM_TITLE_DEFAULT_FOR_TESTS);
-        verify(this.filmRepositoryJPA, times(1)).findFilmByTitle(FILM_TITLE_DEFAULT_FOR_TESTS);
-        assertEquals(mockFilmEntity.getTitle(), result.getTitle());
-    }
-
     @Test
     void testNotFoundFilmById() {
         when(this.filmRepositoryJPA.findFilmById(1L)).thenReturn(Optional.empty());

@@ -21,6 +21,7 @@ import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
 import me.dri.Catvie.domain.ports.repositories.*;
 import me.dri.Catvie.infra.tokens.TokenService;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,6 +29,10 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfiguration {
 
 
+    @Bean
+    ModelMapper mapper() {
+        return new ModelMapper();
+    }
     @Bean
     MapperUserResponsePort mapperUserPort() {
         return new MapperUserResponseImpl();
@@ -46,8 +51,8 @@ public class BeanConfiguration {
 
 
     @Bean
-    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperFilmResponsePort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort, UserServicePort userServicePort, MapperUserResponsePort mapperUserDomainPort) {
-        return new FilmServiceImpl(filmRepositoryPort, mapperEntitiesPort, genreServicesPort, directorServicePort, userServicePort, mapperUserDomainPort);
+    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperFilmResponsePort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorRepositoryPort directorServicePort, ModelMapper mapper) {
+        return new FilmServiceImpl(filmRepositoryPort, mapperEntitiesPort, genreServicesPort, directorServicePort, mapper);
     }
 
     @Bean

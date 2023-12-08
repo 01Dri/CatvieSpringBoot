@@ -1,11 +1,11 @@
 package me.dri.Catvie.unittest.mocks;
 
 import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
+import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.infra.entities.DirectorEntity;
-
-import java.util.List;
 
 
 public class MockDirector {
@@ -17,9 +17,11 @@ public class MockDirector {
     }
 
     public DirectorRequestDTO mockDirectorDTO() {
-        FilmRequestDTO film1 = this.mockFilm.mockFilmRequestDTO();
-        FilmRequestDTO film2 = this.mockFilm.mockFilmRequestDTO();
-        return new DirectorRequestDTO("Diego", List.of(film1, film2));
+        return new DirectorRequestDTO("Diego");
+    }
+
+    public DirectorResponseDTO mockDirectorResponseDTO() {
+        return new DirectorResponseDTO(1L, "Diego");
     }
 
     public Director mockDirector() {

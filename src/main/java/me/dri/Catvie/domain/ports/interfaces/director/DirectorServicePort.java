@@ -1,6 +1,5 @@
 package me.dri.Catvie.domain.ports.interfaces.director;
 
-import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
 import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 
@@ -15,11 +14,11 @@ public interface DirectorServicePort {
 
     DirectorResponseDTO findByName(String name);
 
-    DirectorResponseDTO create(DirectorDTO genre);
+    DirectorResponseDTO create(DirectorRequestDTO genre);
 
-    DirectorResponseDTO save(DirectorDTO genre);
+    DirectorResponseDTO save(DirectorRequestDTO genre);
 
-    DirectorResponseDTO delete(DirectorDTO genre);
+    DirectorResponseDTO delete(DirectorRequestDTO genre);
 
     List<DirectorResponseDTO> verifyExistingGenres(List<DirectorRequestDTO> genreDTOS);
 

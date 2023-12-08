@@ -53,7 +53,7 @@ public class MapperFilmAdapter implements MapperFilmInfraPort {
                 genre.getGenreName())).collect(Collectors.toSet()),
                 f.getOriginalLanguage(), new DirectorEntity(f.getDirector().getId(), f.getDirector().getName()),
                 f.getWriter(), f.getReleaseDate(), f.getRuntime(), f.getDistributor(),
-                f.getProductioCo(), f.getAverageRatingCritic(), f.getAverageRatingAudience(), f.getPosterUrl(), null);
+                f.getProductionCo(), f.getAverageRatingCritic(), f.getAverageRatingAudience(), f.getPosterUrl(), null);
     }
 }
 

@@ -1,5 +1,6 @@
 package me.dri.Catvie.domain.adapters.services.mappers;
 
+import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
 import me.dri.Catvie.domain.models.entities.Film;
@@ -24,9 +25,10 @@ public class MapperFilmResponseImpl implements MapperFilmResponsePort {
     public List<FilmResponseDTO> convertListFilmToFilmResponseDTOList(List<Film> films) {
         return films.stream().map(f -> new FilmResponseDTO(f.getId(),
                 f.getTitle(), f.getGenres().stream().map(g -> new GenreResponseDTO(g.getId(), g.getGenreName())).collect(Collectors.toSet()),
-                f.getOriginalLanguage(), f.getReleaseDate(), f.getRuntime(), f.getDistributor(), f.getWriter(), f.getProductioCo(),
-                f.getAverageRatingCritic(), f.getAverageRatingAudience(), f.getPosterUrl(), this.mapperUserDomainPort.convertUserToUserResponseFilmRequestDTO(f.getUser())
-        )).collect(Collectors.toList());
+                f.getOriginalLanguage(), f.getReleaseDate(), f.getRuntime(), f.getDistributor(), f.getWriter(), f.getProductionCo(),
+                f.getAverageRatingCritic(), f.getAverageRatingAudience(),
+                new DirectorResponseDTO(f.getDirector().getId(), f.getDirector().getName()),
+                f.getPosterUrl(), this.mapperUserDomainPort.convertUserToUserResponseFilmRequestDTO(f.getUser()))).collect(Collectors.toList());
     }
 
 
@@ -35,8 +37,9 @@ public class MapperFilmResponseImpl implements MapperFilmResponsePort {
     public FilmResponseDTO convertFilmToResponseDTO(Film film) {
         return new FilmResponseDTO(film.getId(),
                 film.getTitle(), film.getGenres().stream().map(g -> new GenreResponseDTO(g.getId(), g.getGenreName())).collect(Collectors.toSet()), film.getOriginalLanguage(),
-                film.getReleaseDate(), film.getRuntime(), film.getDistributor(), film.getWriter(), film.getProductioCo(),
-                film.getAverageRatingCritic(), film.getAverageRatingAudience(), film.getPosterUrl(), this.mapperUserDomainPort.convertUserToUserResponseFilmRequestDTO(film.getUser()));
+                film.getReleaseDate(), film.getRuntime(), film.getDistributor(), film.getWriter(), film.getProductionCo(),
+                film.getAverageRatingCritic(), film.getAverageRatingAudience(), new DirectorResponseDTO(film.getDirector().getId(), film.getDirector().getName()),
+                film.getPosterUrl(), this.mapperUserDomainPort.convertUserToUserResponseFilmRequestDTO(film.getUser()));
     }
 
 }

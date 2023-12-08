@@ -1,7 +1,6 @@
 package me.dri.Catvie.controllers;
 
 
-import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class DirectorController  {
     }
 
     @GetMapping(value = "/findByName/{name}")
-    ResponseEntity<DirectorDTO> findByName(@PathVariable String name) {
+    ResponseEntity<DirectorResponseDTO> findByName(@PathVariable String name) {
         return ResponseEntity.ok().body(this.servicePort.findByName(name));
     }
 }

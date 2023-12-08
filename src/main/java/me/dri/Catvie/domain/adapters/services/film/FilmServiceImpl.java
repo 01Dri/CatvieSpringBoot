@@ -44,9 +44,6 @@ public class FilmServiceImpl  implements FilmServicePort {
     @Override
     public FilmResponseDTO findById(Long id) {
         Film film = this.filmRepositoryPort.findById(id);
-        if (film == null ) {
-            throw new NotFoundFilm("Film not exists");
-        }
         return this.mapperFilmResponse.convertFilmToResponseDTO(film);
     }
 
@@ -59,9 +56,6 @@ public class FilmServiceImpl  implements FilmServicePort {
     @Override
     public FilmResponseDTO findByTitle(String title) {
         Film film = this.filmRepositoryPort.findByTitle(title);
-        if (film == null) {
-            throw new NotFoundFilm("Film with name " + title + " Not exists!");
-        }
         return this.mapperFilmResponse.convertFilmToResponseDTO(film);
 
     }
@@ -70,12 +64,15 @@ public class FilmServiceImpl  implements FilmServicePort {
     public FilmResponseDTO create(FilmRequestDTO filmRequestDTO,
                                   String subjectByToken) {
         this.filmIsValid(filmRequestDTO);
-        Set<Genre> genresSetResponseByServices = this.genreServicesPort.verifyExistingGenres(filmRequestDTO.getGenres());
+        Set<Genre> genresSetResponseByServices = this.genreServicesPort.
+                verifyExistingGenres(filmRequestDTO.getGenres());
         Director directorByRepository = this.directorRepository.findByName(filmRequestDTO.getDirector().getName());
-        Film filmConverted = this.modelMapper.map(filmRequestDTO, Film.class);
-        filmConverted.setGenres(genresSetResponseByServices);
-        filmConverted.setDirector(directorByRepository);
-        Film filmByInfraAdapter = this.filmRepositoryPort.create(filmConverted, subjectByToken);
+        Film filmConvertedByModel = this.modelMapper.map(filmRequestDTO, Film.class);
+        filmConvertedByModel.setGenres(genresSetResponseByServices);
+        filmConvertedByModel.setDirector(directorByRepository);
+        filmConvertedByModel.setAverageRatingAudience(0.0);
+        filmConvertedByModel.setAverageRatingCritic(0.0);
+        Film filmByInfraAdapter = this.filmRepositoryPort.create(filmConvertedByModel, subjectByToken);
         return this.mapperFilmResponse.convertFilmToResponseDTO(filmByInfraAdapter);
     }
 

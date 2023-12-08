@@ -1,6 +1,7 @@
 package me.dri.Catvie.unittest.filmservicestest;
 
 import me.dri.Catvie.domain.adapters.services.film.FilmServiceImpl;
+import me.dri.Catvie.domain.adapters.services.genre.GenreServiceImpl;
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.film.*;
 import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
@@ -54,9 +55,9 @@ public class FilmServicesDomainUnitTest {
     @Mock
     ModelMapper modelMapper;
 
-    @InjectMocks
-    GenreServicesPort genreServicesPort;
-    @InjectMocks
+    @Mock
+    GenreServiceImpl genreServicesPort;
+
     FilmServiceImpl service;
 
     MockFilm mocksFilms;
@@ -70,6 +71,7 @@ public class FilmServicesDomainUnitTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        this.service = new FilmServiceImpl(this.repository, this.mapperFilmResponse, this.genreServicesPort, this.directorRepositoryPort, this.modelMapper);
         this.mocksFilms = new MockFilm();
         this.mockGenre = new MockGenre();
         this.mockDirector = new MockDirector(mocksFilms);
@@ -83,28 +85,34 @@ public class FilmServicesDomainUnitTest {
         final String SUBJECT_EMAIl_DEFAULT_FOR_TESTS = "diego@gmail.com";
 
         FilmRequestDTO mockFilmRequestDTO = this.mocksFilms.mockFilmRequestDTO();
-        Set<Genre> mockGenreByInfraForReturn = this.mockGenre.mockSetGenres();
+        Genre genreByInfraAdapter = this.mockGenre.mockGenre();
+        Set<Genre> mockSetGenreByInfraForReturn = this.mockGenre.mockSetGenres();
         Director mockDirectorByInfraForReturn = this.mockDirector.mockDirector();;
         Film mockFilmConvertedByModelMapper = this.mocksFilms.mockFilm();
+        FilmResponseDTO mockFilmConvertedByMapperResponse = this.mocksFilms.mockFilmResponseDTO();
+        Film mockTest = this.mocksFilms.mockFilm();
 
-        when(this.genreServicesPort.verifyExistingGenres(mockFilmRequestDTO.getGenres())).thenReturn(mockGenreByInfraForReturn);
+        when(this.genreRepositoryPort.findByName(any())).thenReturn(genreByInfraAdapter);
+        when(this.genreServicesPort.verifyExistingGenres(mockFilmRequestDTO.getGenres())).thenReturn(mockSetGenreByInfraForReturn);
         when(this.directorRepositoryPort.findByName(mockFilmRequestDTO.getDirector().getName())).thenReturn(mockDirectorByInfraForReturn);
         when(this.modelMapper.map(mockFilmRequestDTO, Film.class)).thenReturn(mockFilmConvertedByModelMapper);
-
+        when(this.repository.create(mockFilmConvertedByModelMapper, SUBJECT_EMAIl_DEFAULT_FOR_TESTS)).thenReturn(mockTest);
+        when(this.mapperFilmResponse.convertFilmToResponseDTO(mockTest)).thenReturn(mockFilmConvertedByMapperResponse);
         FilmResponseDTO result = this.service.create(mockFilmRequestDTO, SUBJECT_EMAIl_DEFAULT_FOR_TESTS);
 
-        verify(this.mapperFilmResponse, times(1)).convertFilmToResponseDTO(result);
-        assertEquals(mockFilmConvertedByModelMapper.getTitle(), result.title());
+        verify(this.mapperFilmResponse, times(1)).convertFilmToResponseDTO(mockFilmConvertedByModelMapper);
+        assertEquals(mockTest.getTitle(), result.title());
 
     }
 
     @Test
     void testFindFilmByTitle() {
         final String TITLE_FILM_FOR_TESTS = "film teste 1";
-        Film mockFilmByInfraForReturn = mock(Film.class);
-        FilmResponseDTO mockFilmResponseDtoForReturn = mock(FilmResponseDTO.class);
+        Film mockFilmByInfraForReturn = this.mocksFilms.mockFilm();
+        FilmResponseDTO mockFilmResponseDtoForReturn = this.mocksFilms.mockFilmResponseDTO();
         when(this.repository.findByTitle(TITLE_FILM_FOR_TESTS)).thenReturn(mockFilmByInfraForReturn);
-        when(this.mapperFilmResponse.convertFilmToResponseDTO(mockFilmByInfraForReturn)).thenReturn(mockFilmResponseDtoForReturn);
+        when(this.mapperFilmResponse.convertFilmToResponseDTO(mockFilmByInfraForReturn)).
+                thenReturn(mockFilmResponseDtoForReturn);
         var result = this.service.findByTitle(TITLE_FILM_FOR_TESTS);
         assertInstanceOf(FilmResponseDTO.class, result);
         verify(this.mapperFilmResponse, times(1)).convertFilmToResponseDTO(mockFilmByInfraForReturn);
@@ -124,26 +132,15 @@ public class FilmServicesDomainUnitTest {
 
     @Test
     void testFindAll() {
-        List<Film> mockFilmByInfraAdapterForReturn = this.mocksFilms.mockListFilms();
-        List<FilmResponseDTO> mockFilmsResponseDtoForReturn = this.mocksFilms.
-        when(this.mapperFilmResponse.convertListFilmToFilmResponseDTOList(mockFilmByInfraAdapterForReturn)).thenReturn()
+        List<Film> mockListFilmByInfraAdapterForReturn = this.mocksFilms.mockListFilms();
+        List<FilmResponseDTO> mockListFilmsResponseDTO = this.mocksFilms.mockListFilmsResponseDTO();
+        when(this.repository.findAllFilmEntity()).thenReturn(mockListFilmByInfraAdapterForReturn);
+        when(this.mapperFilmResponse.convertListFilmToFilmResponseDTOList(mockListFilmByInfraAdapterForReturn)).thenReturn(mockListFilmsResponseDTO);
+        var result = this.service.findAll();
+        assertEquals(mockListFilmsResponseDTO.size(), result.size());
     }
 
 
-    @Test
-    void testNotFoundFilmById() {
-        when(this.repository.findById(1L)).thenReturn(null);
-        assertThrows(NotFoundFilm.class, () -> this.service.findById(1L));
-
-    }
-
-    @Test
-    void testNotFoundFilmByTitle() {
-        String nameInvalid = "isso aqui não existe fio";
-        when(this.repository.findByTitle(nameInvalid)).thenReturn(null);
-        assertThrows(NotFoundFilm.class, () -> this.service.findByTitle(nameInvalid));
-
-    }
 
     @Test
     void testExceptionCreateFilmWithTitleEmpty() {

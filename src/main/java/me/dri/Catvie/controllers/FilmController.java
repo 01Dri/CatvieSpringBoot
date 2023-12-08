@@ -2,6 +2,7 @@ package me.dri.Catvie.controllers;
 
 
 import jakarta.servlet.http.HttpServletRequest;
+import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;

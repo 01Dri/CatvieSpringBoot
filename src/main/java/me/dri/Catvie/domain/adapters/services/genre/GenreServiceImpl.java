@@ -1,6 +1,5 @@
 package me.dri.Catvie.domain.adapters.services.genre;
 
-import me.dri.Catvie.domain.exceptions.InvalidGenre;
 import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
 import me.dri.Catvie.domain.models.entities.Genre;
@@ -57,9 +56,6 @@ public class GenreServiceImpl implements GenreServicesPort {
         Set<Genre>  response = new HashSet<>();
         for (GenreRequestDTO genreDTO : genreDTOS) {
             var genreData = this.repositoryPort.findByName(genreDTO.getGenreName().name());
-            if (genreData == null) {
-                throw  new InvalidGenre("Genre name "  + genreDTO.getGenreName() + " Not exists");
-            }
             response.add(new Genre(genreData.getId(), genreData.getGenreName()));
         }
         return response;
