@@ -42,7 +42,7 @@ public class DirectorAdapter implements DirectorRepositoryPort {
     }
 
     @Override
-    public void create(Director filmDto) {
+    public void create(Director FilmRequestDTO) {
 
     }
 

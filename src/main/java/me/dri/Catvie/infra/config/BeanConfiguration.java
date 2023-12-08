@@ -5,8 +5,8 @@ import me.dri.Catvie.domain.adapters.services.auth.AuthenticationServiceImpl;
 import me.dri.Catvie.domain.adapters.services.director.DirectorServiceImpl;
 import me.dri.Catvie.domain.adapters.services.film.FilmServiceImpl;
 import me.dri.Catvie.domain.adapters.services.genre.GenreServiceImpl;
-import me.dri.Catvie.domain.adapters.services.mappers.MapperFilmImpl;
-import me.dri.Catvie.domain.adapters.services.mappers.MapperUserImpl;
+import me.dri.Catvie.domain.adapters.services.mappers.MapperFilmResponseImpl;
+import me.dri.Catvie.domain.adapters.services.mappers.MapperUserResponseImpl;
 import me.dri.Catvie.domain.adapters.services.notes.NotesAudienceServicesImpl;
 import me.dri.Catvie.domain.adapters.services.user.UserServiceImpl;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
@@ -15,8 +15,8 @@ import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
 import me.dri.Catvie.domain.ports.repositories.*;
@@ -29,13 +29,13 @@ public class BeanConfiguration {
 
 
     @Bean
-    MapperUserDomainPort mapperUserPort() {
-        return new MapperUserImpl();
+    MapperUserResponsePort mapperUserPort() {
+        return new MapperUserResponseImpl();
     }
 
     @Bean
-    MapperFilmDomainPort mapperFilmDomain(MapperUserDomainPort mapperUserDomainPort) {
-        return new MapperFilmImpl(mapperUserDomainPort);
+    MapperFilmResponsePort mapperFilmDomain(MapperUserResponsePort mapperUserDomainPort) {
+        return new MapperFilmResponseImpl(mapperUserDomainPort);
     }
 
 
@@ -46,7 +46,7 @@ public class BeanConfiguration {
 
 
     @Bean
-    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperFilmDomainPort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort, UserServicePort userServicePort, MapperUserDomainPort mapperUserDomainPort) {
+    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperFilmResponsePort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort, UserServicePort userServicePort, MapperUserResponsePort mapperUserDomainPort) {
         return new FilmServiceImpl(filmRepositoryPort, mapperEntitiesPort, genreServicesPort, directorServicePort, userServicePort, mapperUserDomainPort);
     }
 
@@ -56,13 +56,13 @@ public class BeanConfiguration {
     }
 
     @Bean
-    UserServicePort userServicePort(UserRepositoryPort userRepositoryPort, MapperUserDomainPort mapperUserDomainPort) {
+    UserServicePort userServicePort(UserRepositoryPort userRepositoryPort, MapperUserResponsePort mapperUserDomainPort) {
         return new UserServiceImpl(userRepositoryPort, mapperUserDomainPort);
     }
 
 
     @Bean
-    AuthenticationServicePort userAuthServicePort(AuthenticationPort authenticationPort, MapperUserDomainPort mapperUserPort, UserRepositoryPort userRepositoryPort) {
+    AuthenticationServicePort userAuthServicePort(AuthenticationPort authenticationPort, MapperUserResponsePort mapperUserPort, UserRepositoryPort userRepositoryPort) {
         return new AuthenticationServiceImpl(authenticationPort, mapperUserPort, userRepositoryPort);
     }
 
@@ -72,8 +72,9 @@ public class BeanConfiguration {
     }
 
     @Bean
-    NotesAudienceServicesPort notesAudienceServicesPort(NotesAudiencesPort audiencesPort, MapperFilmDomainPort mapperFilmDomainPort, FilmRepositoryPort filmRepositoryPort) {
+    NotesAudienceServicesPort notesAudienceServicesPort(NotesAudiencesPort audiencesPort, MapperFilmResponsePort mapperFilmDomainPort, FilmRepositoryPort filmRepositoryPort) {
         return new NotesAudienceServicesImpl(audiencesPort, mapperFilmDomainPort, filmRepositoryPort);
     }
+
 
 }

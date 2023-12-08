@@ -1,6 +1,7 @@
 package me.dri.Catvie.domain.ports.interfaces.director;
 
 import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
+import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 
 import java.util.List;
@@ -8,19 +9,19 @@ import java.util.Set;
 
 public interface DirectorServicePort {
 
-    DirectorDTO findById(Long id);
+    DirectorResponseDTO findById(Long id);
 
-    Set<DirectorDTO> findAll();
+    Set<DirectorResponseDTO> findAll();
 
-    DirectorDTO findByName(String name);
+    DirectorResponseDTO findByName(String name);
 
-    void create(DirectorDTO genre);
+    DirectorResponseDTO create(DirectorDTO genre);
 
-    void save(DirectorDTO genre);
+    DirectorResponseDTO save(DirectorDTO genre);
 
-    void delete(DirectorDTO genre);
+    DirectorResponseDTO delete(DirectorDTO genre);
 
-    List<DirectorDTO> verifyExistingGenres(List<DirectorDTO> genreDTOS);
+    List<DirectorResponseDTO> verifyExistingGenres(List<DirectorRequestDTO> genreDTOS);
 
 
 }

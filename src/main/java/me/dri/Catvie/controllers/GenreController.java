@@ -1,12 +1,10 @@
 package me.dri.Catvie.controllers;
 
 
-import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController

@@ -2,7 +2,6 @@ package me.dri.Catvie.controllers;
 
 
 import jakarta.servlet.http.HttpServletRequest;
-import me.dri.Catvie.domain.models.dto.film.FilmDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
@@ -43,7 +42,7 @@ public class FilmController {
         return ResponseEntity.ok(this.filmServicePort.findByTitle(title));
     }
     @RequestMapping(method = RequestMethod.POST, path = "/create")
-    ResponseEntity<FilmResponseDTO> create(@RequestBody FilmDTO film, HttpServletRequest request) {
+    ResponseEntity<FilmResponseDTO> create(@RequestBody FilmRequestDTO film, HttpServletRequest request) {
         var token = this.tokenServicesPort.getTokenForHeaders(request);
         String subjectEmail = this.tokenServicesPort.validateToken(token);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.filmServicePort.create(film, subjectEmail));
@@ -55,7 +54,7 @@ public class FilmController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/update")
-    ResponseEntity<FilmResponseDTO> updateFilm(@RequestBody FilmDTO dto) {
+    ResponseEntity<FilmResponseDTO> updateFilm(@RequestBody FilmRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.OK).body(this.filmServicePort.update(dto));
     }
 

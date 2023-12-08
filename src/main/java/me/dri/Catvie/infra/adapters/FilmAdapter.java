@@ -12,7 +12,7 @@ import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
 import me.dri.Catvie.infra.entities.UserEntity;
 import me.dri.Catvie.infra.jpa.*;
-import me.dri.Catvie.infra.ports.mappers.MapperFilmInfraPort;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,6 @@ public class FilmAdapter implements FilmRepositoryPort {
 
     private final FilmRepositoryJPA filmRepositoryJPA;
 
-    private final MapperFilmInfraPort mapperFilm;
-
     private final GenreRepositoryJPA genreRepositoryPort;
 
     private final DirectorRepositoryJPA directorRepositoryJPA;
@@ -36,77 +34,83 @@ public class FilmAdapter implements FilmRepositoryPort {
     private final NotesAudiencesRepositoryJPA audiencesRepositoryJPA;
 
     private final UserRepositoryJPA userRepositoryJPA;
+
+    private final ModelMapper mapper; // This is the mapper for to convert my entities
     private static final Logger logger = LoggerFactory.getLogger(FilmController.class);
 
 
     @Autowired
-    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, MapperFilmInfraPort mapperFilm, GenreRepositoryJPA genreRepositoryPort, DirectorRepositoryJPA directorRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA, UserRepositoryJPA userRepositoryJPA) {
+    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, GenreRepositoryJPA genreRepositoryPort, DirectorRepositoryJPA directorRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA, UserRepositoryJPA userRepositoryJPA, ModelMapper mapper) {
         this.filmRepositoryJPA = filmRepositoryJPA;
-        this.mapperFilm = mapperFilm;
         this.genreRepositoryPort = genreRepositoryPort;
         this.directorRepositoryJPA = directorRepositoryJPA;
         this.audiencesRepositoryJPA = audiencesRepositoryJPA;
         this.userRepositoryJPA = userRepositoryJPA;
+        this.mapper = mapper;
     }
+
+
 
     @Override
     public Film findById(Long id) {
-        FilmEntity film = this.filmRepositoryJPA.findFilmById(id).orElseThrow(() -> new NotFoundFilm("Film with this id: " + id + " does not exist!"));
-        return this.mapperFilm.convertyFilmEntityToFilm(film);
+        FilmEntity filmById = this.filmRepositoryJPA.findFilmById(id).orElseThrow(() -> new NotFoundFilm("Film with this id: " + id + " does not exist!"));
+        return this.mapper.map(filmById, Film.class);
     }
 
     @Override
     public List<Film> findAllFilmEntity() {
         logger.info("Endpoints films accessed");
-        List<FilmEntity> films = this.filmRepositoryJPA.findAllFilms().orElseThrow(() -> new NotFoundFilm("Empty"));
-        return this.mapperFilm.convertyListFilmsEntityToListFilm(films);
+        List<FilmEntity> filmsAll = this.filmRepositoryJPA.findAllFilms().orElseThrow(() -> new NotFoundFilm("Empty"));
+        return filmsAll.stream().map(f -> this.mapper.map(f, Film.class)).collect(Collectors.toList());
     }
 
     @Override
     public Film findByTitle(String title) {
-        FilmEntity film = this.filmRepositoryJPA.findFilmByTitle(title).orElseThrow(() -> new NotFoundFilm("Film with this title: " + title + " Does not exist!"));
-        return this.mapperFilm.convertyFilmEntityToFilm(film);
+        FilmEntity filmByTitle = this.filmRepositoryJPA.findFilmByTitle(title).orElseThrow(() -> new NotFoundFilm("Film with this title: " + title + " Does not exist!"));
+        return this.mapper.map(filmByTitle, Film.class);
     }
 
 
     @Override
     public Film create(Film film, String subjectEmail) {
-        var genresEntity = this.getGenresToSetGenreEntity(film.getGenres());
-        var directorEntity = this.directorRepositoryJPA.findByName(film.getDirector().getName()).orElseThrow(() -> new NotFoundDirector("Director not found"));
-        var userEntity = this.userRepositoryJPA.findByEmail(subjectEmail).orElseThrow(() -> new NotFoundUser("User not found"));
-        FilmEntity filmEntity = this.mapperFilm.convertyFilmToFilmEntity(film);
-        filmEntity.setGenres(genresEntity);
-        filmEntity.setDirector(directorEntity);
-        filmEntity.setUser((UserEntity) userEntity);
-        this.filmRepositoryJPA.save(filmEntity);
-        return this.mapperFilm.convertyFilmEntityToFilm(filmEntity);
+        var genresEntityByDB = this.getGenresToSetGenreEntity(film.getGenres());
+        var directorEntityByDB = this.directorRepositoryJPA.findByName(film.getDirector().getName()).orElseThrow(() -> new NotFoundDirector("Director not found"));
+        var userEntityByDB = this.userRepositoryJPA.findByEmail(subjectEmail).orElseThrow(() -> new NotFoundUser("User not found"));
+        FilmEntity filmConvertedToFilmEntity = this.mapper.map(film, FilmEntity.class);
+        filmConvertedToFilmEntity.setGenres(genresEntityByDB);
+        filmConvertedToFilmEntity.setDirector(directorEntityByDB);
+        filmConvertedToFilmEntity.setUser((UserEntity) userEntityByDB);
+        this.filmRepositoryJPA.save(filmConvertedToFilmEntity);
+        return this.mapper.map(filmConvertedToFilmEntity, Film.class);
     }
 
 
     @Override
     public void delete(Film film) {
-        FilmEntity filmEntity = this.mapperFilm.convertyFilmToFilmEntity(film);
-        this.filmRepositoryJPA.delete(filmEntity);
+        FilmEntity filmConvertedToFilmEntity = this.mapper.map(film, FilmEntity.class);
+        this.filmRepositoryJPA.delete(filmConvertedToFilmEntity); //Deleting the user of DB
     }
 
     @Override
     public Film update(Film film) {
-        FilmEntity filmByService = this.mapperFilm.convertyFilmToFilmEntity(film);
-        this.filmRepositoryJPA.save(filmByService);
-        return film;
+        FilmEntity filmByServiceConvertedToFilmEntity = this.mapper.map(film, FilmEntity.class);
+        this.filmRepositoryJPA.save(filmByServiceConvertedToFilmEntity);
+        return this.mapper.map(filmByServiceConvertedToFilmEntity, Film.class);
     }
 
     @Override
     public Long deleteById(Long id) {
-        FilmEntity filmEntity = this.filmRepositoryJPA.findFilmById(id).orElseThrow(
+        FilmEntity filmEntityById = this.filmRepositoryJPA.findFilmById(id).orElseThrow(
                 () -> new NotFoundFilm("The film was not found")); // Why this doesn't work
-        this.audiencesRepositoryJPA.deleteByFilmId(filmEntity.getId());
-        this.filmRepositoryJPA.delete(filmEntity);
+        this.audiencesRepositoryJPA.deleteByFilmId(filmEntityById.getId());
+        this.filmRepositoryJPA.delete(filmEntityById);
         return id;
     }
 
     private Set<GenreEntity> getGenresToSetGenreEntity(Set<Genre> genres) {
-        return genres.stream().map(g -> this.genreRepositoryPort.findBygenreName(g.getGenreName()).orElseThrow(() -> new InvalidGenre("The genre was not found")))
+        return genres.stream().map(g ->
+                        this.genreRepositoryPort.findBygenreName(g.getGenreName()).orElseThrow(()
+                                -> new InvalidGenre("The genre was not found"))) // This function is used for find each genre of Set and returns a Set Of GenreEntity from DB
                 .collect(Collectors.toSet());
     }
 }

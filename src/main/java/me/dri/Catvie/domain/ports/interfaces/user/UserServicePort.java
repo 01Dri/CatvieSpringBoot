@@ -11,7 +11,7 @@ public interface UserServicePort {
     List<UserResponseDTO> findAll();
     UserResponseDTO findByName(String title);
     UserResponseDTO findByEmail(String email);
-    void create(UserDTO filmDto);
+    void create(UserDTO FilmRequestDTO);
     void save(UserDTO film);
     void delete(UserDTO film);
 

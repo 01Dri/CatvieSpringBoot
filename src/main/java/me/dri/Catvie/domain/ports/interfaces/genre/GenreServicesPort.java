@@ -1,24 +1,26 @@
 package me.dri.Catvie.domain.ports.interfaces.genre;
 
-import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
+import me.dri.Catvie.domain.models.entities.Genre;
 
 import java.util.Set;
 
 public interface GenreServicesPort {
 
-    GenreDTO findById(Long id);
+    GenreResponseDTO findById(Long id);
 
-    Set<GenreDTO> findAll();
+    Set<GenreResponseDTO> findAll();
 
-    GenreDTO findByName(String title);
+    GenreResponseDTO findByName(String title);
 
-    void create(GenreDTO genre);
+    GenreResponseDTO create(GenreRequestDTO genre);
 
-    void save(GenreDTO genre);
+    GenreResponseDTO save(GenreRequestDTO genre);
 
-    void delete(GenreDTO genre);
+    GenreResponseDTO delete(GenreRequestDTO genre);
 
-    Set<GenreDTO> verifyExistingGenres(Set<GenreDTO> genreDTOS);
+    Set<Genre> verifyExistingGenres(Set<GenreRequestDTO> genreDTOS);
 
 
 }

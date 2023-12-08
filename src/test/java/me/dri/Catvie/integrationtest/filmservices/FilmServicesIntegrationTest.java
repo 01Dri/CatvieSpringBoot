@@ -4,8 +4,6 @@ import io.restassured.http.ContentType;
 import me.dri.Catvie.domain.enums.Genres;
 import me.dri.Catvie.domain.enums.UserRole;
 import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
-import me.dri.Catvie.domain.models.dto.film.FilmDTO;
-import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
 import me.dri.Catvie.integrationtest.config.ConfigAuthHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +33,7 @@ public class FilmServicesIntegrationTest {
         GenreDTO genre1 = new GenreDTO(Genres.ACTION);
         GenreDTO genre2 = new GenreDTO(Genres.HORROR);
         DirectorDTO directorDTO = new DirectorDTO("Diretor 1", null);
-        FilmDTO teste =  new FilmDTO("ZedDaSilvaMovie", Set.of(genre1, genre2), "english", directorDTO,
+        FilmRequestDTO teste =  new FilmRequestDTO("ZedDaSilvaMovie", Set.of(genre1, genre2), "english", directorDTO,
                 "Diego", new Date(),150, "disney", "diego",
                  "zedurlfilmesiveira");
         given().headers(this.header).when().contentType(ContentType.JSON).body(teste).when().post(this.API_FILM + "create")

@@ -12,7 +12,7 @@ public interface DirectorRepositoryPort {
 
     Director findByName(String name);
 
-    void create(Director filmDto);
+    void create(Director FilmRequestDTO);
 
     void save(Director film);
 

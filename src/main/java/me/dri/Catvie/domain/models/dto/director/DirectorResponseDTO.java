@@ -4,5 +4,5 @@ import me.dri.Catvie.domain.models.entities.Film;
 
 import java.util.List;
 
-public record DirectorResponseDTO(String name, List<Film> filmDTOS){
+public record DirectorResponseDTO(String name, List<Film> FilmRequestDTOS){
 }

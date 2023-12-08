@@ -1,11 +1,12 @@
 package me.dri.Catvie.unittest.mocks;
 
 import me.dri.Catvie.domain.models.dto.director.DirectorDTO;
-import me.dri.Catvie.domain.models.dto.film.FilmDTO;
+import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
-import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
-import me.dri.Catvie.domain.models.dto.user.UserResponseFilmDTO;
+import me.dri.Catvie.domain.models.dto.user.UserResponseFilmRequestDTO;
 import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.Genre;
@@ -36,11 +37,11 @@ public class MockFilm {
     private final GenreEntity genreEntity = this.mockGenre.mockGenreEntity();
     private final DirectorEntity directorEntity= this.mockDirector.mockDirectorEntity();
 
-private final GenreDTO genreDTO = this.mockGenre.mockGenreDTO();
+    private final GenreRequestDTO genreDTO = this.mockGenre.mockGenreDTO();
     private final UserDTO userDTO = this.mockUser.mockUserDTO();
 
-    private final UserResponseFilmDTO userResponseDTO = this.mockUser.mockUserResponseDTO();
-    private final DirectorDTO directorDTO = this.mockDirector.mockDirectorDTO();
+    private final UserResponseFilmRequestDTO userResponseDTO = this.mockUser.mockUserFilmResponseDTO();
+    private final DirectorRequestDTO directorDTO = this.mockDirector.mockDirectorDTO();
 
 
 
@@ -52,8 +53,8 @@ private final GenreDTO genreDTO = this.mockGenre.mockGenreDTO();
                 new Date(),150, "distributoteste", "diego", 5.4, 3.3, "teste", this.user);
     }
 
-    public FilmDTO mockFilmDto() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTO() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "disney", "diego",
                  "teste");
     }
@@ -66,99 +67,92 @@ private final GenreDTO genreDTO = this.mockGenre.mockGenreDTO();
                 8.5, "teste", this.userEntity);
     }
 
-    public FilmDTO mockFilmDtoTitleEmpty() {
-        return new FilmDTO("", Set.of(genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOTitleEmpty() {
+        return new FilmRequestDTO("", Set.of(genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "disney", "diego",
                  "teste");
     }
 
-    public FilmDTO mockFilmDtoTitleNull() {
-        return new FilmDTO(null, Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOTitleNull() {
+        return new FilmRequestDTO(null, Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "disney", "diego",
                  "teste");
     }
-    public FilmDTO mockFilmDtoLanguageEmpty() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOLanguageEmpty() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "", this.directorDTO,
                 "Diego", new Date(),150, "disney", "diego",
                  "teste");
     }
 
-    public FilmDTO mockFilmDtoLanguageNull() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), null, this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOLanguageNull() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), null, this.directorDTO,
                 "Diego", new Date(),150, "disney",
                 "diego",  "teste");
     }
 
-    public FilmDTO mockFilmDtoWriterEmpty() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOWriterEmpty() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "", new Date(),150, "disney",
                 "diego",  "teste");
     }
 
-    public FilmDTO mockFilmDtoWriterNull() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOWriterNull() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 null, new Date(),150, "disney",
                 "diego",
                 "teste");
     }
 
-    public FilmDTO mockFilmDtoDistributorEmpty() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTODistributorEmpty() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "", "diego",
                  "teste");
     }
 
-    public FilmDTO mockFilmDtoDistributorNull() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTODistributorNull() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, null, "diego",
                  "teste");
     }
 
-    public FilmDTO mockFilmDtoUrlNull() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOUrlNull() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "Diego", "Diego",
                  null);
     }
 
-    public FilmDTO mockFilmDtoProductionEmpty() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOProductionEmpty() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "Diego", "",
                  "teste");
     }
 
-    public FilmDTO mockFilmDtoProductionNully() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOProductionNully() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "Diego",
                 null,  "teste");
     }
 
 
 
-    public FilmDTO mockFilmDtoUrlEmpty() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOUrlEmpty() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),150, "Diego", "Diego",
                  "");
     }
 
-    public FilmDTO mockFilmDtoRuntimeNull() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTORuntimeNull() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", new Date(),null, "Diego",
                 "Diego",  "teste");
     }
 
 
-    public FilmDTO mockFilmDtoReleaseDateNull() {
-        return new FilmDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
+    public FilmRequestDTO mockFilmRequestDTOReleaseDateNull() {
+        return new FilmRequestDTO("Evangelion", Set.of(this.genreDTO), "english", this.directorDTO,
                 "Diego", null,189, "Diego",
                 "Diego",  "teste");
     }
-
-
-    public FilmResponseDTO mockFilmResponseDTO() {
-        return new FilmResponseDTO(1L, "Evangelion",
-        Set.of(genreDTO), "English",new Date(),
-        120, "Teste", "Teste", "teste", 2.5, 3.4, "http", this.userResponseDTO);
-        }
 
 
         public List<FilmEntity> mockListFilmsEntity() {
@@ -178,4 +172,5 @@ private final GenreDTO genreDTO = this.mockGenre.mockGenreDTO();
         filmEntities.add(film2);
         return filmEntities;
     }
+
 }

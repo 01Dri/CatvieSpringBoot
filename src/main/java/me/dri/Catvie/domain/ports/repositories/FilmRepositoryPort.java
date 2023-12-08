@@ -12,7 +12,7 @@ public interface FilmRepositoryPort {
 
     Film findByTitle(String title);
 
-    Film create(Film filmDto, String subjectEmail);
+    Film create(Film FilmRequestDTO, String subjectEmail);
 
     void delete(Film film);
 

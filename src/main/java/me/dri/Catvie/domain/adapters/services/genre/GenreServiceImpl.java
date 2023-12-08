@@ -1,7 +1,9 @@
 package me.dri.Catvie.domain.adapters.services.genre;
 
 import me.dri.Catvie.domain.exceptions.InvalidGenre;
-import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
+import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 
@@ -18,45 +20,47 @@ public class GenreServiceImpl implements GenreServicesPort {
     }
 
     @Override
-    public GenreDTO findById(Long id) {
+    public GenreResponseDTO findById(Long id) {
         return null;
     }
 
     @Override
-    public Set<GenreDTO> findAll() {
+    public Set<GenreResponseDTO> findAll() {
         var genres = this.repositoryPort.findAll();
-        return genres.stream().map(genre -> new GenreDTO(genre.getGenreName())).collect(Collectors.toSet());
+        return genres.stream().map(genre -> new GenreResponseDTO(genre.getId(), genre.getGenreName())).collect(Collectors.toSet());
     }
 
     @Override
-    public GenreDTO findByName(String title) {
+    public GenreResponseDTO findByName(String title) {
         return null;
     }
 
     @Override
-    public void create(GenreDTO genre) {
+    public GenreResponseDTO create(GenreRequestDTO genre) {
+        return null;
 
     }
 
     @Override
-    public void save(GenreDTO genre) {
-
+    public GenreResponseDTO save(GenreRequestDTO genre) {
+        return null;
     }
 
 
-    public void delete(GenreDTO genre) {
+    public GenreResponseDTO delete(GenreRequestDTO genre) {
+        return null;
 
     }
 
     @Override
-    public Set<GenreDTO> verifyExistingGenres(Set<GenreDTO> genreDTOS) {
-        Set<GenreDTO>  response = new HashSet<>();
-        for (GenreDTO genreDTO : genreDTOS) {
-            var genreData = this.repositoryPort.findByName(genreDTO.genreName().name());
+    public Set<Genre> verifyExistingGenres(Set<GenreRequestDTO> genreDTOS) {
+        Set<Genre>  response = new HashSet<>();
+        for (GenreRequestDTO genreDTO : genreDTOS) {
+            var genreData = this.repositoryPort.findByName(genreDTO.getGenreName().name());
             if (genreData == null) {
-                throw  new InvalidGenre("Genre name "  + genreDTO.genreName() + " Not exists");
+                throw  new InvalidGenre("Genre name "  + genreDTO.getGenreName() + " Not exists");
             }
-            response.add(new GenreDTO(genreData.getGenreName()));
+            response.add(new Genre(genreData.getId(), genreData.getGenreName()));
         }
         return response;
     }

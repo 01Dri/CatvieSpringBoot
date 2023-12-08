@@ -1,7 +1,7 @@
 package me.dri.Catvie.unittest.mocks;
 
 import me.dri.Catvie.domain.enums.Genres;
-import me.dri.Catvie.domain.models.dto.genre.GenreDTO;
+import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
 import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.infra.entities.GenreEntity;
 
@@ -11,12 +11,12 @@ import java.util.Set;
 public class MockGenre {
 
 
-    public GenreDTO mockGenreDTO() {
-        return new GenreDTO(Genres.ACTION);
+    public GenreRequestDTO mockGenreDTO() {
+        return new GenreRequestDTO(Genres.ACTION);
     }
 
-    public Set<GenreDTO> mockGenres() {
-        HashSet<GenreDTO> genreDTOS = new HashSet<>();
+    public Set<GenreRequestDTO> mockGenres() {
+        HashSet<GenreRequestDTO> genreDTOS = new HashSet<>();
         genreDTOS.add(mockGenreDTO());
         genreDTOS.add(mockGenreDTO());
         return genreDTOS;

@@ -4,18 +4,14 @@ import me.dri.Catvie.domain.adapters.services.notes.NotesAudienceServicesImpl;
 import me.dri.Catvie.domain.exceptions.film.InvalidTitleFilmException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidIdException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidNoteException;
-import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
-import me.dri.Catvie.domain.models.dto.notes.NotesResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.NotesAudience;
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
-import me.dri.Catvie.unittest.mocks.MockFilm;
-import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -28,7 +24,7 @@ public class NotesAudienceServicesDomainTests {
 
 
     @Mock
-    MapperFilmDomainPort mapperFilmDomainPort;
+    MapperFilmResponsePort mapperFilmDomainPort;
 
     @Mock
     NotesAudiencesPort reposity;

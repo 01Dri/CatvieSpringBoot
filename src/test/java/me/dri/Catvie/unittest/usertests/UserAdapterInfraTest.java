@@ -1,6 +1,5 @@
 package me.dri.Catvie.unittest.usertests;
 
-
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
 import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.infra.adapters.UserAdapter;
@@ -14,10 +13,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,6 +32,9 @@ public class UserAdapterInfraTest {
     @Mock
     MapperUserInfraPort mapperUserInfraPort;
 
+    @Mock
+    ModelMapper mapperI;
+
     @InjectMocks
     UserAdapter service;
 
@@ -40,17 +44,19 @@ public class UserAdapterInfraTest {
         this.mockUser = new MockUser();
     }
 
+
+
     @Test
     void testFindById() {
         UserEntity mockUserEntity = this.mockUser.mockUserEntity();
         User mockUser = this.mockUser.mockUser();
         when(this.userRepositoryJPA.findById(1L)).thenReturn(Optional.of(mockUserEntity));
-        when(this.mapperUserInfraPort.convertUserEntityToUser(mockUserEntity)).thenReturn(mockUser);
+        //when(this.mapperUserInfraPort.convertUserEntityToUser(mockUserEntity)).thenReturn(mockUser);
         var result = this.service.findById(1L);
         assertEquals(mockUserEntity.getId(), result.getId());
         verify(this.userRepositoryJPA, times(1)).findById(1L);
-        verify(this.mapperUserInfraPort, times(1)).convertUserEntityToUser(mockUserEntity);
     }
+
 
     @Test
     void testExceptionNotFoundUserById() {

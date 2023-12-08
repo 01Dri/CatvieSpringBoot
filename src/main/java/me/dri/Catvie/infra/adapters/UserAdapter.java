@@ -5,7 +5,9 @@ import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 import me.dri.Catvie.infra.entities.UserEntity;
 import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
+import me.dri.Catvie.infra.ports.mappers.BeanMapperI;
 import me.dri.Catvie.infra.ports.mappers.MapperUserInfraPort;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,22 +19,21 @@ public class UserAdapter  implements UserRepositoryPort {
 
     private final UserRepositoryJPA userRepositoryJPA;
 
-
-    private final MapperUserInfraPort mapperUserInfraPort;
-
+    private final ModelMapper mapperI;
 
     @Autowired
-    public UserAdapter(UserRepositoryJPA userRepositoryJPA, MapperUserInfraPort mapperUserInfraPort) {
+    public UserAdapter(UserRepositoryJPA userRepositoryJPA) {
         this.userRepositoryJPA = userRepositoryJPA;
-        this.mapperUserInfraPort = mapperUserInfraPort;
+        this.mapperI = new ModelMapper();
     }
+
 
 
     @Override
     public User findById(Long id) {
         System.out.println("teste");
         UserEntity userById = this.userRepositoryJPA.findById(id).orElseThrow(() -> new NotFoundUser("Not found user"));
-        return this.mapperUserInfraPort.convertUserEntityToUser(userById);
+        return this.mapperI.map(userById, User.class);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class UserAdapter  implements UserRepositoryPort {
     }
 
     @Override
-    public void create(User filmDto) {
+    public void create(User FilmRequestDTO) {
 
     }
 

@@ -5,7 +5,7 @@ import me.dri.Catvie.domain.exceptions.notes.InvalidIdException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidNoteException;
 import me.dri.Catvie.domain.models.dto.notes.NotesResponseDTO;
 import me.dri.Catvie.domain.models.entities.NotesAudience;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
@@ -15,11 +15,11 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
 
     private final NotesAudiencesPort repositoryPort;
 
-    private final MapperFilmDomainPort mapperFilmDomainPort;
+    private final MapperFilmResponsePort mapperFilmDomainPort;
 
     private final FilmRepositoryPort filmRepositoryPort;
 
-    public NotesAudienceServicesImpl(NotesAudiencesPort repositoryPort, MapperFilmDomainPort mapperFilmDomainPort, FilmRepositoryPort filmRepositoryPort) {
+    public NotesAudienceServicesImpl(NotesAudiencesPort repositoryPort, MapperFilmResponsePort mapperFilmDomainPort, FilmRepositoryPort filmRepositoryPort) {
         this.repositoryPort = repositoryPort;
         this.mapperFilmDomainPort = mapperFilmDomainPort;
         this.filmRepositoryPort = filmRepositoryPort;

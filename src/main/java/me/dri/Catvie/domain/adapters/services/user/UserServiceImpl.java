@@ -3,7 +3,7 @@ package me.dri.Catvie.domain.adapters.services.user;
 import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;
 import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 
@@ -13,9 +13,9 @@ public class UserServiceImpl implements UserServicePort {
 
     private final UserRepositoryPort userRepositoryPort;
 
-    private final MapperUserDomainPort mapperUserPort;
+    private final MapperUserResponsePort mapperUserPort;
 
-    public UserServiceImpl(UserRepositoryPort userRepositoryPort, MapperUserDomainPort mapperUserPort) {
+    public UserServiceImpl(UserRepositoryPort userRepositoryPort, MapperUserResponsePort mapperUserPort) {
         this.userRepositoryPort = userRepositoryPort;
         this.mapperUserPort = mapperUserPort;
     }
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserServicePort {
     }
 
     @Override
-    public void create(UserDTO filmDto) {
+    public void create(UserDTO FilmRequestDTO) {
 
     }
 

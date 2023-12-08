@@ -2,41 +2,42 @@ package me.dri.Catvie.domain.adapters.services.film;
 
 import me.dri.Catvie.domain.exceptions.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.film.*;
-import me.dri.Catvie.domain.models.dto.film.FilmDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
+import me.dri.Catvie.domain.models.entities.Director;
 import me.dri.Catvie.domain.models.entities.Film;
-import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
+import me.dri.Catvie.domain.models.entities.Genre;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmDomainPort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserDomainPort;
-import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
+import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
+import java.util.Set;
 
 public class FilmServiceImpl  implements FilmServicePort {
 
     private final FilmRepositoryPort filmRepositoryPort;
 
-    private final MapperFilmDomainPort mapperEntitiesPort;
+    private final MapperFilmResponsePort mapperFilmResponse;
 
     private final GenreServicesPort genreServicesPort;
 
-    private final DirectorServicePort directorServicePort;
+    private final DirectorRepositoryPort directorRepository;
 
-    private final UserServicePort userServicePort;
+    private final ModelMapper modelMapper;
 
-    private final MapperUserDomainPort mapperUserDomainPort;
 
-    public FilmServiceImpl(FilmRepositoryPort filmRepositoryPort, MapperFilmDomainPort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorServicePort directorServicePort, UserServicePort userServicePort, MapperUserDomainPort mapperUserDomainPort) {
+    public FilmServiceImpl(FilmRepositoryPort filmRepositoryPort, MapperFilmResponsePort mapperFilmResponse, GenreServicesPort genreServicesPort, DirectorRepositoryPort directorRepository, ModelMapper modelMapper) {
         this.filmRepositoryPort = filmRepositoryPort;
-        this.mapperEntitiesPort = mapperEntitiesPort;
+        this.mapperFilmResponse = mapperFilmResponse;
         this.genreServicesPort = genreServicesPort;
-        this.directorServicePort = directorServicePort;
-        this.userServicePort = userServicePort;
-        this.mapperUserDomainPort = mapperUserDomainPort;
+        this.directorRepository = directorRepository;
+        this.modelMapper = new ModelMapper();
     }
+
 
 
 
@@ -46,13 +47,13 @@ public class FilmServiceImpl  implements FilmServicePort {
         if (film == null ) {
             throw new NotFoundFilm("Film not exists");
         }
-        return this.mapperEntitiesPort.convertFilmToResponseDTO(film);
+        return this.mapperFilmResponse.convertFilmToResponseDTO(film);
     }
 
     @Override
     public List<FilmResponseDTO> findAll() {
         List<Film> films = this.filmRepositoryPort.findAllFilmEntity();
-        return this.mapperEntitiesPort.convertListFilmToListDto(films);
+        return this.mapperFilmResponse.convertListFilmToFilmResponseDTOList(films);
     }
 
     @Override
@@ -61,16 +62,21 @@ public class FilmServiceImpl  implements FilmServicePort {
         if (film == null) {
             throw new NotFoundFilm("Film with name " + title + " Not exists!");
         }
-        return this.mapperEntitiesPort.convertFilmToResponseDTO(film);
+        return this.mapperFilmResponse.convertFilmToResponseDTO(film);
 
     }
 
     @Override
-    public FilmResponseDTO create(FilmDTO filmDto, String subjectByToken) {
-        this.filmIsValid(filmDto);
-        var film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDto, filmDto.genres(), filmDto.director());
-        var filmByInfraAdapter = this.filmRepositoryPort.create(film, subjectByToken);
-        return this.mapperEntitiesPort.convertFilmToResponseDTO(filmByInfraAdapter);
+    public FilmResponseDTO create(FilmRequestDTO filmRequestDTO,
+                                  String subjectByToken) {
+        this.filmIsValid(filmRequestDTO);
+        Set<Genre> genresSetResponseByServices = this.genreServicesPort.verifyExistingGenres(filmRequestDTO.getGenres());
+        Director directorByRepository = this.directorRepository.findByName(filmRequestDTO.getDirector().getName());
+        Film filmConverted = this.modelMapper.map(filmRequestDTO, Film.class);
+        filmConverted.setGenres(genresSetResponseByServices);
+        filmConverted.setDirector(directorByRepository);
+        Film filmByInfraAdapter = this.filmRepositoryPort.create(filmConverted, subjectByToken);
+        return this.mapperFilmResponse.convertFilmToResponseDTO(filmByInfraAdapter);
     }
 
     @Override
@@ -82,19 +88,21 @@ public class FilmServiceImpl  implements FilmServicePort {
     }
 
     @Override
-    public FilmResponseDTO update(FilmDTO filmDTO) {
-        this.filmIsValid(filmDTO);
-        var genres = this.genreServicesPort.verifyExistingGenres(filmDTO.genres());
-        var director = this.directorServicePort.findByName(filmDTO.director().name());
-        Film film = this.mapperEntitiesPort.convertFilmDtoToFilm(filmDTO, genres, director);
-        this.filmRepositoryPort.update(film);
-        return this.mapperEntitiesPort.convertFilmToResponseDTO(film);
+    public FilmResponseDTO update(FilmRequestDTO filmRequestDTO) {
+        this.filmIsValid(filmRequestDTO);
+        Set<Genre> genresSetResponseByServices = this.genreServicesPort.verifyExistingGenres(filmRequestDTO.getGenres());
+        Director directorByRepository = this.directorRepository.findByName(filmRequestDTO.getDirector().getName());
+        Film filmConverted = this.modelMapper.map(filmRequestDTO, Film.class);
+        filmConverted.setGenres(genresSetResponseByServices);
+        filmConverted.setDirector(directorByRepository);
+        this.filmRepositoryPort.update(filmConverted);
+        return this.mapperFilmResponse.convertFilmToResponseDTO(filmConverted);
     }
 
 
-    public void filmIsValid(FilmDTO filmDto) {
+    public void filmIsValid(FilmRequestDTO filmRequestDTO) {
         try {
-            if (filmDto.title().isEmpty() || filmDto.title().isBlank()) {
+            if (filmRequestDTO.getTitle().isEmpty() || filmRequestDTO.getTitle().isBlank()) {
                 throw new InvalidTitleFilmException("Content 'title' is empty");
             }
         } catch (NullPointerException e) {
@@ -102,14 +110,14 @@ public class FilmServiceImpl  implements FilmServicePort {
         }
 
         try {
-            if(filmDto.originalLanguage().isEmpty() || filmDto.originalLanguage().isBlank()) {
+            if(filmRequestDTO.getOriginalLanguage().isEmpty() || filmRequestDTO.getOriginalLanguage().isBlank()) {
                 throw new InvalidLanguageFilmException("Content 'original_language' is empty");
             }
         } catch (NullPointerException e) {
             throw new InvalidLanguageFilmException("Content 'original_language' is null");
         }
         try {
-            if(filmDto.writer().isEmpty() || filmDto.writer().isBlank()) {
+            if(filmRequestDTO.getWriter().isEmpty() || filmRequestDTO.getWriter().isBlank()) {
                 throw new InvalidWriterFilmException("Content 'writer' is empty");
             }
         } catch (NullPointerException e) {
@@ -117,7 +125,7 @@ public class FilmServiceImpl  implements FilmServicePort {
         }
 
         try {
-            if(filmDto.distributor().isEmpty() || filmDto.distributor().isBlank()) {
+            if(filmRequestDTO.getDistributor().isEmpty() || filmRequestDTO.getDistributor().isBlank()) {
                 throw new InvalidDistributorFilmException("Content 'distributor' is empty");
             }
         } catch (NullPointerException e) {
@@ -125,7 +133,7 @@ public class FilmServiceImpl  implements FilmServicePort {
         }
 
         try {
-            if(filmDto.productionCo().isEmpty() || filmDto.productionCo().isBlank()) {
+            if(filmRequestDTO.getProductionCo().isEmpty() || filmRequestDTO.getProductionCo().isBlank()) {
                 throw new InvalidProdutionFilmException("Content 'prodution' is empty");
             }
         } catch (NullPointerException e) {
@@ -133,18 +141,18 @@ public class FilmServiceImpl  implements FilmServicePort {
         }
 
         try {
-            if(filmDto.posterUrl().isEmpty() || filmDto.posterUrl().isBlank()) {
+            if(filmRequestDTO.getPosterUrl().isEmpty() || filmRequestDTO.getPosterUrl().isBlank()) {
                 throw new InvalidUrlImageFilmException("Content 'url' is empty");
             }
         } catch (NullPointerException e) {
             throw new InvalidUrlImageFilmException("Content 'url' is null");
         }
 
-        if (filmDto.runtime() == null) {
+        if (filmRequestDTO.getRuntime() == null) {
             throw new InvalidRuntimeFilmException("Content 'runtime' is null");
         }
 
-        if (filmDto.releaseDate() == null) {
+        if (filmRequestDTO.getReleaseDate() == null) {
             throw new InvalidReleaseDateFilmException("Content 'release_date' is null");
         }
 
