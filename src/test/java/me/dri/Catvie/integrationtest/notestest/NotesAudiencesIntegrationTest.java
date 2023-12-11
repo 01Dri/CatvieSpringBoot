@@ -44,4 +44,12 @@ public class NotesAudiencesIntegrationTest {
                 .when().put(this.API_NOTES + "changeNoteByFilmId/4.6/2/9")
                 .then().assertThat().statusCode(201);
     }
+
+    @Test
+    void testFindAll() {
+        given()
+                .headers(this.header)
+                .when().get(this.API_NOTES + "findAll")
+                .then().assertThat().statusCode(200);
+    }
 }

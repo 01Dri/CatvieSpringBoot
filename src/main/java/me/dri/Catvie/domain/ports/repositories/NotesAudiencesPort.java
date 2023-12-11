@@ -2,6 +2,8 @@ package me.dri.Catvie.domain.ports.repositories;
 
 import me.dri.Catvie.domain.models.entities.NotesAudience;
 
+import java.util.List;
+
 public interface NotesAudiencesPort {
 
 
@@ -10,7 +12,9 @@ public interface NotesAudiencesPort {
 
     NotesAudience changeNoteByFilmId(Double newNote, Long idFilm, String  emailUser, Long idNote);
     Double getAverageNotesByFilmId(Long id);
-    Double getAverageNotesByFilmName(String name);
+
+    List<NotesAudience> findAllNotes();
+
 
 
 

@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "genres")
-public class GenreEntity  implements Serializable {
+public class GenreEntity   implements Serializable {
 
 
     @Id

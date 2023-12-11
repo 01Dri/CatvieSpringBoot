@@ -1,7 +1,6 @@
 package me.dri.Catvie.infra.jpa;
 
 
-import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.NotesAudienceEntity;
 import me.dri.Catvie.infra.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,14 +15,6 @@ import java.util.Optional;
 
 @Repository
 public interface NotesAudiencesRepositoryJPA extends JpaRepository<NotesAudienceEntity, Long> {
-
-
-//    @Query("SELECT n.note FROM NotesAudienceEntity n WHERE n.film WHERE = :id")
-//    List<Double> findAllNotesByFilmId(@Param("filmId") Long filmId);
-//
-//    @Query("SELECT n.note FROM NotesAudienceEntity n JOIN FilmEntity f ON n.film = f.id WHERE f.title = :tile")
-//    List<String> findNotesByFilmTitle(@Param("title") String title);
-//
 
     @Modifying
     @Transactional
@@ -41,4 +32,6 @@ public interface NotesAudiencesRepositoryJPA extends JpaRepository<NotesAudience
     @Query("SELECT n FROM NotesAudienceEntity n WHERE n.user.id = :userId")
     Optional<NotesAudienceEntity> findByUserId(@Param("userId") Long userId);
 
+    @Query("SELECT n FROM NotesAudienceEntity n")
+    List<NotesAudienceEntity> findAllNotes();
 }

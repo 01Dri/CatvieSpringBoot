@@ -5,7 +5,6 @@ import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.infra.adapters.UserAdapter;
 import me.dri.Catvie.infra.entities.UserEntity;
 import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
-import me.dri.Catvie.infra.ports.mappers.MapperUserInfraPort;
 import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,9 +27,6 @@ public class UserAdapterInfraTest {
 
     @Mock
     UserRepositoryJPA userRepositoryJPA;
-
-    @Mock
-    MapperUserInfraPort mapperUserInfraPort;
 
     @Mock
     ModelMapper mapperI;

@@ -1,7 +1,6 @@
 package me.dri.Catvie.controllers.notes;
 
 import jakarta.servlet.http.HttpServletRequest;
-import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.dto.notes.NotesResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
@@ -9,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/notes/v1")
@@ -45,6 +46,11 @@ public class NotesAudienceController {
         String token = this.tokenServicesPort.getTokenForHeaders(request);
         String subjectByToken = this.tokenServicesPort.validateToken(token);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.notesService.changeNoteByFilmId(newNote, filmId, subjectByToken, idNote));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/findAll")
+    public ResponseEntity<List<NotesResponseDTO>> findAll() {
+        return ResponseEntity.ok().body(this.notesService.findAllNotes());
     }
 }
 

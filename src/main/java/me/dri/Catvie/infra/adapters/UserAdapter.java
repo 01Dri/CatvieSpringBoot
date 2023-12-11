@@ -5,8 +5,6 @@ import me.dri.Catvie.domain.models.entities.User;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;
 import me.dri.Catvie.infra.entities.UserEntity;
 import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
-import me.dri.Catvie.infra.ports.mappers.BeanMapperI;
-import me.dri.Catvie.infra.ports.mappers.MapperUserInfraPort;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

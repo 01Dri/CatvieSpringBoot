@@ -5,31 +5,28 @@ import me.dri.Catvie.domain.exceptions.notes.InvalidIdException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidNoteException;
 import me.dri.Catvie.domain.models.dto.notes.NotesResponseDTO;
 import me.dri.Catvie.domain.models.entities.NotesAudience;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
-import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
 
 
     private final NotesAudiencesPort repositoryPort;
 
-    private final MapperFilmResponsePort mapperFilmDomainPort;
 
-    private final FilmRepositoryPort filmRepositoryPort;
 
-    public NotesAudienceServicesImpl(NotesAudiencesPort repositoryPort, MapperFilmResponsePort mapperFilmDomainPort, FilmRepositoryPort filmRepositoryPort) {
+    public NotesAudienceServicesImpl(NotesAudiencesPort repositoryPort) {
         this.repositoryPort = repositoryPort;
-        this.mapperFilmDomainPort = mapperFilmDomainPort;
-        this.filmRepositoryPort = filmRepositoryPort;
     }
     @Override
     public NotesResponseDTO addNotesByFilmId(Double note, Long filmId, String emailUser) {
         this.validateInputId(filmId);
         this.validaInputNote(note);
         NotesAudience notesAudienceByInfraAdapter = this.repositoryPort.addNoteByFilmId(note, filmId, emailUser);
-        return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences());
+        return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences(), notesAudienceByInfraAdapter.getUser().getId());
     }
 
     @Override
@@ -37,7 +34,7 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
         this.validaInputNote(note);
         this.validateInputTitle(filmTitle);
         NotesAudience notesAudienceByInfraAdapter = this.repositoryPort.addNoteByFilmTitle(note, filmTitle, emailUser);
-        return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences());
+        return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences(), notesAudienceByInfraAdapter.getUser().getId());
     }
 
     @Override
@@ -45,7 +42,15 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
         this.validaInputNote(newNote);
         this.validateInputId(filmId);
         NotesAudience notesAudienceByInfraAdapter = this.repositoryPort.changeNoteByFilmId(newNote, filmId, emailUser, idUser);
-        return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences());
+        return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences(), notesAudienceByInfraAdapter.getUser().getId());
+    }
+
+    @Override
+    public List<NotesResponseDTO> findAllNotes() {
+        List<NotesAudience> allNotesByInfraAdapter = this.repositoryPort.findAllNotes();
+        return allNotesByInfraAdapter.stream().map(notes -> new NotesResponseDTO(
+                notes.getId(), notes.getFilm().getTitle(), notes.getNote(), notes.getAverageNotesAudiences(), notes.getUser().getId())
+        ).collect(Collectors.toList());
     }
 
 

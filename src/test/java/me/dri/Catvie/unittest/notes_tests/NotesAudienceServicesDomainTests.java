@@ -4,63 +4,106 @@ import me.dri.Catvie.domain.adapters.services.notes.NotesAudienceServicesImpl;
 import me.dri.Catvie.domain.exceptions.film.InvalidTitleFilmException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidIdException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidNoteException;
+import me.dri.Catvie.domain.models.dto.notes.NotesResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.entities.Film;
 import me.dri.Catvie.domain.models.entities.NotesAudience;
 import me.dri.Catvie.domain.models.entities.User;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
-import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
-import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
+import me.dri.Catvie.unittest.mocks.MockFilm;
+import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 public class NotesAudienceServicesDomainTests {
 
 
-    @Mock
-    MapperFilmResponsePort mapperFilmDomainPort;
 
     @Mock
-    NotesAudiencesPort reposity;
+    NotesAudiencesPort repository;
 
-    @Mock
-    FilmRepositoryPort filmRepositoryPort;
-    NotesAudienceServicesPort service;
+    @InjectMocks
+    NotesAudienceServicesImpl service;
 
+    MockFilm mockFilm;
+    MockUser mockUser;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
-        this.service = new NotesAudienceServicesImpl(this.reposity, this.mapperFilmDomainPort, this.filmRepositoryPort);
+        mockFilm = new MockFilm();
+        mockUser = new MockUser();
+
     }
 
-//    @Test
-//    void testAddNotesByFilmId() {
-//        Film filmMock = this.mockFilm.mockFilm();
-//        FilmResponseDTO filmResponse = this.mockFilm.mockFilmResponseDTO();
-//        UserDTO userDTO = this.mockUser.mockUserDTO();
-//        when(this.reposity.addNoteByFilmId(2.0, 1L, userDTO.email())).thenReturn(filmMock);
-//        when(this.mapperFilmDomainPort.convertFilmToResponseDTO(filmMock)).thenReturn(filmResponse);
-//        var result = this.service.addNotesByFilmId(2.0, 1L, userDTO.email());
-//        assertEquals("Evangelion", result.title());
-//    }
-//
-//    @Test
-//    void testAddNotesByFilmTitle() {
-//        Film filmMock = this.mockFilm.mockFilm();
-//        FilmResponseDTO filmResponse = this.mockFilm.mockFilmResponseDTO();
-//        UserDTO userDTO = this.mockUser.mockUserDTO();
-//        when(this.reposity.addNoteByFilmTitle(2.0, filmMock.getTitle(), userDTO.email())).thenReturn(filmMock);
-//        when(this.mapperFilmDomainPort.convertFilmToResponseDTO(filmMock)).thenReturn(filmResponse);
-//        var result = this.service.addNotesByFilmTitle(2.0, filmMock.getTitle(), userDTO.email());
-//        assertEquals("Evangelion", result.title());
-//    }
+    @Test
+    void testAddNotesByFilmId() {
+
+        // Constants
+        final Long ID_DEFAULT_FOR_TESTS = 1L;
+        final String EMAIL_DEFAULT_FOR_TESTS  = "diego@gmail.com";
+        final Double NOTE_DEFAULT_FOR_TESTS = 3.5;
+
+        //Mocks
+        Film mockFilmTest = this.mockFilm.mockFilm();
+        User mockUserTest = this.mockUser.mockUser();
+        NotesAudience notesAudienceMock = new NotesAudience(ID_DEFAULT_FOR_TESTS, mockFilmTest, mockUserTest, NOTE_DEFAULT_FOR_TESTS, 5.4);
+
+        // Stubs
+        when(this.repository.addNoteByFilmId(NOTE_DEFAULT_FOR_TESTS, ID_DEFAULT_FOR_TESTS, EMAIL_DEFAULT_FOR_TESTS)).thenReturn(notesAudienceMock);
+
+        var result = this.service.addNotesByFilmId(NOTE_DEFAULT_FOR_TESTS, ID_DEFAULT_FOR_TESTS, EMAIL_DEFAULT_FOR_TESTS);
+        verify(this.repository, times(1)).addNoteByFilmId(NOTE_DEFAULT_FOR_TESTS, ID_DEFAULT_FOR_TESTS, EMAIL_DEFAULT_FOR_TESTS);
+        assertInstanceOf(NotesResponseDTO.class, result);
+
+    }
+
+    @Test
+    void testAddNotesByFilmTitle() {
+        // Constants
+        final Long ID_DEFAULT_FOR_TESTS = 1L;
+        final String EMAIL_DEFAULT_FOR_TESTS  = "diego@gmail.com";
+        final Double NOTE_DEFAULT_FOR_TESTS = 3.5;
+        final String TITLE_FILM_DEFAULT_FOR_TESTS = "O Convento";
+
+        //Mocks
+        Film mockFilmTest = this.mockFilm.mockFilm();
+        User mockUserTest = this.mockUser.mockUser();
+        NotesAudience notesAudienceMock = new NotesAudience(ID_DEFAULT_FOR_TESTS, mockFilmTest, mockUserTest, NOTE_DEFAULT_FOR_TESTS, 5.4);
+
+        // Stubs
+        when(this.repository.addNoteByFilmTitle(NOTE_DEFAULT_FOR_TESTS, TITLE_FILM_DEFAULT_FOR_TESTS, EMAIL_DEFAULT_FOR_TESTS)).thenReturn(notesAudienceMock);
+
+        var result = this.service.addNotesByFilmTitle(NOTE_DEFAULT_FOR_TESTS, TITLE_FILM_DEFAULT_FOR_TESTS, EMAIL_DEFAULT_FOR_TESTS);
+        verify(this.repository, times(1)).addNoteByFilmTitle(NOTE_DEFAULT_FOR_TESTS, TITLE_FILM_DEFAULT_FOR_TESTS, EMAIL_DEFAULT_FOR_TESTS);
+        assertInstanceOf(NotesResponseDTO.class, result);
+    }
+
+
+    @Test
+    void testFindAllNotes() {
+        final Double NOTE_DEFAULT_FOR_TESTS = 3.5;
+
+        Film mockFilmTest = this.mockFilm.mockFilm();
+        User mockUserTest = this.mockUser.mockUser();
+
+        NotesAudience n1 = new NotesAudience(1L, mockFilmTest, mockUserTest, NOTE_DEFAULT_FOR_TESTS, 5.4);
+        NotesAudience n2 = new NotesAudience(2L, mockFilmTest, mockUserTest, NOTE_DEFAULT_FOR_TESTS, 5.4);
+
+        List<NotesAudience> mockAllNotes = List.of(n1, n2);
+        when(this.repository.findAllNotes()).thenReturn(mockAllNotes);
+        var result = this.service.findAllNotes();
+        assertEquals(2, result.size());
+    }
+
 
     @Test
     void testChangeNotesByFilmId() {
@@ -69,7 +112,7 @@ public class NotesAudienceServicesDomainTests {
         var mockUserDTOTest = mock(UserDTO.class);
 
         NotesAudience notesAudienceMock = new NotesAudience(1L, mockFilmTest, mockUserTest, 7.5, 5.4);
-        when(this.reposity.changeNoteByFilmId(2.0, mockFilmTest.getId(), mockUserDTOTest.email() ,1L)).thenReturn(notesAudienceMock);
+        when(this.repository.changeNoteByFilmId(2.0, mockFilmTest.getId(), mockUserDTOTest.email() ,1L)).thenReturn(notesAudienceMock);
         var result = this.service.changeNoteByFilmId(2.0, mockFilmTest.getId(), mockUserDTOTest.email(), 1L);
         assertEquals(7.5, result.noteAdded());
     }
