@@ -43,7 +43,7 @@ public class FilmController {
         return ResponseEntity.ok(this.filmServicePort.findByTitle(title));
     }
     @RequestMapping(method = RequestMethod.POST, path = "/create")
-    ResponseEntity<FilmResponseDTO> create(@RequestBody FilmRequestDTO film, HttpServletRequest request) {
+    ResponseEntity<FilmResponseDTO> create(@RequestBody FilmRequestDTO film, HttpServletRequest request) throws NoSuchFieldException, IllegalAccessException {
         var token = this.tokenServicesPort.getTokenForHeaders(request);
         String subjectEmail = this.tokenServicesPort.validateToken(token);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.filmServicePort.create(film, subjectEmail));
@@ -55,7 +55,7 @@ public class FilmController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/update")
-    ResponseEntity<FilmResponseDTO> updateFilm(@RequestBody FilmRequestDTO dto) {
+    ResponseEntity<FilmResponseDTO> updateFilm(@RequestBody FilmRequestDTO dto) throws NoSuchFieldException, IllegalAccessException {
         return ResponseEntity.status(HttpStatus.OK).body(this.filmServicePort.update(dto));
     }
 

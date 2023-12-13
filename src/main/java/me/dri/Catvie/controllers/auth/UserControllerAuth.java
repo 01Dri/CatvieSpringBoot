@@ -25,13 +25,13 @@ public class UserControllerAuth {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/register")
-    ResponseEntity<RegisterResponseDTO> register(@RequestBody RegisterDTO dto) throws NoSuchFieldException {
+    ResponseEntity<RegisterResponseDTO> register(@RequestBody RegisterDTO dto) throws NoSuchFieldException, IllegalAccessException {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.servicePort.register(dto));
 
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/login")
-    ResponseEntity<TokenResponseDTO> login(@RequestBody LoginDTO dto) throws NoSuchFieldException {
+    ResponseEntity<TokenResponseDTO> login(@RequestBody LoginDTO dto) throws NoSuchFieldException, IllegalAccessException {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.servicePort.login(dto));
     }
 

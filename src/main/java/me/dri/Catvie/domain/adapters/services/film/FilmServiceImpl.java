@@ -1,7 +1,7 @@
 package me.dri.Catvie.domain.adapters.services.film;
 
-import me.dri.Catvie.domain.exceptions.NotFoundFilm;
-import me.dri.Catvie.domain.exceptions.film.*;
+import me.dri.Catvie.domain.exceptions.film.IdFilmIsNullException;
+import me.dri.Catvie.domain.exceptions.validations.FilmValidations;
 import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.entities.Director;
@@ -38,9 +38,6 @@ public class FilmServiceImpl  implements FilmServicePort {
         this.modelMapper = new ModelMapper();
     }
 
-
-
-
     @Override
     public FilmResponseDTO findById(Long id) {
         Film film = this.filmRepositoryPort.findById(id);
@@ -62,8 +59,8 @@ public class FilmServiceImpl  implements FilmServicePort {
 
     @Override
     public FilmResponseDTO create(FilmRequestDTO filmRequestDTO,
-                                  String subjectByToken) {
-        this.filmIsValid(filmRequestDTO);
+                                  String subjectByToken) throws NoSuchFieldException, IllegalAccessException {
+        FilmValidations.validateFilmRequestDto(filmRequestDTO);
         Set<Genre> genresSetResponseByServices = this.genreServicesPort.
                 verifyExistingGenres(filmRequestDTO.getGenres());
         Director directorByRepository = this.directorRepository.findByName(filmRequestDTO.getDirector().getName());
@@ -85,8 +82,8 @@ public class FilmServiceImpl  implements FilmServicePort {
     }
 
     @Override
-    public FilmResponseDTO update(FilmRequestDTO filmRequestDTO) {
-        this.filmIsValid(filmRequestDTO);
+    public FilmResponseDTO update(FilmRequestDTO filmRequestDTO) throws NoSuchFieldException, IllegalAccessException {
+        FilmValidations.validateFilmRequestDto(filmRequestDTO);
         Set<Genre> genresSetResponseByServices = this.genreServicesPort.verifyExistingGenres(filmRequestDTO.getGenres());
         Director directorByRepository = this.directorRepository.findByName(filmRequestDTO.getDirector().getName());
         Film filmConverted = this.modelMapper.map(filmRequestDTO, Film.class);
@@ -96,63 +93,5 @@ public class FilmServiceImpl  implements FilmServicePort {
         return this.mapperFilmResponse.convertFilmToResponseDTO(filmConverted);
     }
 
-
-    public void filmIsValid(FilmRequestDTO filmRequestDTO) {
-        try {
-            if (filmRequestDTO.getTitle().isEmpty() || filmRequestDTO.getTitle().isBlank()) {
-                throw new InvalidTitleFilmException("Content 'title' is empty");
-            }
-        } catch (NullPointerException e) {
-            throw new InvalidTitleFilmException("Content 'title' is null");
-        }
-
-        try {
-            if(filmRequestDTO.getOriginalLanguage().isEmpty() || filmRequestDTO.getOriginalLanguage().isBlank()) {
-                throw new InvalidLanguageFilmException("Content 'original_language' is empty");
-            }
-        } catch (NullPointerException e) {
-            throw new InvalidLanguageFilmException("Content 'original_language' is null");
-        }
-        try {
-            if(filmRequestDTO.getWriter().isEmpty() || filmRequestDTO.getWriter().isBlank()) {
-                throw new InvalidWriterFilmException("Content 'writer' is empty");
-            }
-        } catch (NullPointerException e) {
-            throw new InvalidWriterFilmException("Content 'writer' is null");
-        }
-
-        try {
-            if(filmRequestDTO.getDistributor().isEmpty() || filmRequestDTO.getDistributor().isBlank()) {
-                throw new InvalidDistributorFilmException("Content 'distributor' is empty");
-            }
-        } catch (NullPointerException e) {
-            throw new InvalidDistributorFilmException("Content 'distributor' is null");
-        }
-
-        try {
-            if(filmRequestDTO.getProductionCo().isEmpty() || filmRequestDTO.getProductionCo().isBlank()) {
-                throw new InvalidProdutionFilmException("Content 'prodution' is empty");
-            }
-        } catch (NullPointerException e) {
-            throw new InvalidProdutionFilmException("Content 'prodution' is null");
-        }
-
-        try {
-            if(filmRequestDTO.getPosterUrl().isEmpty() || filmRequestDTO.getPosterUrl().isBlank()) {
-                throw new InvalidUrlImageFilmException("Content 'url' is empty");
-            }
-        } catch (NullPointerException e) {
-            throw new InvalidUrlImageFilmException("Content 'url' is null");
-        }
-
-        if (filmRequestDTO.getRuntime() == null) {
-            throw new InvalidRuntimeFilmException("Content 'runtime' is null");
-        }
-
-        if (filmRequestDTO.getReleaseDate() == null) {
-            throw new InvalidReleaseDateFilmException("Content 'release_date' is null");
-        }
-
-    }
 
 }

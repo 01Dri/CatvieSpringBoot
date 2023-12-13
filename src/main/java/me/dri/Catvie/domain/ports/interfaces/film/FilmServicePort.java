@@ -10,8 +10,8 @@ public interface FilmServicePort {
     FilmResponseDTO findById(Long id);
     List<FilmResponseDTO> findAll();
     FilmResponseDTO findByTitle(String title);
-    FilmResponseDTO create(FilmRequestDTO FilmRequestDTO, String subjectByToken);
+    FilmResponseDTO create(FilmRequestDTO FilmRequestDTO, String subjectByToken) throws NoSuchFieldException, IllegalAccessException;
     void deleteById(Long id);
-    FilmResponseDTO update(FilmRequestDTO FilmRequestDTO);
+    FilmResponseDTO update(FilmRequestDTO FilmRequestDTO) throws NoSuchFieldException, IllegalAccessException;
 
 }

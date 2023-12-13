@@ -42,7 +42,7 @@ public class AuthServicesDomainUnitTest {
     }
 
     @Test
-    void registerTest() throws NoSuchFieldException {
+    void registerTest() throws NoSuchFieldException, IllegalAccessException {
         RegisterDTO registerDTO = this.mockUser.mockRegisterDTO();
         User mockUser = this.mockUser.mockUser();
         when(this.mapperUserPortDomain.convertRegisterDTOToUser(registerDTO)).thenReturn(mockUser);
@@ -192,7 +192,7 @@ public class AuthServicesDomainUnitTest {
     }
 
     @Test
-    void loginTest() throws NoSuchFieldException {
+    void loginTest() throws NoSuchFieldException, IllegalAccessException {
         var loginDto = this.mockUser.mockLoginDTO();
         String token = "Tokenteste";
         when(this.authenticationPort.login(loginDto)).thenReturn(token);

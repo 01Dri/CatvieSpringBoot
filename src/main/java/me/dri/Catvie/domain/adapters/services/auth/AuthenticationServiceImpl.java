@@ -1,6 +1,6 @@
 package me.dri.Catvie.domain.adapters.services.auth;
 
-import me.dri.Catvie.domain.exceptions.validations.UserValidations;
+import me.dri.Catvie.domain.exceptions.validations.AuthValidations;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterResponseDTO;
@@ -27,8 +27,8 @@ public class AuthenticationServiceImpl implements AuthenticationServicePort {
 
 
     @Override
-    public RegisterResponseDTO register(RegisterDTO register) throws NoSuchFieldException {
-        UserValidations.validateRegisterDTO(register);
+    public RegisterResponseDTO register(RegisterDTO register) throws NoSuchFieldException, IllegalAccessException {
+        AuthValidations.validateRegisterDTO(register);
         User user = this.mapperUserPort.convertRegisterDTOToUser(register);
         this.authenticationPort.register(user);
         logger.info("User registered!!!");
@@ -36,8 +36,8 @@ public class AuthenticationServiceImpl implements AuthenticationServicePort {
     }
 
     @Override
-    public TokenResponseDTO login(LoginDTO login) throws NoSuchFieldException {
-        UserValidations.validateLoginDTO(login);
+    public TokenResponseDTO login(LoginDTO login) throws NoSuchFieldException, IllegalAccessException {
+        AuthValidations.validateLoginDTO(login);
         var token = this.authenticationPort.login(login);
         logger.info("User logged!!!");
         return new TokenResponseDTO(token);

@@ -2,8 +2,9 @@ package me.dri.Catvie.unittest.filmservicestest;
 
 import me.dri.Catvie.domain.adapters.services.film.FilmServiceImpl;
 import me.dri.Catvie.domain.adapters.services.genre.GenreServiceImpl;
-import me.dri.Catvie.domain.exceptions.NotFoundFilm;
-import me.dri.Catvie.domain.exceptions.film.*;
+import me.dri.Catvie.domain.exceptions.auth.MissingInformationInput;
+import me.dri.Catvie.domain.exceptions.film.InvalidReleaseDateFilmException;
+import me.dri.Catvie.domain.exceptions.film.InvalidRuntimeFilmException;
 import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.entities.Director;
@@ -29,7 +30,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -44,20 +44,14 @@ public class FilmServicesDomainUnitTest {
     @Mock
     MapperFilmResponsePort mapperFilmResponse;
     @Mock
-    GenreRepositoryPort genreRepositoryPort;
-    @Mock
     DirectorRepositoryPort directorRepositoryPort;
-    @Mock
-    UserServicePort userServicePort;
-    @Mock
-    MapperUserResponsePort mapperUserResponse;
 
+    @Mock
+    GenreServicesPort genreServicesPort;
     @Mock
     ModelMapper modelMapper;
 
-    @Mock
-    GenreServiceImpl genreServicesPort;
-
+    @InjectMocks
     FilmServiceImpl service;
 
     MockFilm mocksFilms;
@@ -71,7 +65,6 @@ public class FilmServicesDomainUnitTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        this.service = new FilmServiceImpl(this.repository, this.mapperFilmResponse, this.genreServicesPort, this.directorRepositoryPort, this.modelMapper);
         this.mocksFilms = new MockFilm();
         this.mockGenre = new MockGenre();
         this.mockDirector = new MockDirector(mocksFilms);
@@ -80,7 +73,7 @@ public class FilmServicesDomainUnitTest {
 
 
     @Test
-    void testCreateFilm() {
+    void testCreateFilm() throws NoSuchFieldException, IllegalAccessException {
 
         final String SUBJECT_EMAIl_DEFAULT_FOR_TESTS = "diego@gmail.com";
 
@@ -92,7 +85,6 @@ public class FilmServicesDomainUnitTest {
         FilmResponseDTO mockFilmConvertedByMapperResponse = this.mocksFilms.mockFilmResponseDTO();
         Film mockTest = this.mocksFilms.mockFilm();
 
-        when(this.genreRepositoryPort.findByName(any())).thenReturn(genreByInfraAdapter);
         when(this.genreServicesPort.verifyExistingGenres(mockFilmRequestDTO.getGenres())).thenReturn(mockSetGenreByInfraForReturn);
         when(this.directorRepositoryPort.findByName(mockFilmRequestDTO.getDirector().getName())).thenReturn(mockDirectorByInfraForReturn);
         when(this.modelMapper.map(mockFilmRequestDTO, Film.class)).thenReturn(mockFilmConvertedByModelMapper);
@@ -121,8 +113,8 @@ public class FilmServicesDomainUnitTest {
     @Test
     void testFindFilmById() {
         Long ID_DEFAULT_FILM_FOR_TESTS = 1L;
-        Film mockFilmByInfraForReturn = mock(Film.class);
-        FilmResponseDTO mockFilmResponseDTOForReturn = mock(FilmResponseDTO.class);
+        Film mockFilmByInfraForReturn = this.mocksFilms.mockFilm();
+        FilmResponseDTO mockFilmResponseDTOForReturn = this.mocksFilms.mockFilmResponseDTO();
         when(this.repository.findById(ID_DEFAULT_FILM_FOR_TESTS)).thenReturn(mockFilmByInfraForReturn);
         when(this.mapperFilmResponse.convertFilmToResponseDTO(mockFilmByInfraForReturn)).thenReturn(mockFilmResponseDTOForReturn);
         var result = this.service.findById(ID_DEFAULT_FILM_FOR_TESTS);
@@ -145,94 +137,94 @@ public class FilmServicesDomainUnitTest {
     @Test
     void testExceptionCreateFilmWithTitleEmpty() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOTitleEmpty();
-        var exception = assertThrows(InvalidTitleFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'title' is empty", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content title is empty", exception.getMessage());
     }
     @Test
     void testExceptionCreateFilmWithTitleNull() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOTitleNull();
-        var exception = assertThrows(InvalidTitleFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'title' is null", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content title is null", exception.getMessage());
     }
 
     @Test
     void testExceptionCreateFilmWithLanguageEmpty() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOLanguageEmpty();
-        var exception = assertThrows(InvalidLanguageFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'original_language' is empty", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content originalLanguage is empty", exception.getMessage());
     }
     @Test
     void testExceptionCreateFilmWithLanguageNull() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOLanguageNull();
-        var exception = assertThrows(InvalidLanguageFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'original_language' is null", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content originalLanguage is null", exception.getMessage());
     }
 
     @Test
     void testExceptionCreateFilmWithWriterEmpty() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOWriterEmpty();
-        var exception = assertThrows(InvalidWriterFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'writer' is empty", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content writer is empty", exception.getMessage());
     }
     @Test
     void testExceptionCreateFilmWithWriterNull() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOWriterNull();
-        var exception = assertThrows(InvalidWriterFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'writer' is null", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content writer is null", exception.getMessage());
     }
 
     @Test
     void testExceptionCreateFilmWithDistributorEmpty() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTODistributorEmpty();
-        var exception = assertThrows(InvalidDistributorFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'distributor' is empty", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content distributor is empty", exception.getMessage());
     }
     @Test
     void testExceptionCreateFilmWithDistributorNull() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTODistributorNull();
-        var exception = assertThrows(InvalidDistributorFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'distributor' is null", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content distributor is null", exception.getMessage());
     }
 
     @Test
     void testExceptionCreateFilmWithProductionEmpty() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOProductionEmpty();
-        var exception = assertThrows(InvalidProdutionFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'prodution' is empty", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content productionCo is empty", exception.getMessage());
     }
     @Test
     void testExceptionCreateFilmWithProductionNull() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOProductionNully();
-        var exception = assertThrows(InvalidProdutionFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'prodution' is null", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content productionCo is null", exception.getMessage());
     }
 
     @Test
     void testExceptionCreateFilmWithUrlEmpty() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOUrlEmpty();
-        var exception = assertThrows(InvalidUrlImageFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'url' is empty", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content posterUrl is empty", exception.getMessage());
     }
 
     @Test
     void testExceptionCreateFilmWithDUrlNull() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOUrlNull();
-        var exception = assertThrows(InvalidUrlImageFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'url' is null", exception.getMessage());
+        var exception = assertThrows(MissingInformationInput.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
+        assertEquals("Content posterUrl is null", exception.getMessage());
     }
 
     @Test
     void testExceptionCreateFilmWithRuntimeNull() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTORuntimeNull();
         var exception = assertThrows(InvalidRuntimeFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'runtime' is null", exception.getMessage());
+        assertEquals("Content runtime is null", exception.getMessage());
     }
 
     @Test
     void testExceptionCreateFilmWithReleaseDateNull() {
         var FilmRequestDTO = this.mocksFilms.mockFilmRequestDTOReleaseDateNull();
         var exception = assertThrows(InvalidReleaseDateFilmException.class, () -> this.service.create(FilmRequestDTO, "diego@gmail.com"));
-        assertEquals("Content 'release_date' is null", exception.getMessage());
+        assertEquals("Content releaseDate is null", exception.getMessage());
 
     }
 

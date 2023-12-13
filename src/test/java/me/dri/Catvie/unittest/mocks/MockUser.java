@@ -122,6 +122,10 @@ public class MockUser {
         return new LoginDTO("", "12345678");
     }
 
+    public LoginDTO mockLoginDTOLengthPass() {
+        return new LoginDTO("diego@gmail.com", "123456");
+    }
+
     public LoginDTO mockLoginDTOWithoutEmailNull() {
         return new LoginDTO(null, "12345678");
     }
