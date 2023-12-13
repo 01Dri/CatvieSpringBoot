@@ -1,6 +1,6 @@
 package me.dri.Catvie.domain.ports.repositories;
 
-import me.dri.Catvie.domain.models.entities.Film;
+import me.dri.Catvie.domain.models.core.Film;
 
 import java.util.List;
 

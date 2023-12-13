@@ -2,9 +2,7 @@ package me.dri.Catvie.unittest.mocks;
 
 import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
-import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
-import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
-import me.dri.Catvie.domain.models.entities.Director;
+import me.dri.Catvie.domain.models.core.Director;
 import me.dri.Catvie.infra.entities.DirectorEntity;
 
 

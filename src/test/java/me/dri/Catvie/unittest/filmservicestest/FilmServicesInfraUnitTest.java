@@ -2,15 +2,15 @@ package me.dri.Catvie.unittest.filmservicestest;
 
 import me.dri.Catvie.domain.exceptions.InvalidGenre;
 import me.dri.Catvie.domain.exceptions.NotFoundDirector;
-import me.dri.Catvie.domain.exceptions.NotFoundFilm;
+import me.dri.Catvie.domain.exceptions.film.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
-import me.dri.Catvie.domain.models.entities.Film;
+import me.dri.Catvie.domain.models.core.Film;
 import me.dri.Catvie.infra.adapters.FilmAdapter;
 import me.dri.Catvie.infra.entities.DirectorEntity;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
 import me.dri.Catvie.infra.entities.UserEntity;
-import me.dri.Catvie.infra.jpa.*;
+import me.dri.Catvie.infra.repositoriesjpa.*;
 import me.dri.Catvie.unittest.mocks.MockDirector;
 import me.dri.Catvie.unittest.mocks.MockFilm;
 import me.dri.Catvie.unittest.mocks.MockGenre;

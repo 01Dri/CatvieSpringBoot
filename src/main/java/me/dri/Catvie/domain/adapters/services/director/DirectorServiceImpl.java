@@ -3,7 +3,7 @@ package me.dri.Catvie.domain.adapters.services.director;
 import me.dri.Catvie.domain.exceptions.NotFoundDirector;
 import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
-import me.dri.Catvie.domain.models.entities.Director;
+import me.dri.Catvie.domain.models.core.Director;
 import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
 import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
 

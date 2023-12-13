@@ -1,16 +1,16 @@
 package me.dri.Catvie.unittest.notes_tests;
 
-import me.dri.Catvie.domain.exceptions.NotFoundFilm;
-import me.dri.Catvie.domain.models.entities.Film;
-import me.dri.Catvie.domain.models.entities.NotesAudience;
-import me.dri.Catvie.domain.models.entities.User;
+import me.dri.Catvie.domain.exceptions.film.NotFoundFilm;
+import me.dri.Catvie.domain.models.core.Film;
+import me.dri.Catvie.domain.models.core.NotesAudience;
+import me.dri.Catvie.domain.models.core.User;
 import me.dri.Catvie.infra.adapters.NotesAudienceAdapter;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.NotesAudienceEntity;
 import me.dri.Catvie.infra.entities.UserEntity;
-import me.dri.Catvie.infra.jpa.FilmRepositoryJPA;
-import me.dri.Catvie.infra.jpa.NotesAudiencesRepositoryJPA;
-import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.FilmRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.NotesAudiencesRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.UserRepositoryJPA;
 import me.dri.Catvie.unittest.mocks.MockFilm;
 import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;

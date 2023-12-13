@@ -4,7 +4,7 @@ import me.dri.Catvie.domain.exceptions.film.InvalidTitleFilmException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidIdException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidNoteException;
 import me.dri.Catvie.domain.models.dto.notes.NotesResponseDTO;
-import me.dri.Catvie.domain.models.entities.NotesAudience;
+import me.dri.Catvie.domain.models.core.NotesAudience;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
 

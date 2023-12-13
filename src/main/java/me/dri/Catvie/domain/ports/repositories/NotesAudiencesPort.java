@@ -1,6 +1,6 @@
 package me.dri.Catvie.domain.ports.repositories;
 
-import me.dri.Catvie.domain.models.entities.NotesAudience;
+import me.dri.Catvie.domain.models.core.NotesAudience;
 
 import java.util.List;
 

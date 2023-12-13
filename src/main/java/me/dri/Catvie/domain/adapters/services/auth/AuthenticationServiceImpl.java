@@ -5,7 +5,7 @@ import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterResponseDTO;
 import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
-import me.dri.Catvie.domain.models.entities.User;
+import me.dri.Catvie.domain.models.core.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;

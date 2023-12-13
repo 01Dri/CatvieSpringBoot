@@ -5,7 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.UserRepositoryJPA;
 import me.dri.Catvie.infra.tokens.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

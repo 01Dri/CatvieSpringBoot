@@ -1,22 +1,18 @@
 package me.dri.Catvie.unittest.filmservicestest;
 
 import me.dri.Catvie.domain.adapters.services.film.FilmServiceImpl;
-import me.dri.Catvie.domain.adapters.services.genre.GenreServiceImpl;
 import me.dri.Catvie.domain.exceptions.auth.MissingInformationInput;
 import me.dri.Catvie.domain.exceptions.film.InvalidReleaseDateFilmException;
 import me.dri.Catvie.domain.exceptions.film.InvalidRuntimeFilmException;
 import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
-import me.dri.Catvie.domain.models.entities.Director;
-import me.dri.Catvie.domain.models.entities.Film;
-import me.dri.Catvie.domain.models.entities.Genre;
+import me.dri.Catvie.domain.models.core.Director;
+import me.dri.Catvie.domain.models.core.Film;
+import me.dri.Catvie.domain.models.core.Genre;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;
-import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
 import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
-import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 import me.dri.Catvie.unittest.mocks.MockDirector;
 import me.dri.Catvie.unittest.mocks.MockFilm;
 import me.dri.Catvie.unittest.mocks.MockGenre;

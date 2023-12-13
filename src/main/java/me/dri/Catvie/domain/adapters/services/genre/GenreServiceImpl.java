@@ -2,7 +2,7 @@ package me.dri.Catvie.domain.adapters.services.genre;
 
 import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
-import me.dri.Catvie.domain.models.entities.Genre;
+import me.dri.Catvie.domain.models.core.Genre;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 

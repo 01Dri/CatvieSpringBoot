@@ -3,7 +3,7 @@ package me.dri.Catvie.domain.adapters.services.mappers;
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
-import me.dri.Catvie.domain.models.entities.Film;
+import me.dri.Catvie.domain.models.core.Film;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;
 

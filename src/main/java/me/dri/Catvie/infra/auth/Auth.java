@@ -1,6 +1,6 @@
 package me.dri.Catvie.infra.auth;
 
-import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.UserRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

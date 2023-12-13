@@ -2,10 +2,10 @@ package me.dri.Catvie.infra.adapters;
 
 import me.dri.Catvie.domain.enums.Genres;
 import me.dri.Catvie.domain.exceptions.InvalidGenre;
-import me.dri.Catvie.domain.models.entities.Genre;
+import me.dri.Catvie.domain.models.core.Genre;
 import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 import me.dri.Catvie.infra.entities.GenreEntity;
-import me.dri.Catvie.infra.jpa.GenreRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.GenreRepositoryJPA;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;

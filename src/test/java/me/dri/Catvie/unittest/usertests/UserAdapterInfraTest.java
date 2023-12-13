@@ -1,10 +1,10 @@
 package me.dri.Catvie.unittest.usertests;
 
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
-import me.dri.Catvie.domain.models.entities.User;
+import me.dri.Catvie.domain.models.core.User;
 import me.dri.Catvie.infra.adapters.UserAdapter;
 import me.dri.Catvie.infra.entities.UserEntity;
-import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.UserRepositoryJPA;
 import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

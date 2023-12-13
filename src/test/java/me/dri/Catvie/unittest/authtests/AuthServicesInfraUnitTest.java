@@ -2,11 +2,11 @@ package me.dri.Catvie.unittest.authtests;
 
 import me.dri.Catvie.domain.exceptions.auth.InvalidEmailLogin;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
-import me.dri.Catvie.domain.models.entities.User;
+import me.dri.Catvie.domain.models.core.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.infra.adapters.AuthenticationAdapter;
 import me.dri.Catvie.infra.entities.UserEntity;
-import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.UserRepositoryJPA;
 import me.dri.Catvie.infra.ports.auth.EncoderPassword;
 import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;

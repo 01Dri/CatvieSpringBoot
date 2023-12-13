@@ -7,7 +7,7 @@ import me.dri.Catvie.domain.exceptions.auth.NameRoleInvalid;
 import me.dri.Catvie.domain.exceptions.auth.PasswordLengthInvalid;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
-import me.dri.Catvie.domain.models.entities.User;
+import me.dri.Catvie.domain.models.core.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;
 import me.dri.Catvie.unittest.mocks.MockUser;

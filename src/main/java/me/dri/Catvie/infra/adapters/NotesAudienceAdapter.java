@@ -1,19 +1,19 @@
 package me.dri.Catvie.infra.adapters;
 
-import me.dri.Catvie.domain.exceptions.NotFoundFilm;
+import me.dri.Catvie.domain.exceptions.film.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.notes.FilmNotRated;
 import me.dri.Catvie.domain.exceptions.notes.UserAlreadyRatedException;
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
-import me.dri.Catvie.domain.models.entities.Film;
-import me.dri.Catvie.domain.models.entities.NotesAudience;
-import me.dri.Catvie.domain.models.entities.User;
+import me.dri.Catvie.domain.models.core.Film;
+import me.dri.Catvie.domain.models.core.NotesAudience;
+import me.dri.Catvie.domain.models.core.User;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.NotesAudienceEntity;
 import me.dri.Catvie.infra.entities.UserEntity;
-import me.dri.Catvie.infra.jpa.FilmRepositoryJPA;
-import me.dri.Catvie.infra.jpa.NotesAudiencesRepositoryJPA;
-import me.dri.Catvie.infra.jpa.UserRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.FilmRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.NotesAudiencesRepositoryJPA;
+import me.dri.Catvie.infra.repositoriesjpa.UserRepositoryJPA;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -2,7 +2,7 @@ package me.dri.Catvie.domain.adapters.services.user;
 
 import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
-import me.dri.Catvie.domain.models.entities.User;
+import me.dri.Catvie.domain.models.core.User;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;
 import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
 import me.dri.Catvie.domain.ports.repositories.UserRepositoryPort;

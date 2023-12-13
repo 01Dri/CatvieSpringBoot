@@ -10,11 +10,13 @@ public class ValidationsOptions {
 
 
     public static void validateStringInputs(Object obj) throws IllegalAccessException {
-        Field[] fields = obj.getClass().getDeclaredFields();
+        Field[] fields = obj.getClass().getDeclaredFields(); // Getting all attributes of the obj
         for (Field field : fields) {
-            if (field.getType().isAssignableFrom(String.class)) {
-                field.setAccessible(true);
+            if (field.getType().isAssignableFrom(String.class)) { // Verifying if the attribute is a String
+                field.setAccessible(true); // Allowing the access to the value of attribute
                 Object value = field.get(obj);
+
+                // Validations
                 try {
                     if (value.toString().isBlank() || value.toString().isEmpty()) {
                         throw new MissingInformationInput("Content " + field.getName() + " is empty");
@@ -30,11 +32,11 @@ public class ValidationsOptions {
     }
 
     public static void validatePasswordLength(Object obj) throws IllegalAccessException {
-        Field[] fields = obj.getClass().getDeclaredFields();
+        Field[] fields = obj.getClass().getDeclaredFields(); // Getting all attributes of obj
         Field fieldPassword = null;
         for (Field field : fields) {
 
-            if (field.getName().equals("password")) {
+            if (field.getName().equals("password")) { // Verifying if attribute have the name "password"
                 fieldPassword = field;
             }
         }
@@ -42,7 +44,7 @@ public class ValidationsOptions {
             fieldPassword.setAccessible(true);
             Object value = fieldPassword.get(obj);
             try {
-                if (value.toString().length() < 8) {
+                if (value.toString().length() < 8) { // Verifying the length of password
                     throw new PasswordLengthInvalid("Password length invalid");
                 }
             } catch (NullPointerException e) {

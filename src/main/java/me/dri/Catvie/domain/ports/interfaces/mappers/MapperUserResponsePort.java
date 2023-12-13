@@ -4,7 +4,7 @@ import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;
 import me.dri.Catvie.domain.models.dto.user.UserResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserResponseFilmRequestDTO;
-import me.dri.Catvie.domain.models.entities.User;
+import me.dri.Catvie.domain.models.core.User;
 
 
 public interface MapperUserResponsePort {
