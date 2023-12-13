@@ -41,7 +41,7 @@ public class NotesAudienceController {
         String subjectByToken = this.tokenServicesPort.validateToken(token);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.notesService.addNotesByFilmTitle(note, title, subjectByToken));
     }
-    @RequestMapping(method = RequestMethod.PUT, path = "/changeNoteByFilmId/{newNote}/{filmId}/{idNote}")
+    @RequestMapping(method = RequestMethod.PATCH, path = "/changeNoteByFilmId/{newNote}/{filmId}/{idNote}")
     public ResponseEntity<NotesResponseDTO> changeNoteByFilmId(@PathVariable Double newNote, @PathVariable Long filmId, @PathVariable Long idNote, HttpServletRequest request) {
         String token = this.tokenServicesPort.getTokenForHeaders(request);
         String subjectByToken = this.tokenServicesPort.validateToken(token);

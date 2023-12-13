@@ -41,7 +41,7 @@ public class NotesAudiencesIntegrationTest {
     void testChangeNotesByFilmId() {
         given()
                 .headers(this.header)
-                .when().put(this.API_NOTES + "changeNoteByFilmId/4.6/2/9")
+                .when().patch(this.API_NOTES + "changeNoteByFilmId/4.6/2/9")
                 .then().assertThat().statusCode(201);
     }
 

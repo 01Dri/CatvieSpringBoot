@@ -4,11 +4,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import me.dri.Catvie.domain.exceptions.ExceptionEntity;
 import me.dri.Catvie.domain.exceptions.InvalidGenre;
 import me.dri.Catvie.domain.exceptions.NotFoundDirector;
-import me.dri.Catvie.domain.exceptions.auth.InvalidEmailLogin;
-import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
-import me.dri.Catvie.domain.exceptions.auth.InvalidLoginPassword;
-import me.dri.Catvie.domain.exceptions.auth.MissingInformationInput;
+import me.dri.Catvie.domain.exceptions.auth.*;
 import me.dri.Catvie.domain.exceptions.film.NotFoundFilm;
+import me.dri.Catvie.domain.exceptions.user.AlreadyExistsUserException;
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +16,7 @@ import java.util.Date;
 
 @ControllerAdvice
 public class ExceptionHandler {
-    
+
 
     @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundFilm.class)
     public ResponseEntity<ExceptionEntity> contentIsMissingException(NotFoundFilm e, HttpServletRequest request) {
@@ -88,4 +86,25 @@ public class ExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(AlreadyExistsUserException.class)
+    public ResponseEntity<ExceptionEntity> userAlreadyExist(AlreadyExistsUserException e, HttpServletRequest request) {
+        String error = "Error registration the user";
+        HttpStatus status = HttpStatus.CONFLICT;
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidCharacterInput.class)
+    public ResponseEntity<ExceptionEntity> invalidCharacterInput(InvalidCharacterInput e, HttpServletRequest request) {
+        String error = "Error invalid input DTO";
+        HttpStatus status = HttpStatus.CONFLICT;
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
+        return ResponseEntity.status(status).body(err);
+    }
+
+
+
 }
+

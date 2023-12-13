@@ -58,8 +58,6 @@ public class FilmController {
     ResponseEntity<FilmResponseDTO> updateFilm(@RequestBody FilmRequestDTO dto) throws NoSuchFieldException, IllegalAccessException {
         return ResponseEntity.status(HttpStatus.OK).body(this.filmServicePort.update(dto));
     }
-
-
 }
 
 
