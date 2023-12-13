@@ -67,8 +67,8 @@ public class BeanConfiguration {
 
 
     @Bean
-    AuthenticationServicePort userAuthServicePort(AuthenticationPort authenticationPort, MapperUserResponsePort mapperUserPort, UserRepositoryPort userRepositoryPort) {
-        return new AuthenticationServiceImpl(authenticationPort, mapperUserPort, userRepositoryPort);
+    AuthenticationServicePort userAuthServicePort(AuthenticationPort authenticationPort, MapperUserResponsePort mapperUserPort) {
+        return new AuthenticationServiceImpl(authenticationPort, mapperUserPort);
     }
 
     @Bean

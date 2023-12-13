@@ -7,6 +7,6 @@ import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 
 public interface AuthenticationServicePort {
 
-    RegisterResponseDTO register(RegisterDTO register);
-    TokenResponseDTO login(LoginDTO login);
+    RegisterResponseDTO register(RegisterDTO register) throws NoSuchFieldException;
+    TokenResponseDTO login(LoginDTO login) throws NoSuchFieldException;
 }
