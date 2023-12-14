@@ -1,12 +1,15 @@
 package me.dri.Catvie.controllers.auth;
 
+import jakarta.mail.MessagingException;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterResponseDTO;
 import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
+import me.dri.Catvie.infra.ports.email.EmailServicePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +21,22 @@ public class UserControllerAuth {
 
 
     private final AuthenticationServicePort servicePort;
+    private final EmailServicePort emailServicePort;
+
     private static final Logger logger = LoggerFactory.getLogger(UserControllerAuth.class);
 
-    public UserControllerAuth(AuthenticationServicePort servicePort) {
+    @Autowired
+    public UserControllerAuth(AuthenticationServicePort servicePort, EmailServicePort emailServicePort) {
         this.servicePort = servicePort;
+        this.emailServicePort = emailServicePort;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/register")
-    ResponseEntity<RegisterResponseDTO> register(@RequestBody RegisterDTO dto) throws NoSuchFieldException, IllegalAccessException {
+    ResponseEntity<RegisterResponseDTO> register(@RequestBody RegisterDTO dto) throws NoSuchFieldException, IllegalAccessException, MessagingException {
         logger.info("Controller for to register the user accessed");
+        logger.info("Sending email");
+        this.emailServicePort.sendWelcomeMessage(dto.email()); // Send Email with AWS SES
+        logger.info("Email successfully sent");
         return ResponseEntity.status(HttpStatus.CREATED).body(this.servicePort.register(dto));
 
     }
