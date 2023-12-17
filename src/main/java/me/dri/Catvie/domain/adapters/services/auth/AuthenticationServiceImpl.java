@@ -27,8 +27,8 @@ public class AuthenticationServiceImpl implements AuthenticationServicePort {
     public RegisterResponseDTO register(RegisterDTO register) throws NoSuchFieldException, IllegalAccessException {
         AuthValidations.validateRegisterDTO(register); // This is responsible for validation and throwing exceptions
         User user = this.mapperUserPort.convertRegisterDTOToUser(register);
-        this.authenticationPort.register(user);
-        return new RegisterResponseDTO(user.getFirstName(), user.getLastName(), user.getEmail());
+        User userByInfra = this.authenticationPort.register(user);
+        return new RegisterResponseDTO(userByInfra.getId(), userByInfra.getFirstName(), userByInfra.getLastName(), userByInfra.getEmail());
     }
 
     @Override

@@ -1,15 +1,17 @@
 package me.dri.Catvie.controllers;
 
 
+import me.dri.Catvie.domain.consts.EndpointsConstants;
 import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/genre/v1")
+@RequestMapping(EndpointsConstants.ENDPOINT_GENRES)
 @CrossOrigin
 public class GenreController {
 
@@ -19,12 +21,12 @@ public class GenreController {
         this.servicesPort = servicesPort;
     }
 
-    @GetMapping(value = "/findGenreByName/{name}")
+    @GetMapping(value = "/byName/{name}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     ResponseEntity<GenreResponseDTO> findByName(@PathVariable String name) {
         return ResponseEntity.ok().body(this.servicesPort.findByName(name));
     }
-    @GetMapping(value = "/findAll")
-    ResponseEntity<Set<GenreResponseDTO>> findByName() {
+    @GetMapping(path = "/all", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    ResponseEntity<Set<GenreResponseDTO>> findAll() {
         return ResponseEntity.ok().body(this.servicesPort.findAll());
     }
 }

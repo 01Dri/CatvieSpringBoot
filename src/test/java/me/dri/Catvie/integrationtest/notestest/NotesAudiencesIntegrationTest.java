@@ -1,5 +1,7 @@
 package me.dri.Catvie.integrationtest.notestest;
 
+import io.restassured.RestAssured;
+import me.dri.Catvie.domain.consts.EndpointsConstants;
 import me.dri.Catvie.domain.enums.UserRole;
 import me.dri.Catvie.integrationtest.config.ConfigAuthHeaders;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,20 +15,21 @@ public class NotesAudiencesIntegrationTest {
 
     Map<String, String> header = new HashMap<>();
 
-    private final String API_NOTES = "http://localhost:8080/api/notes/v1/";
 
     private final ConfigAuthHeaders configAuthHeaders = new ConfigAuthHeaders("mel@gmail.com", UserRole.USER); // Config Register to get token header authorization
 
     @BeforeEach
     void setup() {
         this.configAuthHeaders.authentication(this.header);
+        RestAssured.baseURI = EndpointsConstants.LOCALHOST + EndpointsConstants.ENDPOINT_NOTES;
+
     }
 
     @Test
     void testAddNotesByFilmId() {
         given()
                 .headers(this.header)
-                .when().post(this.API_NOTES + "addNotesByFilmId/3.5/2")
+                .when().post("/addById/3.5/2")
                 .then().assertThat().statusCode(201);
     }
 
@@ -34,14 +37,14 @@ public class NotesAudiencesIntegrationTest {
     void testAddNotesByFilmTitle() {
         given()
                 .headers(this.header)
-                .when().post(this.API_NOTES + "addNotesByFilmTitle/3.5/Não Abra!")
+                .when().post("/addByTitle/3.5/Não Abra!")
                 .then().assertThat().statusCode(201);
     }
     @Test
     void testChangeNotesByFilmId() {
         given()
                 .headers(this.header)
-                .when().patch(this.API_NOTES + "changeNoteByFilmId/4.6/2/9")
+                .when().patch("/addById/4.6/2/9")
                 .then().assertThat().statusCode(201);
     }
 
@@ -49,7 +52,7 @@ public class NotesAudiencesIntegrationTest {
     void testFindAll() {
         given()
                 .headers(this.header)
-                .when().get(this.API_NOTES + "findAll")
+                .when().get("/all")
                 .then().assertThat().statusCode(200);
     }
 }

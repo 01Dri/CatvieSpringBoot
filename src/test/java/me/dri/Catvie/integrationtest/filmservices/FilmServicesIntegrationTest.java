@@ -1,6 +1,8 @@
 package me.dri.Catvie.integrationtest.filmservices;
 
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import me.dri.Catvie.domain.consts.EndpointsConstants;
 import me.dri.Catvie.domain.enums.UserRole;
 import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
@@ -11,7 +13,9 @@ import me.dri.Catvie.unittest.mocks.MockFilm;
 import me.dri.Catvie.unittest.mocks.MockGenre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 
+import javax.print.attribute.standard.Media;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +25,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class FilmServicesIntegrationTest {
     Map<String, String> header = new HashMap<>();
-    private final String API_FILM = "http://localhost:8080/api/film/v1/";
     private final ConfigAuthHeaders configAuthHeaders = new ConfigAuthHeaders("melteste@gmail.com", UserRole.ADMIN); // Config Register to get token header authorization
     MockGenre mockerGenre;
     MockDirector mockerDirector;
@@ -33,6 +36,7 @@ public class FilmServicesIntegrationTest {
         this.mockerGenre = new MockGenre();
         this.mockerFilm = new MockFilm();
         this.mockerDirector = new MockDirector(mockerFilm);
+        RestAssured.baseURI = EndpointsConstants.LOCALHOST + EndpointsConstants.ENDPOINT_AUTH;
     }
 
 
@@ -42,14 +46,16 @@ public class FilmServicesIntegrationTest {
         mockFilm.setDirector(new DirectorRequestDTO("Diretor 1"));
         mockFilm.setTitle("TituloNemValeDeNada");
         mockFilm.setPosterUrl("http:posterurl/teste");
-        given().headers(this.header).when().contentType(ContentType.JSON).body(mockFilm).when().post(this.API_FILM + "create")
+        given().headers(this.header).when().contentType(ContentType.JSON).body(mockFilm).when().post("/create")
         .then().statusCode(201).body("title", equalTo(mockFilm.getTitle()));
     }
     @Test
     void testFindAll() {
         given()
                 .headers(this.header)
-                .when().get(this.API_FILM + "findAll")
+                .when()
+                .headers("Accept", "application/json")
+                .get("/all")
                 .then().assertThat()
                 .statusCode(200);
     }
@@ -58,7 +64,9 @@ public class FilmServicesIntegrationTest {
     void testFindByTitle() {
         given()
                 .headers(this.header)
-                .when().get(this.API_FILM + "findByTitle/O Convento")
+                .when()
+                .contentType(ContentType.JSON)
+                .get("/byTitle/O Convento")
                 .then()
                 .body("productionCo", equalTo("Metro-Goldwyn-Mayer"))
                 .statusCode(200);
@@ -68,7 +76,9 @@ public class FilmServicesIntegrationTest {
     void testNotFoundFilmByTitle() {
         given()
                 .headers(this.header)
-                .when().get(this.API_FILM + "findByTitle/EsseNomeAquiNuncaVaiExistir")
+                .when()
+                .contentType(ContentType.JSON)
+                .get("/byTitle/EsseNomeAquiNuncaVaiExistir")
                 .then()
                 .statusCode(404);
     }
@@ -78,7 +88,9 @@ public class FilmServicesIntegrationTest {
     void testFindById()  {
         given()
                 .headers(this.header)
-                .when().get(this.API_FILM + "findById/5")
+                .when()
+                .contentType(ContentType.JSON)
+                .get("/byId/5")
                 .then()
                 .body("title", equalTo("O Convento"))
                 .statusCode(200);
@@ -88,7 +100,9 @@ public class FilmServicesIntegrationTest {
     void testNotFoundFilmById() {
         given()
                 .headers(this.header)
-                .when().get(this.API_FILM + "findById/" + Long.MAX_VALUE) // This value probably don't exist
+                .when()
+                .contentType(ContentType.JSON)
+                .get("/byId/" + Long.MAX_VALUE) // This value probably don't exist
                 .then()
                 .statusCode(404);
     }
@@ -97,7 +111,9 @@ public class FilmServicesIntegrationTest {
     void testDeleteById() {
         given()
                 .headers(this.header)
-                .when().delete(this.API_FILM + "deleteById/1")
+                .when()
+                .contentType(ContentType.JSON)
+                .delete("/deleteById/1")
                 .then()
                 .statusCode(204);
     }
@@ -106,7 +122,9 @@ public class FilmServicesIntegrationTest {
     void testNotFoundFilmDeleteById() {
         given()
                 .headers(this.header)
-                .when().delete(this.API_FILM + "deleteById/" + Long.MAX_VALUE)
+                .when()
+                .contentType(ContentType.JSON)
+                .delete("/deleteById/" + Long.MAX_VALUE)
                 .then()
                 .statusCode(404);
     }

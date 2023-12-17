@@ -2,6 +2,7 @@ package me.dri.Catvie.integrationtest.authtests;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import me.dri.Catvie.domain.consts.EndpointsConstants;
 import me.dri.Catvie.domain.enums.UserRole;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
@@ -22,7 +23,7 @@ public class AuthServicesIntegrationTests {
 
     @BeforeEach
     public void setup() {
-        RestAssured.baseURI = "http://localhost:8080/api/auth/v1";
+        RestAssured.baseURI = EndpointsConstants.LOCALHOST + EndpointsConstants.ENDPOINT_AUTH;
 
     }
 

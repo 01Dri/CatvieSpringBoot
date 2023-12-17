@@ -32,7 +32,7 @@ public class MockUser {
 
 
     public RegisterResponseDTO mockRegisterResponseDTO(String firstName, String lastName, String email) {
-        return new RegisterResponseDTO(firstName, lastName, email);
+        return new RegisterResponseDTO(1L ,firstName, lastName, email);
 
     }
 

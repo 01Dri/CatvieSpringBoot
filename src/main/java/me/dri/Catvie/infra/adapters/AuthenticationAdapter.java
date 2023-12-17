@@ -46,13 +46,15 @@ public class AuthenticationAdapter implements AuthenticationPort {
 
 
     @Override
-    public void register(User userRegister) {
+    public User register(User userRegister) {
         String passwordByUserEncrypted = this.passwordEncoder.encode(userRegister.getPassword());
         UserEntity createdNewUser = this.modelMapper.map(userRegister, UserEntity.class);
         this.verifyIfUserAlreadyExistsOnDatabaseByEmail(createdNewUser.getEmail());
         createdNewUser.setPassword(passwordByUserEncrypted);
         UserEntity userRegistered = repositoryJPA.save(createdNewUser);
         logger.info("User id: " +  userRegistered.getId() + " registered!");
+        return this.modelMapper.map(userRegistered, User.class);
+
     }
 
     @Override

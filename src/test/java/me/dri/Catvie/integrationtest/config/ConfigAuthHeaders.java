@@ -24,9 +24,6 @@ public class ConfigAuthHeaders {
     }
 
 
-
-
-
     public void authentication(Map<String, String> header) {
         this.token = registerUserForTests(this.email);
         header.put("Accept", "application/json");

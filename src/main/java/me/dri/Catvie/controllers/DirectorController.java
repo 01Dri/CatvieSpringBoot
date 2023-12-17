@@ -1,13 +1,15 @@
 package me.dri.Catvie.controllers;
 
 
+import me.dri.Catvie.domain.consts.EndpointsConstants;
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/director/v1")
+@RequestMapping(EndpointsConstants.ENDPOINT_DIRECTOR)
 @CrossOrigin
 public class DirectorController  {
 
@@ -17,8 +19,8 @@ public class DirectorController  {
         this.servicePort = servicePort;
     }
 
-    @GetMapping(value = "/findByName/{name}")
-    ResponseEntity<DirectorResponseDTO> findByName(@PathVariable String name) {
-        return ResponseEntity.ok().body(this.servicePort.findByName(name));
+    @GetMapping(value = "/byName/{titleFilm}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    ResponseEntity<DirectorResponseDTO> findByName(@PathVariable String titleFilm) {
+        return ResponseEntity.ok().body(this.servicePort.findByName(titleFilm));
     }
 }

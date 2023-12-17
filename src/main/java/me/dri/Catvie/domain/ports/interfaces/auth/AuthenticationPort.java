@@ -4,6 +4,6 @@ import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.core.User;
 
 public interface AuthenticationPort {
-    void register(User register);
+    User register(User register);
     String login(LoginDTO user);
 }
