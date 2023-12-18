@@ -16,11 +16,15 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class FilmAdapter implements FilmRepositoryPort {
@@ -54,14 +58,18 @@ public class FilmAdapter implements FilmRepositoryPort {
     @Override
     public Film findById(Long id) {
         FilmEntity filmById = this.filmRepositoryJPA.findFilmById(id).orElseThrow(() -> new NotFoundFilm("Film with this id: " + id + " does not exist!"));
-        return this.mapper.map(filmById, Film.class);
+                        return this.mapper.map(filmById, Film.class);
     }
 
     @Override
     public List<Film> findAllFilmEntity() {
         logger.info("Endpoints films accessed");
         List<FilmEntity> filmsAll = this.filmRepositoryJPA.findAllFilms().orElseThrow(() -> new NotFoundFilm("Empty"));
-        return filmsAll.stream().map(f -> this.mapper.map(f, Film.class)).collect(Collectors.toList());
+        for (FilmEntity f : filmsAll) {
+            Link link = linkTo(FilmController.class).slash("/byId/" + f.getId()).withSelfRel();
+            f.add(link);
+        }
+        return filmsAll.stream().map(f -> this.mapper.map(f, Film.class)).toList();
     }
 
     @Override

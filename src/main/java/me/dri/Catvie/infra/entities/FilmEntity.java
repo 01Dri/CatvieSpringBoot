@@ -1,7 +1,10 @@
 package me.dri.Catvie.infra.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "films")
-public class FilmEntity  implements Serializable {
+public class FilmEntity extends RepresentationModel<FilmEntity> implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,12 +52,12 @@ public class FilmEntity  implements Serializable {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-
     public FilmEntity() {
 
     }
 
-    public FilmEntity(Long id, String title, Set<GenreEntity> genres, String originalLanguage, DirectorEntity director, String writer, Date releaseDate, Integer runtime, String distributor, String productionCo, Double averageRatingCritic, Double averageRatingAudience, String posterUrl, UserEntity user) {
+    @JsonCreator
+    public FilmEntity(@JsonProperty("id") Long id, String title, Set<GenreEntity> genres, String originalLanguage, DirectorEntity director, String writer, Date releaseDate, Integer runtime, String distributor, String productionCo, Double averageRatingCritic, Double averageRatingAudience, String posterUrl, UserEntity user) {
         this.id = id;
         this.title = title;
         this.genres = genres;

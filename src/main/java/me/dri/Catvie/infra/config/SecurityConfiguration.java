@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import java.util.Arrays;
+
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @Configuration
@@ -35,6 +37,10 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(mvc.pattern(HttpMethod.POST, EndpointsConstants.ENDPOINT_AUTH + "/**")).permitAll()
+                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/v3/api-docs/**")).permitAll()
+                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/swagger-ui/**")).permitAll()
+                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/v2/api-docs/**")).permitAll()
+                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/swagger-resources/**")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.GET, "/oauth2/authorization/github")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.POST,  EndpointsConstants.ENDPOINT_FILMS+ "/create")).hasRole("ADMIN")
                         .requestMatchers(mvc.pattern(HttpMethod.DELETE,   EndpointsConstants .ENDPOINT_FILMS+ "/deleteById/**")).hasRole("ADMIN")
