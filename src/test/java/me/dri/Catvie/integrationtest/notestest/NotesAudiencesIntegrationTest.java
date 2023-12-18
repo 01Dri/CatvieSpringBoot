@@ -29,7 +29,7 @@ public class NotesAudiencesIntegrationTest {
     void testAddNotesByFilmId() {
         given()
                 .headers(this.header)
-                .when().post("/addById/3.5/2")
+                .when().post("/addById/3.5/4")
                 .then().assertThat().statusCode(201);
     }
 
@@ -37,14 +37,14 @@ public class NotesAudiencesIntegrationTest {
     void testAddNotesByFilmTitle() {
         given()
                 .headers(this.header)
-                .when().post("/addByTitle/3.5/Não Abra!")
+                .when().post("/addByTitle/3.5/O Convento")
                 .then().assertThat().statusCode(201);
     }
     @Test
     void testChangeNotesByFilmId() {
         given()
                 .headers(this.header)
-                .when().patch("/addById/4.6/2/9")
+                .when().patch("/addById/4.6/2/9") // I need to automatize this  <<
                 .then().assertThat().statusCode(201);
     }
 

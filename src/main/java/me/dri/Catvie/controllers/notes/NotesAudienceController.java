@@ -36,8 +36,8 @@ public class NotesAudienceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.notesService.addNotesByFilmId(note, idFilm, subjectByToken));
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/addByTitle/{title}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<NotesResponseDTO> addNotesByFilmId(@PathVariable Double note, @PathVariable String title, HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.POST, path = "/addByTitle/{note}/{title}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<NotesResponseDTO> addNotesByFilmTitle(@PathVariable Double note, @PathVariable String title, HttpServletRequest request) {
         String token = this.tokenServicesPort.getTokenForHeaders(request);
         String subjectByToken = this.tokenServicesPort.validateToken(token);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.notesService.addNotesByFilmTitle(note, title, subjectByToken));

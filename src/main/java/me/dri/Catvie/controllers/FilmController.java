@@ -31,9 +31,9 @@ public class FilmController {
         this.tokenServicesPort = tokenServicesPort;
     }
 
-    @GetMapping(path = "/all", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    List<FilmResponseDTO> findAll () {
-        return this.filmServicePort.findAll();
+    @GetMapping(path = "/all" , produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    ResponseEntity<List<FilmResponseDTO>> findAll () {
+        return ResponseEntity.ok(this.filmServicePort.findAll());
     }
     @GetMapping (path = "/byId/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE} )
     ResponseEntity<FilmResponseDTO> findById(@PathVariable Long id) {

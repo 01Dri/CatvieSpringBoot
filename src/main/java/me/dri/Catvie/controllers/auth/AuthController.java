@@ -36,7 +36,8 @@ public class AuthController {
         this.emailServicePort = emailServicePort;
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/register", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @RequestMapping(method = RequestMethod.POST, path = "/register", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     ResponseEntity<RegisterResponseDTO> register(@RequestBody RegisterDTO dto, UriComponentsBuilder uriComponentsBuilder) throws NoSuchFieldException, IllegalAccessException, MessagingException {
         logger.info("Controller to register the user accessed");
        // logger.info("Sending email");

@@ -6,16 +6,13 @@ import me.dri.Catvie.domain.consts.EndpointsConstants;
 import me.dri.Catvie.domain.enums.UserRole;
 import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
-import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
 import me.dri.Catvie.integrationtest.config.ConfigAuthHeaders;
 import me.dri.Catvie.unittest.mocks.MockDirector;
 import me.dri.Catvie.unittest.mocks.MockFilm;
 import me.dri.Catvie.unittest.mocks.MockGenre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 
-import javax.print.attribute.standard.Media;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +33,7 @@ public class FilmServicesIntegrationTest {
         this.mockerGenre = new MockGenre();
         this.mockerFilm = new MockFilm();
         this.mockerDirector = new MockDirector(mockerFilm);
-        RestAssured.baseURI = EndpointsConstants.LOCALHOST + EndpointsConstants.ENDPOINT_AUTH;
+        RestAssured.baseURI = EndpointsConstants.LOCALHOST + EndpointsConstants.ENDPOINT_FILMS;
     }
 
 
@@ -46,17 +43,23 @@ public class FilmServicesIntegrationTest {
         mockFilm.setDirector(new DirectorRequestDTO("Diretor 1"));
         mockFilm.setTitle("TituloNemValeDeNada");
         mockFilm.setPosterUrl("http:posterurl/teste");
-        given().headers(this.header).when().contentType(ContentType.JSON).body(mockFilm).when().post("/create")
-        .then().statusCode(201).body("title", equalTo(mockFilm.getTitle()));
+        given()
+                .headers(this.header)
+                .when()
+                .body(mockFilm)
+                .when()
+                .post("/create")
+                .then()
+                .statusCode(201)
+                .body("title", equalTo(mockFilm.getTitle()));
     }
     @Test
     void testFindAll() {
         given()
                 .headers(this.header)
                 .when()
-                .headers("Accept", "application/json")
                 .get("/all")
-                .then().assertThat()
+                .then()
                 .statusCode(200);
     }
 
@@ -65,7 +68,6 @@ public class FilmServicesIntegrationTest {
         given()
                 .headers(this.header)
                 .when()
-                .contentType(ContentType.JSON)
                 .get("/byTitle/O Convento")
                 .then()
                 .body("productionCo", equalTo("Metro-Goldwyn-Mayer"))
@@ -77,7 +79,6 @@ public class FilmServicesIntegrationTest {
         given()
                 .headers(this.header)
                 .when()
-                .contentType(ContentType.JSON)
                 .get("/byTitle/EsseNomeAquiNuncaVaiExistir")
                 .then()
                 .statusCode(404);
@@ -89,7 +90,6 @@ public class FilmServicesIntegrationTest {
         given()
                 .headers(this.header)
                 .when()
-                .contentType(ContentType.JSON)
                 .get("/byId/5")
                 .then()
                 .body("title", equalTo("O Convento"))
@@ -101,7 +101,6 @@ public class FilmServicesIntegrationTest {
         given()
                 .headers(this.header)
                 .when()
-                .contentType(ContentType.JSON)
                 .get("/byId/" + Long.MAX_VALUE) // This value probably don't exist
                 .then()
                 .statusCode(404);
@@ -112,7 +111,6 @@ public class FilmServicesIntegrationTest {
         given()
                 .headers(this.header)
                 .when()
-                .contentType(ContentType.JSON)
                 .delete("/deleteById/1")
                 .then()
                 .statusCode(204);
@@ -123,7 +121,6 @@ public class FilmServicesIntegrationTest {
         given()
                 .headers(this.header)
                 .when()
-                .contentType(ContentType.JSON)
                 .delete("/deleteById/" + Long.MAX_VALUE)
                 .then()
                 .statusCode(404);

@@ -1,5 +1,6 @@
 package me.dri.Catvie.infra.config;
 
+import me.dri.Catvie.domain.consts.EndpointsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,11 +34,10 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/v1/api/auth/register")).permitAll()
-                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/v1/api/auth/login")).permitAll()
+                        .requestMatchers(mvc.pattern(HttpMethod.POST, EndpointsConstants.ENDPOINT_AUTH + "/**")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.GET, "/oauth2/authorization/github")).permitAll()
-                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/v1/api/films/create")).hasRole("ADMIN")
-                        .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/v1/api/films/id/**")).hasRole("ADMIN")
+                        .requestMatchers(mvc.pattern(HttpMethod.POST,  EndpointsConstants.ENDPOINT_FILMS+ "/create")).hasRole("ADMIN")
+                        .requestMatchers(mvc.pattern(HttpMethod.DELETE,   EndpointsConstants .ENDPOINT_FILMS+ "/deleteById/**")).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

@@ -60,8 +60,15 @@ public class AuthServicesIntegrationTests {
     @Test
     void registerUserFailedBecauseEmailIsIncorrect() {
         RegisterDTO obj = new RegisterDTO("Diego", "Henrique", "", "12345678", UserRole.USER);
-        given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
-                .then().statusCode(400).body("message", equalTo("Error invalid input DTO"));;
+        given()
+                .when()
+                .contentType(ContentType.JSON)
+                .body(obj)
+                .when()
+                .post("/register")
+                .then()
+                .statusCode(400)
+                .body("message", equalTo("Error invalid input DTO"));;
     }
 
     @Test

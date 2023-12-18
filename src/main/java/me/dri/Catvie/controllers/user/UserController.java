@@ -23,7 +23,7 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping(path = "/byId", produces = {HttpConstants.CONTENT_TYPE_JSON, HttpConstants.CONTENT_TYPE_XML})
+    @GetMapping(path = "/byId/{id}", produces = {HttpConstants.CONTENT_TYPE_JSON, HttpConstants.CONTENT_TYPE_XML})
     public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(this.service.findById(id));
     }

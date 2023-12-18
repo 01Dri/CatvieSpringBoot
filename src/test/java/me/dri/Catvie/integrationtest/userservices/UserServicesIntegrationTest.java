@@ -17,13 +17,11 @@ import static org.hamcrest.Matchers.equalTo;
 public class UserServicesIntegrationTest {
 
     Map<String, String> header = new HashMap<>();
-    private final String API_USER = "http://localhost:8080/v1/api/users";
-
     private final ConfigAuthHeaders configAuthHeaders = new ConfigAuthHeaders("diegotestes123@gmail.com", UserRole.ADMIN); // Config Register to get token header authorization
 
     @BeforeEach
     void setup() {
-        RestAssured.baseURI = EndpointsConstants.LOCALHOST + EndpointsConstants.ENDPOINT_NOTES;
+        RestAssured.baseURI = EndpointsConstants.LOCALHOST + EndpointsConstants.ENDPOINT_USERS;
         configAuthHeaders.authentication(this.header);
     }
 
@@ -34,7 +32,7 @@ public class UserServicesIntegrationTest {
 
     @Test
     void testNotFoundUserById() {
-        given().headers(this.header).when().get("/byId/1123123123").then().statusCode(204);
+        given().headers(this.header).when().get("/byId/1123123123").then().statusCode(404);
     }
 
 }
