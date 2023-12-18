@@ -10,7 +10,7 @@ public interface NotesAudienceServicesPort {
 
     NotesResponseDTO addNotesByFilmTitle(Double note, String filmTitle, String emailUser);
 
-    NotesResponseDTO changeNoteByFilmId(Double newNote, Long filmId, String emailUser, Long idUser);
+    NotesResponseDTO changeNoteByFilmId(Double newNote, Long filmId, String emailUser, Long idNote);
 
     List<NotesResponseDTO> findAllNotes();
 

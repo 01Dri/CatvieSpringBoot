@@ -38,10 +38,10 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
     }
 
     @Override
-    public NotesResponseDTO changeNoteByFilmId(Double newNote, Long filmId, String emailUser, Long idUser) {
+    public NotesResponseDTO changeNoteByFilmId(Double newNote, Long filmId, String emailUser, Long idNote) {
         this.validaInputNote(newNote);
         this.validateInputId(filmId);
-        NotesAudience notesAudienceByInfraAdapter = this.repositoryPort.changeNoteByFilmId(newNote, filmId, emailUser, idUser);
+        NotesAudience notesAudienceByInfraAdapter = this.repositoryPort.changeNoteByFilmId(newNote, filmId, emailUser, idNote);
         return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences(), notesAudienceByInfraAdapter.getUser().getId());
     }
 

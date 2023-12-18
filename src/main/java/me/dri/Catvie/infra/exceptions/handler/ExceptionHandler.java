@@ -8,6 +8,8 @@ import me.dri.Catvie.domain.exceptions.auth.*;
 import me.dri.Catvie.domain.exceptions.film.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.user.AlreadyExistsUserException;
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
+import me.dri.Catvie.domain.exceptions.token.ErrorGenerateTokenJWT;
+import me.dri.Catvie.domain.exceptions.token.InvalidTokenJWT;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -105,6 +107,23 @@ public class ExceptionHandler {
     }
 
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(ErrorGenerateTokenJWT.class)
+    public ResponseEntity<ExceptionEntity> errorGenerateJWToken(ErrorGenerateTokenJWT e, HttpServletRequest request) {
+        String error = "Error generate JWT token";
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidTokenJWT.class)
+    public ResponseEntity<ExceptionEntity> errorInvalidJWToken(InvalidTokenJWT e, HttpServletRequest request) {
+        String error = "Error invalid JWT token";
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        String path = request.getRequestURI();
+        ExceptionEntity err = new ExceptionEntity(new Date(), error, e.getMessage(), status.value(), path);
+        return ResponseEntity.status(status).body(err);
+    }
 
 }
 

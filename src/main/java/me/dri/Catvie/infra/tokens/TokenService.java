@@ -5,9 +5,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.http.HttpServletRequest;
-import me.dri.Catvie.domain.exceptions.auth.InvalidJWTException;
+import me.dri.Catvie.domain.exceptions.token.ErrorGenerateTokenJWT;
+import me.dri.Catvie.domain.exceptions.token.InvalidTokenJWT;
 import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.infra.entities.UserEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -17,7 +19,8 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService  implements TokenServicesPort {
 
-    private final String secret = "drisec"; // Change after conclusion of the project
+    @Value("${SECRET_TOKEN_SERVICE}")
+    private String secret;
 
     @Override
     public String generateToken(UserEntity user) {
@@ -29,7 +32,7 @@ public class TokenService  implements TokenServicesPort {
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException e) {
-            throw new InvalidJWTException("Error generating token" + e.getMessage());
+            throw new ErrorGenerateTokenJWT(e.getMessage());
         }
     }
 
@@ -43,7 +46,7 @@ public class TokenService  implements TokenServicesPort {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException e) {
-            throw new InvalidJWTException("Error validation token " + e.getMessage());
+            throw new InvalidTokenJWT(e.getMessage());
         }
     }
 

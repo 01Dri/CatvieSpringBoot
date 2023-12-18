@@ -10,5 +10,6 @@ public class EndpointsConstants {
     public static final String ENDPOINT_FILMS = "/v1/api/films";
     public static final String ENDPOINT_GENRES = "/v1/api/genres";
     public static final String ENDPOINT_FIND_USERS = "/v1/api/users/byId";
+    public static final String ENDPOINT_FIND_FILMS = "/v1/api/films/byId";
 
 }
