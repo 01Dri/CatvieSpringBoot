@@ -30,7 +30,7 @@ Catvie API é construída com um conjunto de tecnologias modernas:
 
 Acesse a documentação da API em tempo real usando o Swagger OpenAPI. Basta acessar: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
--- ![2023-12-18 21-12-44](https://github.com/01Dri/CatvieSpringBoot/assets/124473653/d15d0c46-da03-427f-8350-c88efea92cf3)
+- ![2023-12-18 21-12-44](https://github.com/01Dri/CatvieSpringBoot/assets/124473653/d15d0c46-da03-427f-8350-c88efea92cf3)
 
 
 ## Estado Atual do Projeto
