@@ -1,4 +1,4 @@
-# FilmesAPI - Uma API de Ranking de Filmes
+# Catvie API - Uma API de Ranking de Filmes
 
 ## Sobre o Projeto
 
