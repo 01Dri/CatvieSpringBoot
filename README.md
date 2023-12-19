@@ -9,9 +9,23 @@ Catvie API é um projeto criado com o intuito de aprimorar o aprendizado em tecn
 Estou estudando a arquitetura hexogonal (leia sobre aqui: link)
 Então decidi aplica-la nesse projeto como forma de estudo.
 
+## VARIAVEIS DE AMBIENTE:
+Note que alguns arquivos utilizam variaveis de ambiente para a sua configuração. Dessa forma recomendo que criem suas proprias variaveis para o funcionamento correto da aplicação.
+Abaixou vou listar arquivos que utilizam essas variaveis.
+- **Configuração e chaves de acesso AWS SES**: Para utilizar o serviços de envio de email SES, é necessario configurar suas variaveis de ambiente contendo os valores das chaves de acesso da AWS.
+- Path: application.properties ![image](https://github.com/01Dri/CatvieSpringBoot/assets/124473653/e4d8d932-1912-4a9b-8948-0db1684698ac)
+- **Senha para acesso ao banco de dados**: Para configurar o banco de dados, utilizei uma variavel de ambiente, você pode setar manualmente ou utilizar uma variavel.
+- Path: application.properties ![image](https://github.com/01Dri/CatvieSpringBoot/assets/124473653/70e6c52e-471e-486a-8e5d-363094fb9860)
+- ** Chave SECRET para utilizar token service JWT**: Para criptografar e descriptografar token JWT, é necessário uma chave secret, você precisar setar em uma variavel de ambiente no sistema.
+- Path: infra.config.SecurityConfiguration.java ![image](https://github.com/01Dri/CatvieSpringBoot/assets/124473653/d5d07079-c94a-4abe-8b06-6d843c230339)
+  
+## Instalaçoes obrigatórias
+ - **JAVA SDK**: Antes de tudo, é necessário instalar JDK da Oracle[https://www.oracle.com/java/technologies/downloads/], nessa aplicação estou utilizando o Java 21 e Spring Boot 3, recomendo utilizar a mesma versão para um bom funcionamento.
+ - **APACHE MAVEN**: Após isso, é necessário também instalar o APACHE MAVEN[https://maven.apache.org/download.cgi], gerenciador de dependencias do projeto.
+ - **DOCKER**: O projeto suporta Docker, então para utiliza-lo é necessário instala-lo a partir deste link[https://www.docker.com/].
+   
 ## Como iniciar
- -- PROCESSOS
-
+- **Para iniciar a aplicação, basta apenas chamar o comando no terminal desta forma: ``` mvn spring-boot:run ```
 ## Tecnologias Utilizadas
 
 Catvie API é construída com um conjunto de tecnologias modernas:
