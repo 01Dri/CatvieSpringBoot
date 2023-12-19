@@ -1,5 +1,5 @@
 # Catvie API - Uma API de Ranking de Filmes
-![5904059](https://github.com/01Dri/CatvieSpringBoot/assets/124473653/46867e09-d04a-4a88-b2df-23fc1c6bccab)
+![_76d984a9-299e-4fc5-9b2d-26ffa6940d48](https://github.com/01Dri/CatvieSpringBoot/assets/124473653/cb627143-db24-496a-956a-2b6c1fdb0ce3)
 
 ## Sobre o Projeto
 
