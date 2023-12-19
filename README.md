@@ -28,9 +28,9 @@ Abaixou vou listar arquivos que utilizam essas variaveis.
  - **DOCKER**: O projeto suporta Docker, então para utiliza-lo é necessário instala-lo a partir deste link[https://www.docker.com/].
    
 ## Como iniciar
-- **Para iniciar a aplicação, basta apenas chamar o comando no terminal desta forma: ``` mvn spring-boot:run ```
-## Tecnologias Utilizadas
+- Para iniciar a aplicação, basta apenas chamar o comando no terminal desta forma: ``` mvn spring-boot:run ```
 
+## Tecnologias Utilizadas
 Catvie API é construída com um conjunto de tecnologias modernas:
 
 - **[Spring Boot](https://spring.io/projects/spring-boot)**: Utilizado como framework para desenvolver a aplicação Java de forma eficiente e simplificada.
