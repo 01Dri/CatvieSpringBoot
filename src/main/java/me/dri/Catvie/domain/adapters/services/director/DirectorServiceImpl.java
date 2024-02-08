@@ -19,43 +19,11 @@ public class DirectorServiceImpl  implements DirectorServicePort {
     }
 
     @Override
-    public DirectorResponseDTO findById(Long id) {
-        return null;
-    }
-
-    @Override
-    public Set<DirectorResponseDTO> findAll() {
-        return null;
-    }
-
-    @Override
     public DirectorResponseDTO findByName(String title) {
         Director director = this.repositoryPort.findByName(title);
         if (director == null) {
-            throw  new NotFoundDirector("Director with name " + title + " Not exists");
+            throw new NotFoundDirector("Director with name " + title + " Not exists");
         }
         return new DirectorResponseDTO(director.getId(), director.getName());
-    }
-
-    @Override
-    public DirectorResponseDTO create(DirectorRequestDTO genre) {
-        return  null;
-    }
-
-    @Override
-    public DirectorResponseDTO save(DirectorRequestDTO genre) {
-        return  null;
-
-    }
-
-    @Override
-    public DirectorResponseDTO delete(DirectorRequestDTO genre) {
-        return  null;
-
-    }
-
-    @Override
-    public List<DirectorResponseDTO> verifyExistingGenres(List<DirectorRequestDTO> genreDTOS) {
-        return null;
     }
 }

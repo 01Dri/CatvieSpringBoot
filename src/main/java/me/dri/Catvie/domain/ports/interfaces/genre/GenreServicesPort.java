@@ -8,19 +8,11 @@ import java.util.Set;
 
 public interface GenreServicesPort {
 
-    GenreResponseDTO findById(Long id);
 
     Set<GenreResponseDTO> findAll();
 
-    GenreResponseDTO findByName(String title);
 
-    GenreResponseDTO create(GenreRequestDTO genre);
-
-    GenreResponseDTO save(GenreRequestDTO genre);
-
-    GenreResponseDTO delete(GenreRequestDTO genre);
-
-    Set<Genre> verifyExistingGenres(Set<GenreRequestDTO> genreDTOS);
+    Set<Genre> getAllGenresByGenreDTO(Set<GenreRequestDTO> genreDTOS);
 
 
 }

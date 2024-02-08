@@ -2,15 +2,12 @@ package me.dri.Catvie.controllers.auth;
 
 import jakarta.mail.MessagingException;
 import me.dri.Catvie.domain.consts.EndpointsConstants;
-import me.dri.Catvie.domain.consts.HttpConstants;
 import me.dri.Catvie.domain.consts.LoggerConstants;
 import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterResponseDTO;
 import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
-import me.dri.Catvie.infra.ports.email.EmailServicePort;
-import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +25,12 @@ public class AuthController {
 
 
     private final AuthenticationServicePort servicePort;
-    private final EmailServicePort emailServicePort;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
-    public AuthController(AuthenticationServicePort servicePort, EmailServicePort emailServicePort) {
+    public AuthController(AuthenticationServicePort servicePort ) {
         this.servicePort = servicePort;
-        this.emailServicePort = emailServicePort;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/register", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},

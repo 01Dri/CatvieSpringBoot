@@ -33,7 +33,6 @@ public class NotesAudienceAdapter implements NotesAudiencesPort {
 
     private final UserRepositoryJPA userRepositoryJPA;
 
-
     private final ModelMapper modelMapper;
 
     @Autowired

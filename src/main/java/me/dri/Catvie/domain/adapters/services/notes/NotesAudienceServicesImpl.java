@@ -23,8 +23,6 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
     }
     @Override
     public NotesResponseDTO addNotesByFilmId(Double note, Long filmId, String emailUser) {
-        this.validateInputId(filmId);
-        this.validaInputNote(note);
         NotesAudience notesAudienceByInfraAdapter = this.repositoryPort.addNoteByFilmId(note, filmId, emailUser);
         return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences(), notesAudienceByInfraAdapter.getUser().getId());
     }
@@ -75,4 +73,5 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
             throw new InvalidIdException("Content 'id' is invalid!!!");
         }
     }
+
 }

@@ -26,12 +26,7 @@ public class GenreController {
     public GenreController(GenreServicesPort servicesPort) {
         this.servicesPort = servicesPort;
     }
-
-    @GetMapping(value = "/byName/{name}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    ResponseEntity<GenreResponseDTO> findByName(@PathVariable String name) {
-        logger.info(LoggerConstants.ACCESS_CONTROLLER_GENRE_FIND_BY_NAME);
-        return ResponseEntity.ok().body(this.servicesPort.findByName(name));
-    }
+    
     @GetMapping(path = "/all", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     ResponseEntity<Set<GenreResponseDTO>> findAll() {
         logger.info(LoggerConstants.ACCESS_CONTROLLER_GENRE_FIND_ALL);

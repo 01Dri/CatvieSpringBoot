@@ -36,8 +36,7 @@ public class GenreAdapter  implements GenreRepositoryPort {
     @Override
     public Set<Genre> findAll() {
         Set<GenreEntity> allGenres = this.repositoryJPA.findAllSet().orElseThrow(() -> new InvalidGenre("Invalid genre"));
-        Set<Genre> allGenresConvertedToGenre = allGenres.stream().map(genre -> this.modelMapper.map(genre, Genre.class)).collect(Collectors.toSet());
-        return allGenresConvertedToGenre;
+        return allGenres.stream().map(genre -> this.modelMapper.map(genre, Genre.class)).collect(Collectors.toSet());
     }
 
     @Override
@@ -45,31 +44,9 @@ public class GenreAdapter  implements GenreRepositoryPort {
         try {
             Genres genres = Genres.valueOf(title);
             GenreEntity genreByName = this.repositoryJPA.findBygenreName(genres).orElseThrow(() -> new InvalidGenre("Invalid genre"));
-            Genre genreConverted = this.modelMapper.map(genreByName, Genre.class);
-            return genreConverted;
+            return this.modelMapper.map(genreByName, Genre.class);
         } catch (HttpMessageNotReadableException e) {
-            throw  new InvalidGenre("Genre " + title + " Not exist"); // Failed to find genre by name
+            throw new InvalidGenre("Genre " + title + " Not exist"); // Failed to find genre by name
         }
     }
-
-    @Override
-    public void create(Genre genre) {
-
-    }
-
-    @Override
-    public void save(Genre genre) {
-
-    }
-
-    @Override
-    public void delete(Genre genre) {
-
-    }
-
-    @Override
-    public Genre update(Genre film) {
-        return null;
-    }
-
 }

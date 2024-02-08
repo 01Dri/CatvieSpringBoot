@@ -15,16 +15,20 @@ public class OpenApiConfiguration {
 
     @Bean
     public OpenAPI openAPI() {
-        return new OpenAPI().addSecurityItem(new SecurityRequirement()
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement()
                 .addList("Bearer Authentication"))
-                .components(new Components()
-                        .addSecuritySchemes("Bearer Authentication", createAPIKeySchema()))
-                .info(new Info().title("Catvie API")
+                .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeySchema()))
+                .info(new Info().
+                        title("Catvie API")
                         .description("Swagger Open API | Catvie")
-                        .version("1.0").contact(new Contact().name("dridev")
-                                .email("").url("heenrikk3@gmail.com"))
-                        .license(new License().name("License of API")
-                                .url("")));
+                        .version("1.0")
+                        .contact(new Contact()
+                        .name("dridev")
+                        .email("").url("heenrikk3@gmail.com"))
+                        .license(new License()
+                        .name("License of API")
+                        .url("")));
     }
 
     private SecurityScheme createAPIKeySchema() {

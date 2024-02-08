@@ -55,7 +55,7 @@ public class AuthServicesInfraUnitTest {
         UserEntity userEntity = this.mockUser.mockUserEntity();
         String passwordCrypted = "senhacriptografada";
         when(this.encoderPassword.encode(userEntity.getPassword())).thenReturn(passwordCrypted);
-        when(this.modelMapper.map(userEntity, User.class)).thenReturn(userRegister);
+        when(this.modelMapper.map(userRegister, UserEntity.class)).thenReturn(userEntity);
         this.authentication.register(userRegister);
         verify(this.encoderPassword, times(1)).encode(userRegister.getPassword());
         verify(this.repositoryJPA, times(1)).save(userEntity);

@@ -9,6 +9,7 @@ import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.core.Director;
 import me.dri.Catvie.domain.models.core.Film;
 import me.dri.Catvie.domain.models.core.Genre;
+import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
 import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
@@ -47,8 +48,7 @@ public class FilmServicesDomainUnitTest {
     @Mock
     ModelMapper modelMapper;
 
-    @InjectMocks
-    FilmServiceImpl service;
+    FilmServicePort service;
 
     MockFilm mocksFilms;
     MockGenre mockGenre;
@@ -61,6 +61,7 @@ public class FilmServicesDomainUnitTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        this.service = new FilmServiceImpl(repository, mapperFilmResponse, genreServicesPort, directorRepositoryPort, modelMapper);
         this.mocksFilms = new MockFilm();
         this.mockGenre = new MockGenre();
         this.mockDirector = new MockDirector(mocksFilms);
@@ -81,7 +82,6 @@ public class FilmServicesDomainUnitTest {
         FilmResponseDTO mockFilmConvertedByMapperResponse = this.mocksFilms.mockFilmResponseDTO();
         Film mockTest = this.mocksFilms.mockFilm();
 
-        when(this.genreServicesPort.verifyExistingGenres(mockFilmRequestDTO.getGenres())).thenReturn(mockSetGenreByInfraForReturn);
         when(this.directorRepositoryPort.findByName(mockFilmRequestDTO.getDirector().getName())).thenReturn(mockDirectorByInfraForReturn);
         when(this.modelMapper.map(mockFilmRequestDTO, Film.class)).thenReturn(mockFilmConvertedByModelMapper);
         when(this.repository.create(mockFilmConvertedByModelMapper, SUBJECT_EMAIl_DEFAULT_FOR_TESTS)).thenReturn(mockTest);

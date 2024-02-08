@@ -4,9 +4,7 @@ public enum UserRole {
 
     ADMIN("admin"),
     USER("user"),
-
     EMPTY(" ");
-
 
     private String role;
 

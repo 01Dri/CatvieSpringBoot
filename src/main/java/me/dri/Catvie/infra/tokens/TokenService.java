@@ -19,7 +19,7 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService  implements TokenServicesPort {
 
-    @Value("${SECRET_TOKEN_SERVICE}")
+    @Value("13722")
     private String secret;
 
     @Override

@@ -28,12 +28,8 @@ public class AuthenticationAdapter implements AuthenticationPort {
     private final UserRepositoryJPA repositoryJPA;
     private final EncoderPassword passwordEncoder;
     private final AuthenticationManager authenticationManager;
-
     private final ModelMapper modelMapper;
-
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
-
-
 
     @Autowired
     public AuthenticationAdapter(TokenServicesPort tokenServicesPort, UserRepositoryJPA repositoryJPA, EncoderPassword passwordEncoder, AuthenticationManager authenticationManager, ModelMapper modelMapper) {
@@ -61,17 +57,15 @@ public class AuthenticationAdapter implements AuthenticationPort {
     public String login(LoginDTO user) {
         UserDetails userByEmail = this.repositoryJPA.findByEmail(user.email()).orElseThrow(
                 () -> new InvalidEmailLogin("Not found user by email: " + user.email()));
-        String token = this.tokenServicesPort.generateToken((UserEntity) userByEmail);
-        ((UserEntity) userByEmail).setToken(token);
+        ((UserEntity) userByEmail).setToken(this.tokenServicesPort.generateToken((UserEntity) userByEmail));
         UserEntity userLogged = repositoryJPA.save((UserEntity) userByEmail);
         var usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(user.email(), user.password());
         try {
             this.authenticationManager.authenticate(usernamePasswordAuthentication);
         } catch (AuthenticationException e) { // Password invalid
-            throw  new InvalidLoginPassword("Not found user by password: " + user.password());
+            throw  new InvalidLoginPassword("Credentials is invalid");
         }
         logger.info("User id: " +  userLogged.getId() + " authenticated!");
-
         return ((UserEntity) userByEmail).getToken();
     }
     private void verifyIfUserAlreadyExistsOnDatabaseByEmail(String email) {
@@ -80,5 +74,4 @@ public class AuthenticationAdapter implements AuthenticationPort {
             throw new AlreadyExistsUserException("User already exist!!!");
         }
     }
-
 }

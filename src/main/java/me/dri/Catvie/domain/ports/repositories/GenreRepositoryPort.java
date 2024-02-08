@@ -12,12 +12,4 @@ public interface GenreRepositoryPort {
 
     Genre findByName(String title);
 
-    void create(Genre FilmRequestDTO);
-
-    void save(Genre film);
-
-    void delete(Genre film);
-
-    Genre update(Genre film);
-
 }

@@ -65,9 +65,9 @@ public class FilmAdapter implements FilmRepositoryPort {
     public List<Film> findAllFilmEntity() {
         logger.info("Endpoints films accessed");
         List<FilmEntity> filmsAll = this.filmRepositoryJPA.findAllFilms().orElseThrow(() -> new NotFoundFilm("Empty"));
-        for (FilmEntity f : filmsAll) {
-            Link link = linkTo(FilmController.class).slash("/byId/" + f.getId()).withSelfRel();
-            f.add(link);
+        for (FilmEntity film : filmsAll) {
+            Link link = linkTo(FilmController.class).slash("/byId/" + film.getId()).withSelfRel();
+            film.add(link);
         }
         return filmsAll.stream().map(f -> this.mapper.map(f, Film.class)).toList();
     }
@@ -81,7 +81,7 @@ public class FilmAdapter implements FilmRepositoryPort {
 
     @Override
     public Film create(Film film, String subjectEmail) {
-        var genresEntityByDB = this.getGenresToSetGenreEntity(film.getGenres());
+        var genresEntityByDB = this.getGenresAndConvertToSetGenreEntity(film.getGenres());
         var directorEntityByDB = this.directorRepositoryJPA.findByName(film.getDirector().getName()).orElseThrow(() -> new NotFoundDirector("Director not found"));
         var userEntityByDB = this.userRepositoryJPA.findByEmail(subjectEmail).orElseThrow(() -> new NotFoundUser("User not found"));
         FilmEntity filmConvertedToFilmEntity = this.mapper.map(film, FilmEntity.class);
@@ -115,7 +115,7 @@ public class FilmAdapter implements FilmRepositoryPort {
         return id;
     }
 
-    private Set<GenreEntity> getGenresToSetGenreEntity(Set<Genre> genres) {
+    private Set<GenreEntity> getGenresAndConvertToSetGenreEntity(Set<Genre> genres) {
         return genres.stream().map(g ->
                         this.genreRepositoryPort.findBygenreName(g.getGenreName()).orElseThrow(()
                                 -> new InvalidGenre("The genre was not found"))) // This function is used for find each genre of Set and returns a Set Of GenreEntity from DB

@@ -126,7 +126,7 @@ public class AuthServicesDomainUnitTest {
     void registerTestExceptionPasswordCharacterInvalid() {
         RegisterDTO registerDTO = this.mockUser.mockRegisterDTOCharacterInvalidPassword();
         var exception = assertThrows(InvalidCharacterInput.class, () -> this.service.register(registerDTO));
-        assertEquals("Content password contains a invalid character", exception.getMessage());
+        assertEquals("Content have space between information", exception.getMessage());
         verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
         verify(this.authenticationPort, times(0)).register(any());
     }
@@ -145,7 +145,7 @@ public class AuthServicesDomainUnitTest {
     void registerTestExceptionInvalidCharacterEmail() {
         RegisterDTO registerDTO = this.mockUser.mockRegisterDTOWithoutInvalidEmail();
         var exception = assertThrows(InvalidCharacterInput.class, () -> this.service.register(registerDTO));
-        assertEquals("Content email contains a invalid character", exception.getMessage());
+        assertEquals("Content have space between information", exception.getMessage());
         verify(this.mapperUserPortDomain, times(0)).convertRegisterDTOToUser(any());
         verify(this.authenticationPort, times(0)).register(any());
 
@@ -224,7 +224,7 @@ public class AuthServicesDomainUnitTest {
     void loginTestExceptionMissingInformationEmailInvalidCharacter() {
         LoginDTO loginDTO = this.mockUser.mockLoginDTOWithoutEmailInvalidCharacter();
         var exception = assertThrows(InvalidCharacterInput.class, () -> this.service.login(loginDTO));
-        assertEquals("Content email contains a invalid character", exception.getMessage());
+        assertEquals("Content have space between information", exception.getMessage());
         verify(this.authenticationPort, times(0)).login(any());
 
     }
@@ -251,7 +251,7 @@ public class AuthServicesDomainUnitTest {
     void loginTestExceptionMissingInformationInvalidCharacterPassword() {
         LoginDTO loginDTO = this.mockUser.mockLoginDTOWithoutPasswordInvalidCharacter();
         var exception = assertThrows(InvalidCharacterInput.class, () -> this.service.login(loginDTO));
-        assertEquals("Content password contains a invalid character", exception.getMessage());
+        assertEquals("Content have space between information", exception.getMessage());
         verify(this.authenticationPort, times(0)).login(any());
 
     }

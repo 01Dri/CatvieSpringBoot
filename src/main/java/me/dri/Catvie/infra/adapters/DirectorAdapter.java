@@ -36,28 +36,4 @@ public class DirectorAdapter implements DirectorRepositoryPort {
         return this.modelMapper.map(director, Director.class);
     }
 
-    @Override
-    public List<Director> findAll() {
-        return null;
-    }
-
-    @Override
-    public void create(Director FilmRequestDTO) {
-
-    }
-
-    @Override
-    public void save(Director film) {
-
-    }
-
-    @Override
-    public void delete(Director film) {
-
-    }
-
-    @Override
-    public Director update(Director film) {
-        return null;
-    }
 }

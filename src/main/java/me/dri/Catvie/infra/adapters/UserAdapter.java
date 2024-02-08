@@ -26,45 +26,10 @@ public class UserAdapter  implements UserRepositoryPort {
     }
 
 
-
     @Override
     public User findById(Long id) {
         UserEntity userById = this.userRepositoryJPA.findById(id).orElseThrow(() -> new NotFoundUser("Not found user"));
         return this.mapperI.map(userById, User.class);
     }
 
-    @Override
-    public List<User> findAll() {
-        return null;
-    }
-
-    @Override
-    public User findByName(String title) {
-        return null;
-    }
-
-    @Override
-    public User findByEmail(String email) {
-        return null;
-    }
-
-    @Override
-    public void create(User FilmRequestDTO) {
-
-    }
-
-    @Override
-    public void save(User film) {
-
-    }
-
-    @Override
-    public void delete(User film) {
-
-    }
-
-    @Override
-    public User update(User user) {
-        return null;
-    }
 }

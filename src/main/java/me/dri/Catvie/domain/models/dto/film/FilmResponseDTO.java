@@ -14,7 +14,6 @@ public record FilmResponseDTO(Long id, String title, Set<GenreResponseDTO>
                               Date releaseDate, Integer runtime,
                               String distributor, String writer,
                               String productionCo, Double averageRatingCritic,
-
                               Double averageRatingAudience, DirectorResponseDTO director,
                               String posterUrl, UserResponseFilmRequestDTO postedByUser, String links) {
 }

@@ -2,11 +2,11 @@ package me.dri.Catvie.domain.adapters.services.film;
 
 import me.dri.Catvie.domain.exceptions.film.IdFilmIsNullException;
 import me.dri.Catvie.domain.exceptions.validations.FilmValidations;
-import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
-import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.core.Director;
 import me.dri.Catvie.domain.models.core.Film;
 import me.dri.Catvie.domain.models.core.Genre;
+import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
+import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
@@ -60,16 +60,10 @@ public class FilmServiceImpl  implements FilmServicePort {
     @Override
     public FilmResponseDTO create(FilmRequestDTO filmRequestDTO,
                                   String subjectByToken) throws NoSuchFieldException, IllegalAccessException {
-        FilmValidations.validateFilmRequestDto(filmRequestDTO);
-        Set<Genre> genresSetResponseByServices = this.genreServicesPort.
-                verifyExistingGenres(filmRequestDTO.getGenres());
-        Director directorByRepository = this.directorRepository.findByName(filmRequestDTO.getDirector().getName());
-        Film filmConvertedByModel = this.modelMapper.map(filmRequestDTO, Film.class);
-        filmConvertedByModel.setGenres(genresSetResponseByServices);
-        filmConvertedByModel.setDirector(directorByRepository);
-        filmConvertedByModel.setAverageRatingAudience(0.0);
-        filmConvertedByModel.setAverageRatingCritic(0.0);
-        Film filmByInfraAdapter = this.filmRepositoryPort.create(filmConvertedByModel, subjectByToken);
+        Film filmConvertedToModel = this.convertFilmRequestDtoToFilm(filmRequestDTO);
+        filmConvertedToModel.setAverageRatingAudience(0.0);
+        filmConvertedToModel.setAverageRatingCritic(0.0);
+        Film filmByInfraAdapter = this.filmRepositoryPort.create(filmConvertedToModel, subjectByToken);
         return this.mapperFilmResponse.convertFilmToResponseDTO(filmByInfraAdapter);
     }
 
@@ -83,15 +77,18 @@ public class FilmServiceImpl  implements FilmServicePort {
 
     @Override
     public FilmResponseDTO update(FilmRequestDTO filmRequestDTO) throws NoSuchFieldException, IllegalAccessException {
+        Film filmConvertedToModel = this.convertFilmRequestDtoToFilm(filmRequestDTO);
+        this.filmRepositoryPort.update(filmConvertedToModel);
+        return this.mapperFilmResponse.convertFilmToResponseDTO(filmConvertedToModel);
+    }
+
+    private Film convertFilmRequestDtoToFilm(FilmRequestDTO filmRequestDTO) throws IllegalAccessException {
         FilmValidations.validateFilmRequestDto(filmRequestDTO);
-        Set<Genre> genresSetResponseByServices = this.genreServicesPort.verifyExistingGenres(filmRequestDTO.getGenres());
+        Set<Genre> genresSetResponseByServices = this.genreServicesPort.getAllGenresByGenreDTO(filmRequestDTO.getGenres());
         Director directorByRepository = this.directorRepository.findByName(filmRequestDTO.getDirector().getName());
         Film filmConverted = this.modelMapper.map(filmRequestDTO, Film.class);
         filmConverted.setGenres(genresSetResponseByServices);
         filmConverted.setDirector(directorByRepository);
-        this.filmRepositoryPort.update(filmConverted);
-        return this.mapperFilmResponse.convertFilmToResponseDTO(filmConverted);
+        return filmConverted;
     }
-
-
 }

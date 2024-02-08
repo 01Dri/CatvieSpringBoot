@@ -1,8 +1,8 @@
 package me.dri.Catvie.domain.adapters.services.genre;
 
+import me.dri.Catvie.domain.models.core.Genre;
 import me.dri.Catvie.domain.models.dto.genre.GenreRequestDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
-import me.dri.Catvie.domain.models.core.Genre;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
 import me.dri.Catvie.domain.ports.repositories.GenreRepositoryPort;
 
@@ -18,10 +18,6 @@ public class GenreServiceImpl implements GenreServicesPort {
         this.repositoryPort = repositoryPort;
     }
 
-    @Override
-    public GenreResponseDTO findById(Long id) {
-        return null;
-    }
 
     @Override
     public Set<GenreResponseDTO> findAll() {
@@ -30,34 +26,12 @@ public class GenreServiceImpl implements GenreServicesPort {
     }
 
     @Override
-    public GenreResponseDTO findByName(String title) {
-        return null;
-    }
-
-    @Override
-    public GenreResponseDTO create(GenreRequestDTO genre) {
-        return null;
-
-    }
-
-    @Override
-    public GenreResponseDTO save(GenreRequestDTO genre) {
-        return null;
-    }
-
-
-    public GenreResponseDTO delete(GenreRequestDTO genre) {
-        return null;
-
-    }
-
-    @Override
-    public Set<Genre> verifyExistingGenres(Set<GenreRequestDTO> genreDTOS) {
-        Set<Genre>  response = new HashSet<>();
+    public Set<Genre> getAllGenresByGenreDTO(Set<GenreRequestDTO> genreDTOS) {
+        Set<Genre>  genresHash = new HashSet<>();
         for (GenreRequestDTO genreDTO : genreDTOS) {
             var genreData = this.repositoryPort.findByName(genreDTO.getGenreName().name());
-            response.add(new Genre(genreData.getId(), genreData.getGenreName()));
+            genresHash.add(new Genre(genreData.getId(), genreData.getGenreName()));
         }
-        return response;
+        return genresHash;
     }
 }
