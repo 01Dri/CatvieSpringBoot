@@ -1,7 +1,6 @@
 CREATE TABLE films (
     id SERIAL PRIMARY KEY UNIQUE NOT NULL,
     title VARCHAR(255) UNIQUE,
-    url VARCHAR(255) UNIQUE,
     original_language VARCHAR(255),
     writer VARCHAR(255),
     director_id INT NOT NULL,

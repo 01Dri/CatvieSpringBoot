@@ -2,11 +2,11 @@ package me.dri.Catvie.domain.models.dto.film;
 
 import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
-import me.dri.Catvie.domain.models.dto.links.LinkDTO;
 import me.dri.Catvie.domain.models.dto.user.UserResponseFilmRequestDTO;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Links;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 public record FilmResponseDTO(Long id, String title, Set<GenreResponseDTO>
@@ -15,6 +15,6 @@ public record FilmResponseDTO(Long id, String title, Set<GenreResponseDTO>
                               String distributor, String writer,
                               String productionCo, Double averageRatingCritic,
                               Double averageRatingAudience, DirectorResponseDTO director,
-                              String posterUrl, UserResponseFilmRequestDTO postedByUser, String links) {
+                              String posterUrl, UserResponseFilmRequestDTO postedByUser, Links links) {
 }
 

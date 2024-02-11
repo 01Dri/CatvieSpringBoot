@@ -1,7 +1,6 @@
 package me.dri.Catvie.integrationtest.filmservices;
 
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import me.dri.Catvie.domain.consts.EndpointsConstants;
 import me.dri.Catvie.domain.enums.UserRole;
 import me.dri.Catvie.domain.models.dto.director.DirectorRequestDTO;
@@ -18,6 +17,7 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasKey;
 
 
 public class FilmServicesIntegrationTest {
@@ -51,6 +51,7 @@ public class FilmServicesIntegrationTest {
                 .post("/create")
                 .then()
                 .statusCode(201)
+                .body("$", hasKey("links")) // VALIDATING HATEOAS
                 .body("title", equalTo(mockFilm.getTitle()));
     }
     @Test
@@ -60,6 +61,7 @@ public class FilmServicesIntegrationTest {
                 .when()
                 .get("/all")
                 .then()
+                .body("$", hasKey("links"))
                 .statusCode(200);
     }
 

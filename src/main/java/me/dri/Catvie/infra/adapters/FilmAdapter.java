@@ -5,8 +5,10 @@ import me.dri.Catvie.domain.exceptions.InvalidGenre;
 import me.dri.Catvie.domain.exceptions.NotFoundDirector;
 import me.dri.Catvie.domain.exceptions.film.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
+import me.dri.Catvie.domain.models.core.Director;
 import me.dri.Catvie.domain.models.core.Film;
 import me.dri.Catvie.domain.models.core.Genre;
+import me.dri.Catvie.domain.models.core.User;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
@@ -63,13 +65,14 @@ public class FilmAdapter implements FilmRepositoryPort {
 
     @Override
     public List<Film> findAllFilmEntity() {
-        logger.info("Endpoints films accessed");
         List<FilmEntity> filmsAll = this.filmRepositoryJPA.findAllFilms().orElseThrow(() -> new NotFoundFilm("Empty"));
         for (FilmEntity film : filmsAll) {
             Link link = linkTo(FilmController.class).slash("/byId/" + film.getId()).withSelfRel();
             film.add(link);
         }
-        return filmsAll.stream().map(f -> this.mapper.map(f, Film.class)).toList();
+        return filmsAll.stream().map(f -> new Film(f.getId(), f.getTitle(), f.getGenres().stream().map(g -> new Genre(g.getId(), g.getGenreName())).collect(Collectors.toSet()),
+                f.getOriginalLanguage(), new Director(f.getDirector().getId(), f.getDirector().getName()), f.getWriter(), f.getReleaseDate(), f.getRuntime(), f.getDistributor(), f.getProductionCo(), f.getAverageRatingCritic(), f.getAverageRatingAudience(),
+                f.getPosterUrl(), new User(f.getUser().getId(), f.getUser().getFirstName(), f.getUser().getLastName(), f.getUser().getEmail(), f.getUser().getPassword(), f.getUser().getToken(), f.getUser().getRole()))).toList();
     }
 
     @Override
@@ -85,11 +88,17 @@ public class FilmAdapter implements FilmRepositoryPort {
         var directorEntityByDB = this.directorRepositoryJPA.findByName(film.getDirector().getName()).orElseThrow(() -> new NotFoundDirector("Director not found"));
         var userEntityByDB = this.userRepositoryJPA.findByEmail(subjectEmail).orElseThrow(() -> new NotFoundUser("User not found"));
         FilmEntity filmConvertedToFilmEntity = this.mapper.map(film, FilmEntity.class);
+
         filmConvertedToFilmEntity.setGenres(genresEntityByDB);
         filmConvertedToFilmEntity.setDirector(directorEntityByDB);
         filmConvertedToFilmEntity.setUser((UserEntity) userEntityByDB);
+        filmConvertedToFilmEntity = this.filmRepositoryJPA.save(filmConvertedToFilmEntity);
+
+        // Adding reference link to film obj
+        filmConvertedToFilmEntity.add(linkTo(FilmController.class).slash("/byId/" + filmConvertedToFilmEntity.getId()).withSelfRel());
         this.filmRepositoryJPA.save(filmConvertedToFilmEntity);
-        return this.mapper.map(filmConvertedToFilmEntity, Film.class);
+        Film filmToDomain =  this.mapper.map(filmConvertedToFilmEntity, Film.class);
+        return filmToDomain.add(filmConvertedToFilmEntity.getLinks());
     }
 
 
@@ -109,7 +118,7 @@ public class FilmAdapter implements FilmRepositoryPort {
     @Override
     public Long deleteById(Long id) {
         FilmEntity filmEntityById = this.filmRepositoryJPA.findFilmById(id).orElseThrow(
-                () -> new NotFoundFilm("The film was not found")); // Why this doesn't work
+                () -> new NotFoundFilm("The film was not found")); //
         this.audiencesRepositoryJPA.deleteByFilmId(filmEntityById.getId());
         this.filmRepositoryJPA.delete(filmEntityById);
         return id;
@@ -118,7 +127,8 @@ public class FilmAdapter implements FilmRepositoryPort {
     private Set<GenreEntity> getGenresAndConvertToSetGenreEntity(Set<Genre> genres) {
         return genres.stream().map(g ->
                         this.genreRepositoryPort.findBygenreName(g.getGenreName()).orElseThrow(()
-                                -> new InvalidGenre("The genre was not found"))) // This function is used for find each genre of Set and returns a Set Of GenreEntity from DB
+                                -> new InvalidGenre("The genre was not found")))
+                // This function is used for find each genre of Set and returns a Set Of GenreEntity from DB
                 .collect(Collectors.toSet());
     }
 }

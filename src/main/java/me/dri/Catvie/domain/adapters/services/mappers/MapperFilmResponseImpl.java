@@ -1,50 +1,61 @@
 package me.dri.Catvie.domain.adapters.services.mappers;
 
 import me.dri.Catvie.domain.models.core.Film;
-import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
-import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;
+import me.dri.Catvie.domain.utils.BuilderFilm;
+import me.dri.Catvie.domain.utils.FilmResponseDTOBuilder;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MapperFilmResponseImpl implements MapperFilmResponsePort {
 
+    private final BuilderFilm builderFilm = new FilmResponseDTOBuilder<>();
 
-    private final MapperUserResponsePort mapperUserDomainPort;
-
-    public MapperFilmResponseImpl(MapperUserResponsePort mapperUserDomainPort) {
-        this.mapperUserDomainPort = mapperUserDomainPort;
+    public MapperFilmResponseImpl() {
     }
-
-
 
     @Override
     public List<FilmResponseDTO> convertListFilmToFilmResponseDTOList(List<Film> films) {
-        return films.stream().
-                map(f -> new FilmResponseDTO(f.getId(),
-                f.getTitle(), f.getGenres().stream().map(g -> new GenreResponseDTO(g.getId(), g.getGenreName())).collect(Collectors.toSet()),
-                f.getOriginalLanguage(), f.getReleaseDate(), f.getRuntime(), f.getDistributor(), f.getWriter(), f.getProductionCo(),
-                f.getAverageRatingCritic(), f.getAverageRatingAudience(),
-                new DirectorResponseDTO(f.getDirector().getId(), f.getDirector().getName()),
-                f.getPosterUrl(), this.mapperUserDomainPort.convertUserToUserResponseFilmRequestDTO(f.getUser()), f.getLinks().toString())).collect(Collectors.toList());
+        return films.stream().map(
+                film -> (FilmResponseDTO) this.builderFilm
+                        .withId(film.getId())
+                        .withTitle(film.getTitle())
+                        .withGenre(film.getGenres())
+                        .withOriginalLanguage(film.getOriginalLanguage())
+                        .withReleaseDate(film.getReleaseDate())
+                        .withRuntime(film.getRuntime())
+                        .withDistributor(film.getDistributor())
+                        .withWriter(film.getWriter())
+                        .withProductionCo(film.getProductionCo())
+                        .withAverageRatingCritic(film.getAverageRatingCritic())
+                        .withAverageRatingAudience(film.getAverageRatingAudience())
+                        .withDirector(film.getDirector())
+                        .withPosterUrl(film.getPosterUrl())
+                        .withUser(film.getUser())
+                        .withLinks(film.getLinks())
+                        .build()).toList();
     }
-
 
 
     @Override
     public FilmResponseDTO convertFilmToResponseDTO(Film film) {
-        return new FilmResponseDTO(film.getId(),
-                film.getTitle(), film.getGenres().stream().map(
-                        g -> new GenreResponseDTO(g.getId(), g.getGenreName())).collect(Collectors.toSet()),
-                film.getOriginalLanguage(), film.getReleaseDate(), film.getRuntime(),
-                film.getDistributor(), film.getWriter(), film.getProductionCo(),
-                film.getAverageRatingCritic(), film.getAverageRatingAudience(),
-                new DirectorResponseDTO(film.getDirector().getId(), film.getDirector().getName()),
-                film.getPosterUrl(), this.mapperUserDomainPort.convertUserToUserResponseFilmRequestDTO(film.getUser()), film.getLinks().toString());
+        return (FilmResponseDTO) this.builderFilm
+                .withId(film.getId())
+                .withTitle(film.getTitle())
+                .withGenre(film.getGenres())
+                .withOriginalLanguage(film.getOriginalLanguage())
+                .withReleaseDate(film.getReleaseDate())
+                .withRuntime(film.getRuntime())
+                .withDistributor(film.getDistributor())
+                .withWriter(film.getWriter())
+                .withProductionCo(film.getProductionCo())
+                .withAverageRatingCritic(film.getAverageRatingCritic())
+                .withAverageRatingAudience(film.getAverageRatingAudience())
+                .withDirector(film.getDirector())
+                .withPosterUrl(film.getPosterUrl())
+                .withUser(film.getUser())
+                .withLinks(film.getLinks())
+                .build();
     }
-
-
 }

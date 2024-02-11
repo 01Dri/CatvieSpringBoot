@@ -4,6 +4,7 @@ package me.dri.Catvie.domain.models.core;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -80,7 +81,7 @@ public class Film  extends RepresentationModel<Film> implements Serializable {
     }
 
     public Set<Genre> getGenres() {
-        return genres;
+        return this.genres;
     }
 
     public void setGenres(Set<Genre> genres) {

@@ -13,6 +13,8 @@ import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
 import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 import java.util.Set;
@@ -48,6 +50,7 @@ public class FilmServiceImpl  implements FilmServicePort {
     public List<FilmResponseDTO> findAll() {
         List<Film> films = this.filmRepositoryPort.findAllFilmEntity();
         return this.mapperFilmResponse.convertListFilmToFilmResponseDTOList(films);
+
     }
 
     @Override
@@ -61,8 +64,10 @@ public class FilmServiceImpl  implements FilmServicePort {
     public FilmResponseDTO create(FilmRequestDTO filmRequestDTO,
                                   String subjectByToken) throws NoSuchFieldException, IllegalAccessException {
         Film filmConvertedToModel = this.convertFilmRequestDtoToFilm(filmRequestDTO);
+        // After film created, to set your notes to zero
         filmConvertedToModel.setAverageRatingAudience(0.0);
         filmConvertedToModel.setAverageRatingCritic(0.0);
+
         Film filmByInfraAdapter = this.filmRepositoryPort.create(filmConvertedToModel, subjectByToken);
         return this.mapperFilmResponse.convertFilmToResponseDTO(filmByInfraAdapter);
     }

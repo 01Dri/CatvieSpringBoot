@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -29,9 +31,11 @@ public class SecurityConfiguration {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
         return httpSecurity
                 .cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console())
+                        .disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(toH2Console()).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.POST, EndpointsConstants.ENDPOINT_AUTH + "/**")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.GET, "/v3/api-docs/**")).permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.GET, "/swagger-ui/**")).permitAll()

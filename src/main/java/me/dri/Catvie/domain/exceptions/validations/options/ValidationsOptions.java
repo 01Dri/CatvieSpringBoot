@@ -29,9 +29,9 @@ public class ValidationsOptions {
                         throw new MissingInformationInput("Content " + field.getName() + " is empty");
                     }
 
-                    if (value.toString().contains(" ")) {
-                        throw new InvalidCharacterInput("Content have space between information");
-                    }
+                    // if (value.toString().contains(" ")) {
+                      //  throw new InvalidCharacterInput("Content have space between information");
+                    //}
 
                 } catch (NullPointerException e) {
                     logger.error("Input validation error in auth services");

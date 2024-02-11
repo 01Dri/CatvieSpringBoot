@@ -46,7 +46,6 @@ public class FilmServicesInfraUnitTest {
     @Mock
     ModelMapper modelMapper;
 
-    @InjectMocks
     FilmAdapter service;
 
     MockFilm mockFilm;
@@ -60,6 +59,7 @@ public class FilmServicesInfraUnitTest {
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
+        this.service = new FilmAdapter(filmRepositoryJPA, genreRepositoryJPA, directorRepositoryJPA, notesAudiencesPort, userRepositoryJPA, modelMapper);
         mockFilm = new MockFilm();
         mockDirector =new MockDirector(mockFilm);
         mockUser = new MockUser();
@@ -188,7 +188,6 @@ public class FilmServicesInfraUnitTest {
         var result = this.service.findAllFilmEntity();
         verify(this.filmRepositoryJPA, times(1)).findAllFilms();
         assertEquals(2, result.size());
-
     }
 
 

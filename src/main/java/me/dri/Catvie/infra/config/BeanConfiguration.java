@@ -39,8 +39,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    MapperFilmResponsePort mapperFilmDomain(MapperUserResponsePort mapperUserDomainPort) {
-        return new MapperFilmResponseImpl(mapperUserDomainPort);
+    MapperFilmResponsePort mapperFilmDomain() {
+        return new MapperFilmResponseImpl();
     }
 
 

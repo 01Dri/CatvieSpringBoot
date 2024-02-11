@@ -1,10 +1,9 @@
 package me.dri.Catvie.domain.adapters.services.notes;
 
 import me.dri.Catvie.domain.exceptions.film.InvalidTitleFilmException;
-import me.dri.Catvie.domain.exceptions.notes.InvalidIdException;
 import me.dri.Catvie.domain.exceptions.notes.InvalidNoteException;
-import me.dri.Catvie.domain.models.dto.notes.NotesResponseDTO;
 import me.dri.Catvie.domain.models.core.NotesAudience;
+import me.dri.Catvie.domain.models.dto.notes.NotesResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
 import me.dri.Catvie.domain.ports.repositories.NotesAudiencesPort;
 
@@ -23,6 +22,9 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
     }
     @Override
     public NotesResponseDTO addNotesByFilmId(Double note, Long filmId, String emailUser) {
+        this.validaInputNote(note);
+        this.validateInput(filmId);
+        this.validateInput(emailUser);
         NotesAudience notesAudienceByInfraAdapter = this.repositoryPort.addNoteByFilmId(note, filmId, emailUser);
         return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences(), notesAudienceByInfraAdapter.getUser().getId());
     }
@@ -30,7 +32,8 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
     @Override
     public NotesResponseDTO addNotesByFilmTitle(Double note, String filmTitle, String emailUser) {
         this.validaInputNote(note);
-        this.validateInputTitle(filmTitle);
+        this.validateInput(filmTitle);
+        this.validateInput(emailUser);
         NotesAudience notesAudienceByInfraAdapter = this.repositoryPort.addNoteByFilmTitle(note, filmTitle, emailUser);
         return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences(), notesAudienceByInfraAdapter.getUser().getId());
     }
@@ -38,7 +41,9 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
     @Override
     public NotesResponseDTO changeNoteByFilmId(Double newNote, Long filmId, String emailUser, Long idNote) {
         this.validaInputNote(newNote);
-        this.validateInputId(filmId);
+        this.validateInput(filmId);
+        this.validateInput(emailUser);
+        this.validateInput(idNote);
         NotesAudience notesAudienceByInfraAdapter = this.repositoryPort.changeNoteByFilmId(newNote, filmId, emailUser, idNote);
         return new NotesResponseDTO(notesAudienceByInfraAdapter.getId(), notesAudienceByInfraAdapter.getFilm().getTitle(), notesAudienceByInfraAdapter.getNote(), notesAudienceByInfraAdapter.getAverageNotesAudiences(), notesAudienceByInfraAdapter.getUser().getId());
     }
@@ -61,16 +66,10 @@ public class NotesAudienceServicesImpl implements NotesAudienceServicesPort {
         }
     }
 
-    private void validateInputTitle(String title) {
-        if (title == null) {
-            throw new InvalidTitleFilmException("Content 'title' is null");
-        }
-    }
 
-
-    private void validateInputId(Long id) {
-        if (id == null) {
-            throw new InvalidIdException("Content 'id' is invalid!!!");
+    private void validateInput(Object object) {
+        if (object == null) {
+            throw new IllegalArgumentException("Content is null");
         }
     }
 

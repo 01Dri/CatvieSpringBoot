@@ -120,9 +120,9 @@ public class NotesAudienceServicesDomainTests {
 
     @Test
     void testAddNotesByFilmIdNull() {
-        var result = assertThrows(InvalidIdException.class,
+        var result = assertThrows(IllegalArgumentException.class,
                 () -> this.service.addNotesByFilmId(2.0, null, null));
-        assertEquals("Content 'id' is invalid!!!", result.getMessage());
+        assertEquals("Content is null", result.getMessage());
     }
 
     @Test
@@ -133,8 +133,8 @@ public class NotesAudienceServicesDomainTests {
     }
     @Test
     void testAddNotesByFilmTitleNull() {
-        var result = assertThrows(InvalidTitleFilmException.class,
+        var result = assertThrows(IllegalArgumentException.class,
                 () -> this.service.addNotesByFilmTitle(2.5, null, "teste@gmail.com"));
-        assertEquals("Content 'title' is null", result.getMessage());
+        assertEquals("Content is null", result.getMessage());
     }
 }

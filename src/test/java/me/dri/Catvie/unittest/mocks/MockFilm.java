@@ -16,6 +16,8 @@ import me.dri.Catvie.infra.entities.DirectorEntity;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
 import me.dri.Catvie.infra.entities.UserEntity;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Links;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -173,7 +175,7 @@ public class MockFilm {
         return new FilmResponseDTO(1L, "Test Title",
                 Set.of(this.mockGenreResponseDTO), "English" ,
                 new Date(), 120, "Distributor", "EuDiego", "DiegoGames",
-                7.6, 7.8, this.directorResponseDTO, "https:images", this.userResponseDTO, "");
+                7.6, 7.8, this.directorResponseDTO, "https:images", this.userResponseDTO, Links.NONE);
     }
 
     public List<Film> mockListFilms() {
