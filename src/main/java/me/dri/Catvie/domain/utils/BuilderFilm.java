@@ -19,13 +19,16 @@ public interface BuilderFilm<T> {
     BuilderFilm withProductionCo(String id);
     BuilderFilm withAverageRatingCritic(Double id);
     BuilderFilm withAverageRatingAudience(Double id);
-    BuilderFilm withDirector(Object id);
+    BuilderFilm withDirector(T id);
 
     BuilderFilm withPosterUrl(String posterUrl);
-    BuilderFilm withUser(Object id);
+    BuilderFilm withUser(T id);
     BuilderFilm withLinks(Links links);
 
+    BuilderFilm isEntity(Boolean conditio);
+
     Object build();
+
 
 
 }

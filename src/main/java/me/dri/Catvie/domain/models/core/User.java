@@ -99,17 +99,4 @@ public class User  implements Serializable  {
         return Objects.hash(id, firstName, lastName, email, password, token, role);
     }
 
-    @Override
-    public String
-    toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", token='" + token + '\'' +
-                ", role=" + role +
-                '}';
-    }
 }

@@ -128,6 +128,11 @@ public class FilmResponseDTOBuilder<T> implements BuilderFilm<T> {
     }
 
     @Override
+    public BuilderFilm isEntity(Boolean conditio) {
+        return null;
+    }
+
+    @Override
     public FilmResponseDTO build() {
         return new FilmResponseDTO(id, title, genres, originalLanguage, releaseDate, runtime, distributor, writer, productionCo, averageRatingCritic, averageRatingAudience, director, posterUrl, postedByUser, links);
     }

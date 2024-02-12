@@ -21,28 +21,55 @@ public class MapperFilmResponseImpl implements MapperFilmResponsePort {
     @Override
     public List<FilmResponseDTO> convertListFilmToFilmResponseDTOList(List<Film> films) {
         return films.stream().map(
-                film -> (FilmResponseDTO) this.builderFilmResponseDTO
-                        .withId(film.getId())
-                        .withTitle(film.getTitle())
-                        .withGenre(film.getGenres())
-                        .withOriginalLanguage(film.getOriginalLanguage())
-                        .withReleaseDate(film.getReleaseDate())
-                        .withRuntime(film.getRuntime())
-                        .withDistributor(film.getDistributor())
-                        .withWriter(film.getWriter())
-                        .withProductionCo(film.getProductionCo())
-                        .withAverageRatingCritic(film.getAverageRatingCritic())
-                        .withAverageRatingAudience(film.getAverageRatingAudience())
-                        .withDirector(film.getDirector())
-                        .withPosterUrl(film.getPosterUrl())
-                        .withUser(film.getUser())
-                        .withLinks(film.getLinks())
-                        .build()).toList();
+                film -> this.buildFilmResponseDTO(film)).toList();
     }
 
 
     @Override
     public FilmResponseDTO convertFilmToResponseDTO(Film film) {
+        return this.buildFilmResponseDTO(film);
+    }
+
+    @Override
+    public Film convertFilmEntityToFilm(FilmEntity filmEntity) {
+        return this.buildFilm(filmEntity);
+    }
+
+    @Override
+    public FilmEntity convertFilmToFilmEntity(Film film) {
+        return this.buildFilmEntity(film);
+    }
+
+    @Override
+    public List<Film> convertListFilmEntityToFilmList(List<FilmEntity> filmsAll) {
+        return filmsAll.stream().map(
+                this::buildFilm).toList();
+    }
+
+
+    private Film buildFilm(FilmEntity filmEntity) {
+        return (Film) this.builderFilm
+                .isEntity(true)
+                .withId(filmEntity.getId())
+                .withTitle(filmEntity.getTitle())
+                .withGenre(filmEntity.getGenres())
+                .withOriginalLanguage(filmEntity.getOriginalLanguage())
+                .withReleaseDate(filmEntity.getReleaseDate())
+                .withRuntime(filmEntity.getRuntime())
+                .withDistributor(filmEntity.getDistributor())
+                .withWriter(filmEntity.getWriter())
+                .withProductionCo(filmEntity.getProductionCo())
+                .withAverageRatingCritic(filmEntity.getAverageRatingCritic())
+                .withAverageRatingAudience(filmEntity.getAverageRatingAudience())
+                .withDirector(filmEntity.getDirector())
+                .withPosterUrl(filmEntity.getPosterUrl())
+                .withUser(filmEntity.getUser())
+                .withLinks(filmEntity.getLinks())
+                .isEntity(false)
+                .build();
+    }
+
+    private FilmResponseDTO buildFilmResponseDTO(Film film) {
         return (FilmResponseDTO) this.builderFilmResponseDTO
                 .withId(film.getId())
                 .withTitle(film.getTitle())
@@ -62,26 +89,24 @@ public class MapperFilmResponseImpl implements MapperFilmResponsePort {
                 .build();
     }
 
-    @Override
-    public List<Film> convertListFilmEntityToFilmList(List<FilmEntity> filmsAll) {
-        return filmsAll.stream().map(
-                film -> (Film) this.builderFilm
-                        .withId(film.getId())
-                        .withTitle(film.getTitle())
-                        .withGenre(film.getGenres())
-                        .withOriginalLanguage(film.getOriginalLanguage())
-                        .withReleaseDate(film.getReleaseDate())
-                        .withRuntime(film.getRuntime())
-                        .withDistributor(film.getDistributor())
-                        .withWriter(film.getWriter())
-                        .withProductionCo(film.getProductionCo())
-                        .withAverageRatingCritic(film.getAverageRatingCritic())
-                        .withAverageRatingAudience(film.getAverageRatingAudience())
-                        .withDirector(film.getDirector())
-                        .withPosterUrl(film.getPosterUrl())
-                        .withUser(film.getUser())
-                        .withLinks(film.getLinks())
-                        .build()).toList();
-
+    private FilmEntity buildFilmEntity(Film film) {
+        return (FilmEntity) this.builderFilm
+                .isEntity(true)
+                .withId(film.getId())
+                .withTitle(film.getTitle())
+                .withGenre(film.getGenres())
+                .withOriginalLanguage(film.getOriginalLanguage())
+                .withReleaseDate(film.getReleaseDate())
+                .withRuntime(film.getRuntime())
+                .withDistributor(film.getDistributor())
+                .withWriter(film.getWriter())
+                .withProductionCo(film.getProductionCo())
+                .withAverageRatingCritic(film.getAverageRatingCritic())
+                .withAverageRatingAudience(film.getAverageRatingAudience())
+                .withDirector(film.getDirector())
+                .withPosterUrl(film.getPosterUrl())
+                .withUser(film.getUser())
+                .withLinks(film.getLinks())
+                .build();
     }
 }

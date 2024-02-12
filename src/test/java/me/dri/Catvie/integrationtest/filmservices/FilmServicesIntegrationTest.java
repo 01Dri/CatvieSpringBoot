@@ -97,7 +97,11 @@ public class FilmServicesIntegrationTest {
                 .get("/byId/5")
                 .then()
                 .body("title", equalTo("O Convento"))
-                .body("$", hasKey("link")) // VALIDATING HATEOAS
+
+                // VALIDATING HATEOAS
+                .body("$", hasKey("link"))
+                .body("link", is(not(empty())))
+
                 .statusCode(200);
     }
 

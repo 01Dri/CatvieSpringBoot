@@ -4,7 +4,6 @@ package me.dri.Catvie.domain.models.core;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -180,27 +179,6 @@ public class Film  extends RepresentationModel<Film> implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, genres, originalLanguage, director, writer, releaseDate, runtime, distributor, productionCo, averageRatingCritic, averageRatingAudience, posterUrl, user);
-    }
-
-    @Override
-    public String
-    toString() {
-        return "Film{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", genres=" + genres +
-                ", originalLanguage='" + originalLanguage + '\'' +
-                ", director=" + director +
-                ", writer='" + writer + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", runtime=" + runtime +
-                ", distributor='" + distributor + '\'' +
-                ", productionCo='" + productionCo + '\'' +
-                ", averageRatingCritic=" + averageRatingCritic +
-                ", averageRatingAudience=" + averageRatingAudience +
-                ", posterUrl='" + posterUrl + '\'' +
-                ", user=" + user +
-                '}';
     }
 }
 

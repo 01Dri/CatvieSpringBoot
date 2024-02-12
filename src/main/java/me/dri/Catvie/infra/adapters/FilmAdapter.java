@@ -62,27 +62,24 @@ public class FilmAdapter implements FilmRepositoryPort {
     @Override
     public Film findById(Long id) {
         FilmEntity filmById = this.filmRepositoryJPA.findFilmById(id).orElseThrow(() -> new NotFoundFilm("Film with this id: " + id + " does not exist!"));
-                        return this.mapper.map(filmById, Film.class);
+        this.setLinkHateoas(filmById);
+        return this.mapperFilmResponsePort.convertFilmEntityToFilm(filmById);
     }
 
     @Override
     public List<Film> findAllFilmEntity() {
         List<FilmEntity> films = this.filmRepositoryJPA.findAllFilms();
-//        films.forEach(f  -> {
-//            f.add(getLinkId(f));
-//        });
-
         for (FilmEntity f : films) {
-            f.add(getLinkId(f));
+            this.setLinkHateoas(f);
         }
-
         return this.mapperFilmResponsePort.convertListFilmEntityToFilmList(films);
     }
 
     @Override
     public Film findByTitle(String title) {
         FilmEntity filmByTitle = this.filmRepositoryJPA.findFilmByTitle(title).orElseThrow(() -> new NotFoundFilm("Film with this title: " + title + " Does not exist!"));
-        return this.mapper.map(filmByTitle, Film.class);
+        this.setLinkHateoas(filmByTitle);
+        return this.mapperFilmResponsePort.convertFilmEntityToFilm(filmByTitle);
     }
 
 
@@ -91,18 +88,16 @@ public class FilmAdapter implements FilmRepositoryPort {
         var genresEntityByDB = this.getGenresAndConvertToSetGenreEntity(film.getGenres());
         var directorEntityByDB = this.directorRepositoryJPA.findByName(film.getDirector().getName()).orElseThrow(() -> new NotFoundDirector("Director not found"));
         var userEntityByDB = this.userRepositoryJPA.findByEmail(subjectEmail).orElseThrow(() -> new NotFoundUser("User not found"));
-        FilmEntity filmConvertedToFilmEntity = this.mapper.map(film, FilmEntity.class);
-
+         // FilmEntity filmConvertedToFilmEntity = this.mapper.map(film, FilmEntity.class);
+        FilmEntity filmConvertedToFilmEntity = this.mapperFilmResponsePort.convertFilmToFilmEntity(film);
+        filmConvertedToFilmEntity.setUser((UserEntity) userEntityByDB);
         filmConvertedToFilmEntity.setGenres(genresEntityByDB);
         filmConvertedToFilmEntity.setDirector(directorEntityByDB);
         filmConvertedToFilmEntity.setUser((UserEntity) userEntityByDB);
-        filmConvertedToFilmEntity = this.filmRepositoryJPA.save(filmConvertedToFilmEntity);
-
-        // Adding reference link to film obj
-        filmConvertedToFilmEntity.add(linkTo(FilmController.class).slash("/byId/" + filmConvertedToFilmEntity.getId()).withSelfRel());
+        this.setLinkHateoas(filmConvertedToFilmEntity);
         this.filmRepositoryJPA.save(filmConvertedToFilmEntity);
-        Film filmToDomain =  this.mapper.map(filmConvertedToFilmEntity, Film.class);
-        return filmToDomain.add(filmConvertedToFilmEntity.getLinks());
+        return this.mapperFilmResponsePort.convertFilmEntityToFilm(filmConvertedToFilmEntity);
+
     }
 
 
@@ -139,6 +134,11 @@ public class FilmAdapter implements FilmRepositoryPort {
     private Link getLinkId(FilmEntity film) {
         return linkTo(FilmController.class).slash("/byId/" + film.getId()).withSelfRel();
     }
+
+    private void setLinkHateoas(FilmEntity filmEntity) {
+        filmEntity.add(getLinkId(filmEntity));
+    }
+
 }
 
 

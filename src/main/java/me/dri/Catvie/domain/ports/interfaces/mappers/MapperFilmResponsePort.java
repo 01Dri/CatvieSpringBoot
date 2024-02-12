@@ -13,5 +13,8 @@ public interface MapperFilmResponsePort {
 
     FilmResponseDTO convertFilmToResponseDTO(Film film);
 
+    Film convertFilmEntityToFilm(FilmEntity filmEntity);
+    FilmEntity convertFilmToFilmEntity(Film film);
+
     List<Film>  convertListFilmEntityToFilmList(List<FilmEntity> filmsAll);
 }
