@@ -5,6 +5,7 @@ import me.dri.Catvie.domain.exceptions.NotFoundDirector;
 import me.dri.Catvie.domain.exceptions.film.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
 import me.dri.Catvie.domain.models.core.Film;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
 import me.dri.Catvie.infra.adapters.FilmAdapter;
 import me.dri.Catvie.infra.entities.DirectorEntity;
 import me.dri.Catvie.infra.entities.FilmEntity;
@@ -46,6 +47,9 @@ public class FilmServicesInfraUnitTest {
     @Mock
     ModelMapper modelMapper;
 
+    @Mock
+    MapperFilmResponsePort mapperFilmResponsePort;
+
     FilmAdapter service;
 
     MockFilm mockFilm;
@@ -59,7 +63,7 @@ public class FilmServicesInfraUnitTest {
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
-        this.service = new FilmAdapter(filmRepositoryJPA, genreRepositoryJPA, directorRepositoryJPA, notesAudiencesPort, userRepositoryJPA, modelMapper);
+        this.service = new FilmAdapter(filmRepositoryJPA, genreRepositoryJPA, directorRepositoryJPA, notesAudiencesPort, userRepositoryJPA, modelMapper, mapperFilmResponsePort);
         mockFilm = new MockFilm();
         mockDirector =new MockDirector(mockFilm);
         mockUser = new MockUser();
@@ -184,10 +188,11 @@ public class FilmServicesInfraUnitTest {
     void testFindAll() {
         var listFilmsEntityMock = this.mockFilm.mockListFilmsEntity();
         var listFilmsMock = this.mockFilm.mockListFilms();
-        when(this.filmRepositoryJPA.findAllFilms()).thenReturn(Optional.of(listFilmsEntityMock));
+        when(this.filmRepositoryJPA.findAllFilms()).thenReturn(listFilmsEntityMock);
         var result = this.service.findAllFilmEntity();
-        verify(this.filmRepositoryJPA, times(1)).findAllFilms();
         assertEquals(2, result.size());
+        verify(this.filmRepositoryJPA, times(1)).findAllFilms();
+
     }
 
 

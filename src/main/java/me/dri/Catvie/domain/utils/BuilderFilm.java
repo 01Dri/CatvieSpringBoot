@@ -22,7 +22,7 @@ public interface BuilderFilm<T> {
     BuilderFilm withDirector(Object id);
 
     BuilderFilm withPosterUrl(String posterUrl);
-    BuilderFilm withUser(User id);
+    BuilderFilm withUser(Object id);
     BuilderFilm withLinks(Links links);
 
     Object build();

@@ -16,8 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.*;
 
 
 public class FilmServicesIntegrationTest {
@@ -51,7 +50,7 @@ public class FilmServicesIntegrationTest {
                 .post("/create")
                 .then()
                 .statusCode(201)
-                .body("$", hasKey("links")) // VALIDATING HATEOAS
+                .body("$", hasKey("link")) // VALIDATING HATEOAS
                 .body("title", equalTo(mockFilm.getTitle()));
     }
     @Test
@@ -61,7 +60,8 @@ public class FilmServicesIntegrationTest {
                 .when()
                 .get("/all")
                 .then()
-                .body("$", hasKey("links"))
+                .body("every { it -> it.containsKey('link') }", is(true)) // This to check if each film has "link" attribute
+                .body("every { it -> it.links.size() }", is(not(empty())))
                 .statusCode(200);
     }
 
@@ -73,6 +73,8 @@ public class FilmServicesIntegrationTest {
                 .get("/byTitle/O Convento")
                 .then()
                 .body("productionCo", equalTo("Metro-Goldwyn-Mayer"))
+                .body("$", hasKey("link")) // VALIDATING HATEOAS
+                .body("link", is(not(empty())))
                 .statusCode(200);
     }
 
@@ -95,6 +97,7 @@ public class FilmServicesIntegrationTest {
                 .get("/byId/5")
                 .then()
                 .body("title", equalTo("O Convento"))
+                .body("$", hasKey("link")) // VALIDATING HATEOAS
                 .statusCode(200);
     }
 

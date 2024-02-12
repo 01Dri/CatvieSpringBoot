@@ -9,6 +9,7 @@ import me.dri.Catvie.domain.models.core.Director;
 import me.dri.Catvie.domain.models.core.Film;
 import me.dri.Catvie.domain.models.core.Genre;
 import me.dri.Catvie.domain.models.core.User;
+import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
@@ -42,20 +43,21 @@ public class FilmAdapter implements FilmRepositoryPort {
     private final UserRepositoryJPA userRepositoryJPA;
 
     private final ModelMapper mapper; // This is the mapper for to convert my entities
+
+    private final MapperFilmResponsePort mapperFilmResponsePort;
     private static final Logger logger = LoggerFactory.getLogger(FilmController.class);
 
-
     @Autowired
-    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, GenreRepositoryJPA genreRepositoryPort, DirectorRepositoryJPA directorRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA, UserRepositoryJPA userRepositoryJPA, ModelMapper mapper) {
+
+    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, GenreRepositoryJPA genreRepositoryPort, DirectorRepositoryJPA directorRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA, UserRepositoryJPA userRepositoryJPA, ModelMapper mapper, MapperFilmResponsePort mapperFilmResponsePort) {
         this.filmRepositoryJPA = filmRepositoryJPA;
         this.genreRepositoryPort = genreRepositoryPort;
         this.directorRepositoryJPA = directorRepositoryJPA;
         this.audiencesRepositoryJPA = audiencesRepositoryJPA;
         this.userRepositoryJPA = userRepositoryJPA;
         this.mapper = mapper;
+        this.mapperFilmResponsePort = mapperFilmResponsePort;
     }
-
-
 
     @Override
     public Film findById(Long id) {
@@ -65,14 +67,16 @@ public class FilmAdapter implements FilmRepositoryPort {
 
     @Override
     public List<Film> findAllFilmEntity() {
-        List<FilmEntity> filmsAll = this.filmRepositoryJPA.findAllFilms().orElseThrow(() -> new NotFoundFilm("Empty"));
-        for (FilmEntity film : filmsAll) {
-            Link link = linkTo(FilmController.class).slash("/byId/" + film.getId()).withSelfRel();
-            film.add(link);
+        List<FilmEntity> films = this.filmRepositoryJPA.findAllFilms();
+//        films.forEach(f  -> {
+//            f.add(getLinkId(f));
+//        });
+
+        for (FilmEntity f : films) {
+            f.add(getLinkId(f));
         }
-        return filmsAll.stream().map(f -> new Film(f.getId(), f.getTitle(), f.getGenres().stream().map(g -> new Genre(g.getId(), g.getGenreName())).collect(Collectors.toSet()),
-                f.getOriginalLanguage(), new Director(f.getDirector().getId(), f.getDirector().getName()), f.getWriter(), f.getReleaseDate(), f.getRuntime(), f.getDistributor(), f.getProductionCo(), f.getAverageRatingCritic(), f.getAverageRatingAudience(),
-                f.getPosterUrl(), new User(f.getUser().getId(), f.getUser().getFirstName(), f.getUser().getLastName(), f.getUser().getEmail(), f.getUser().getPassword(), f.getUser().getToken(), f.getUser().getRole()))).toList();
+
+        return this.mapperFilmResponsePort.convertListFilmEntityToFilmList(films);
     }
 
     @Override
@@ -130,6 +134,10 @@ public class FilmAdapter implements FilmRepositoryPort {
                                 -> new InvalidGenre("The genre was not found")))
                 // This function is used for find each genre of Set and returns a Set Of GenreEntity from DB
                 .collect(Collectors.toSet());
+    }
+
+    private Link getLinkId(FilmEntity film) {
+        return linkTo(FilmController.class).slash("/byId/" + film.getId()).withSelfRel();
     }
 }
 

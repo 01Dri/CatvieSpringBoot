@@ -13,8 +13,6 @@ import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
 import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import org.modelmapper.ModelMapper;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 import java.util.Set;
@@ -56,6 +54,7 @@ public class FilmServiceImpl  implements FilmServicePort {
     @Override
     public FilmResponseDTO findByTitle(String title) {
         Film film = this.filmRepositoryPort.findByTitle(title);
+        System.out.println(film.getLinks());
         return this.mapperFilmResponse.convertFilmToResponseDTO(film);
 
     }
