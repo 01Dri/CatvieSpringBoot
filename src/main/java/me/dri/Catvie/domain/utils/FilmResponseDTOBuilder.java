@@ -25,9 +25,9 @@ public class FilmResponseDTOBuilder<T> implements BuilderFilm<T> {
     private String productionCo;
     private Double averageRatingCritic;
     private Double averageRatingAudience;
-    private DirectorResponseDTO director;
+    private Object director;
     private String posterUrl;
-    private UserResponseFilmRequestDTO postedByUser;
+    private Object postedByUser;
     private Links links;
 
     @Override
@@ -45,7 +45,7 @@ public class FilmResponseDTOBuilder<T> implements BuilderFilm<T> {
     }
 
     @Override
-    public BuilderFilm<T> withGenre(Set<T> genres) {
+    public BuilderFilm withGenre(Set<T> genres) {
         this.genres.addAll(genres.stream()
                 .map(g -> new GenreResponseDTO(((Genre) g).getId(), ((Genre) g).getGenreName()))
                 .toList());
@@ -101,9 +101,8 @@ public class FilmResponseDTOBuilder<T> implements BuilderFilm<T> {
     }
 
     @Override
-    public BuilderFilm withDirector(Object director) {
-        Director directorObj = (Director) director;
-        this.director = new DirectorResponseDTO(directorObj.getId(), directorObj.getName());
+    public BuilderFilm withDirector(EntityModel id) {
+        this.director = id.getDirectorObj();
         return this;
     }
 
@@ -114,10 +113,8 @@ public class FilmResponseDTOBuilder<T> implements BuilderFilm<T> {
     }
 
     @Override
-    public BuilderFilm withUser(Object user) {
-        if (user instanceof User) {
-            this.postedByUser = new UserResponseFilmRequestDTO(((User) user).getId());
-        }
+    public BuilderFilm withUser(EntityModel id) {
+        this.postedByUser = id.getUserObj();
         return this;
     }
 
@@ -134,6 +131,9 @@ public class FilmResponseDTOBuilder<T> implements BuilderFilm<T> {
 
     @Override
     public FilmResponseDTO build() {
-        return new FilmResponseDTO(id, title, genres, originalLanguage, releaseDate, runtime, distributor, writer, productionCo, averageRatingCritic, averageRatingAudience, director, posterUrl, postedByUser, links);
+        return new FilmResponseDTO(id, title, genres, originalLanguage, releaseDate, runtime, distributor, writer,
+                productionCo, averageRatingCritic, averageRatingAudience, new DirectorResponseDTO(((Director)director).getId(), ((Director)director).getName()) , posterUrl, new UserResponseFilmRequestDTO(((User)postedByUser).getId()), links);
     }
 }
+
+

@@ -2,6 +2,7 @@ package me.dri.Catvie.infra.entities;
 
 import jakarta.persistence.*;
 import me.dri.Catvie.domain.enums.UserRole;
+import me.dri.Catvie.domain.utils.EntityModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class UserEntity implements UserDetails {
+public class UserEntity implements UserDetails, EntityModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -163,5 +164,15 @@ public class UserEntity implements UserDetails {
                 ", token='" + token + '\'' +
                 ", role=" + role +
                 '}';
+    }
+
+    @Override
+    public Object getDirectorObj() {
+        return null;
+    }
+
+    @Override
+    public Object getUserObj() {
+        return this;
     }
 }

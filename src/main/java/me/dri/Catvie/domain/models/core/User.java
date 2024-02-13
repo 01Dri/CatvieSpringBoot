@@ -1,11 +1,12 @@
 package me.dri.Catvie.domain.models.core;
 
 import me.dri.Catvie.domain.enums.UserRole;
+import me.dri.Catvie.domain.utils.EntityModel;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class User  implements Serializable  {
+public class User  implements Serializable, EntityModel {
 
     private Long id;
     private String firstName;
@@ -99,4 +100,13 @@ public class User  implements Serializable  {
         return Objects.hash(id, firstName, lastName, email, password, token, role);
     }
 
+    @Override
+    public Object getDirectorObj() {
+        return null;
+    }
+
+    @Override
+    public Object getUserObj() {
+        return this;
+    }
 }

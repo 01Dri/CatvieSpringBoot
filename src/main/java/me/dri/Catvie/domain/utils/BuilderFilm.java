@@ -1,6 +1,5 @@
 package me.dri.Catvie.domain.utils;
 
-import me.dri.Catvie.domain.models.core.User;
 import org.springframework.hateoas.Links;
 
 import java.util.Date;
@@ -10,7 +9,7 @@ public interface BuilderFilm<T> {
 
     BuilderFilm withId(Long id);
     BuilderFilm withTitle(String id);
-    BuilderFilm<T> withGenre(Set<T> genres);
+    BuilderFilm withGenre(Set<T> genres);
     BuilderFilm withOriginalLanguage(String id);
     BuilderFilm withReleaseDate(Date id);
     BuilderFilm withRuntime(Integer id);
@@ -19,10 +18,10 @@ public interface BuilderFilm<T> {
     BuilderFilm withProductionCo(String id);
     BuilderFilm withAverageRatingCritic(Double id);
     BuilderFilm withAverageRatingAudience(Double id);
-    BuilderFilm withDirector(T id);
+    BuilderFilm withDirector(EntityModel id);
 
     BuilderFilm withPosterUrl(String posterUrl);
-    BuilderFilm withUser(T id);
+    BuilderFilm withUser(EntityModel id);
     BuilderFilm withLinks(Links links);
 
     BuilderFilm isEntity(Boolean conditio);

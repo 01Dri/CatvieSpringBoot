@@ -61,7 +61,7 @@ public class FilmServicesIntegrationTest {
                 .get("/all")
                 .then()
                 .body("every { it -> it.containsKey('link') }", is(true)) // This to check if each film has "link" attribute
-                .body("every { it -> it.links.size() }", is(not(empty())))
+                .body("every { it -> it.links }", is(not(empty())))
                 .statusCode(200);
     }
 

@@ -88,8 +88,7 @@ public class FilmAdapter implements FilmRepositoryPort {
         var genresEntityByDB = this.getGenresAndConvertToSetGenreEntity(film.getGenres());
         var directorEntityByDB = this.directorRepositoryJPA.findByName(film.getDirector().getName()).orElseThrow(() -> new NotFoundDirector("Director not found"));
         var userEntityByDB = this.userRepositoryJPA.findByEmail(subjectEmail).orElseThrow(() -> new NotFoundUser("User not found"));
-         // FilmEntity filmConvertedToFilmEntity = this.mapper.map(film, FilmEntity.class);
-        FilmEntity filmConvertedToFilmEntity = this.mapperFilmResponsePort.convertFilmToFilmEntity(film);
+        FilmEntity filmConvertedToFilmEntity = this.mapper.map(film, FilmEntity.class);
         filmConvertedToFilmEntity.setUser((UserEntity) userEntityByDB);
         filmConvertedToFilmEntity.setGenres(genresEntityByDB);
         filmConvertedToFilmEntity.setDirector(directorEntityByDB);

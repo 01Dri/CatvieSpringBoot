@@ -1,13 +1,14 @@
 package me.dri.Catvie.domain.models.core;
 
 
+import me.dri.Catvie.domain.utils.EntityModel;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
-public class Director implements Serializable {
+public class Director implements Serializable, EntityModel {
 
     private Long id;
     private String name;
@@ -48,4 +49,13 @@ public class Director implements Serializable {
     }
 
 
+    @Override
+    public Object getDirectorObj() {
+        return this;
+    }
+
+    @Override
+    public Object getUserObj() {
+        return null;
+    }
 }

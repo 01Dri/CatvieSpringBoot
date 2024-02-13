@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class FilmBuilder<T> implements BuilderFilm<T> {
     private Long id;
     private String title;
-    private Set<Object> genres = new HashSet<>();
+    private Set<T> genres = new HashSet<>();
     private String originalLanguage;
     private Date releaseDate;
     private Integer runtime;
@@ -28,9 +28,9 @@ public class FilmBuilder<T> implements BuilderFilm<T> {
     private String productionCo;
     private Double averageRatingCritic;
     private Double averageRatingAudience;
-    private T director;
+    private Object director;
     private String posterUrl;
-    private T postedByUser;
+    private Object postedByUser;
     private Links links;
 
     private Boolean isEntity;
@@ -55,10 +55,11 @@ public class FilmBuilder<T> implements BuilderFilm<T> {
     }
 
     @Override
-    public BuilderFilm<T> withGenre(Set<T> genres) {
-        this.genres = (Set<Object>) genres;
+    public BuilderFilm withGenre(Set<T> genres) {
+        this.genres =  genres;
         return this;
     }
+
 
 
     @Override
@@ -110,11 +111,11 @@ public class FilmBuilder<T> implements BuilderFilm<T> {
     }
 
     @Override
-    public BuilderFilm withDirector( T director) {
-        if (this.isEntity) {
-            this.director = (T) new DirectorEntity(((Director)director).getId(), ((Director)director).getName());
+    public BuilderFilm withDirector(EntityModel director) {
+        if (director == null) {
+            return this;
         }
-        this.director = (T) new Director(((DirectorEntity)director).getId(), ((DirectorEntity)director).getName());
+        this.director = director.getDirectorObj();
         return this;
     }
     @Override
@@ -124,11 +125,11 @@ public class FilmBuilder<T> implements BuilderFilm<T> {
     }
 
     @Override
-    public BuilderFilm withUser(T user) {
-        if (this.isEntity) {
-            this.postedByUser = (T) new UserEntity((()));
+    public BuilderFilm withUser(EntityModel user) {
+        if (user == null) {
+            return this;
         }
-        this.postedByUser = (T) new User();
+        this.postedByUser = user.getUserObj();
         return this;
     }
 
@@ -141,20 +142,27 @@ public class FilmBuilder<T> implements BuilderFilm<T> {
     @Override
     public Object build() {
         if (this.isEntity) {
-            Set<GenreEntity> genreEntitySet = genres.stream()
-                    .map(genre -> new GenreEntity(((Genre) genre).getId(), ((Genre) genre).getGenreName()))
-                    .collect(Collectors.toSet());
-            FilmEntity film = new FilmEntity(id, title, genreEntitySet, originalLanguage, new DirectorEntity(((Director)this.director).getId(), (((Director)this.director).getName())), writer, releaseDate, runtime, distributor, productionCo, averageRatingCritic, averageRatingAudience, posterUrl, (UserEntity) postedByUser);
+            FilmEntity film = new FilmEntity(id, title,
+                    this.getGenreEntities(), originalLanguage,
+                    this.getDirectorEntity(), writer,
+                    releaseDate, runtime,
+                    distributor, productionCo,
+                    averageRatingCritic, averageRatingAudience,
+                    posterUrl, this.getUserEntity());
+
             this.setFilmEntityEachLinks(this.links, film); // Setting links hateoas  on each film
             return film;
-        } else {
-            Set<Genre> genreSet = genres.stream()
-                    .map(genre -> new Genre(((GenreEntity) genre).getId(), ((GenreEntity) genre).getGenreName()))
-                    .collect(Collectors.toSet());
-            Film film = new Film(id, title, genreSet, originalLanguage, (Director) director, writer, releaseDate, runtime, distributor, productionCo, averageRatingCritic, averageRatingAudience, posterUrl, (User) postedByUser);
-            this.setFilmEachLinks(this.links, film); // Setting links hateoas  on each film
-            return film;
-        }
+            }
+        Film film = new Film(id, title,
+                this.getGenres(), originalLanguage,
+                this.getDirector(), writer,
+                releaseDate, runtime,
+                distributor, productionCo,
+                averageRatingCritic, averageRatingAudience,
+                posterUrl, this.getUser());
+
+        this.setFilmEachLinks(this.links, film); // Setting links hateoas  on each film
+        return film;
     }
     private void setFilmEachLinks(Links links, Film film) {
         for (Link l : links) {
@@ -167,10 +175,9 @@ public class FilmBuilder<T> implements BuilderFilm<T> {
         }
     }
     private Set<Genre> getGenres() {
-        Set<Genre> genreSet = genres.stream()
+        return genres.stream()
                 .map(genre -> new Genre(((GenreEntity) genre).getId(), ((GenreEntity) genre).getGenreName()))
                 .collect(Collectors.toSet());
-        return genreSet;
     }
 
     private Set<GenreEntity> getGenreEntities() {
@@ -180,7 +187,25 @@ public class FilmBuilder<T> implements BuilderFilm<T> {
         return genreEntitySet;
     }
 
+    private DirectorEntity getDirectorEntity() {
+        return new DirectorEntity(((Director)director).getId(), ((Director)director).getName());
+    }
 
+    private Director getDirector() {
+        return new Director(((DirectorEntity)director).getId(), ((DirectorEntity)director).getName());
+    }
+
+    private UserEntity getUserEntity() {
+        return new UserEntity(((User)postedByUser).getId(),((User)postedByUser).getFirstName(),
+                ((User)postedByUser).getLastName(), ((User)postedByUser).getEmail(),
+                ((User)postedByUser).getPassword(), ((User)postedByUser).getToken(), ((User)postedByUser).getRole());
+    }
+
+    private  User getUser() {
+        return new User(((UserEntity)postedByUser).getId(),((UserEntity)postedByUser).getFirstName(),
+                ((UserEntity)postedByUser).getLastName(), ((UserEntity)postedByUser).getEmail(),
+                ((UserEntity)postedByUser).getPassword(), ((UserEntity)postedByUser).getToken(), ((UserEntity)postedByUser).getRole());
+    }
 
 
 }

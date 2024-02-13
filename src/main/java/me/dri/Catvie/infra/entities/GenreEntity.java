@@ -2,9 +2,11 @@ package me.dri.Catvie.infra.entities;
 
 import jakarta.persistence.*;
 import me.dri.Catvie.domain.enums.Genres;
+import me.dri.Catvie.domain.utils.EntityModel;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "genres")
@@ -62,4 +64,5 @@ public class GenreEntity   implements Serializable {
                 ", genreName=" + genreName +
                 '}';
     }
+
 }

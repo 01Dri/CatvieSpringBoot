@@ -12,8 +12,8 @@ import java.util.List;
 
 public class MapperFilmResponseImpl implements MapperFilmResponsePort {
 
-    private final BuilderFilm builderFilmResponseDTO = new FilmResponseDTOBuilder<>();
-    private final BuilderFilm builderFilm = new FilmBuilder<>();
+    private final BuilderFilm builderFilmResponseDTO = new FilmResponseDTOBuilder();
+    private final BuilderFilm builderFilm = new FilmBuilder();
 
     public MapperFilmResponseImpl() {
     }
@@ -21,7 +21,7 @@ public class MapperFilmResponseImpl implements MapperFilmResponsePort {
     @Override
     public List<FilmResponseDTO> convertListFilmToFilmResponseDTOList(List<Film> films) {
         return films.stream().map(
-                film -> this.buildFilmResponseDTO(film)).toList();
+                this::buildFilmResponseDTO).toList();
     }
 
 
@@ -46,10 +46,17 @@ public class MapperFilmResponseImpl implements MapperFilmResponsePort {
                 this::buildFilm).toList();
     }
 
-
+    /**
+     * This method is responsible to convert the type of the object using builder pattern
+     * The attribute  "isEntity" is to check if object is a model or entity, examples bellow
+     * If the object on parameter is model, and isEntity is true, the objet will be converted for entity infra
+     *  Film - Model Domain >> FilmEntity - Entity Infra
+     * if on the contrary, the object will be converted for model domain
+     * FilmEntity - Infra >> Film - Model Domain
+     */
     private Film buildFilm(FilmEntity filmEntity) {
         return (Film) this.builderFilm
-                .isEntity(true)
+                .isEntity(false)
                 .withId(filmEntity.getId())
                 .withTitle(filmEntity.getTitle())
                 .withGenre(filmEntity.getGenres())
@@ -65,7 +72,6 @@ public class MapperFilmResponseImpl implements MapperFilmResponsePort {
                 .withPosterUrl(filmEntity.getPosterUrl())
                 .withUser(filmEntity.getUser())
                 .withLinks(filmEntity.getLinks())
-                .isEntity(false)
                 .build();
     }
 
@@ -89,6 +95,14 @@ public class MapperFilmResponseImpl implements MapperFilmResponsePort {
                 .build();
     }
 
+    /**
+     * This method is responsible to convert the type of the object using builder pattern
+     * The attribute  "isEntity" is to check if object is a model or entity, examples bellow
+     * If the object on parameter is model, and isEntity is true, the objet will be converted for entity infra
+     *  Film - Model Domain >> FilmEntity - Entity Infra
+     * if on the contrary, the object will be converted for model domain
+     * FilmEntity - Infra >> Film - Model Domain
+     */
     private FilmEntity buildFilmEntity(Film film) {
         return (FilmEntity) this.builderFilm
                 .isEntity(true)

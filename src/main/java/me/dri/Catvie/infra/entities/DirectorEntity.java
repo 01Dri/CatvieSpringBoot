@@ -1,6 +1,7 @@
 package me.dri.Catvie.infra.entities;
 
 import jakarta.persistence.*;
+import me.dri.Catvie.domain.utils.EntityModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "directors")
-public class DirectorEntity implements Serializable {
+public class DirectorEntity implements Serializable, EntityModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,5 +73,15 @@ public class DirectorEntity implements Serializable {
                 ", name='" + name + '\'' +
                 ", films=" + films +
                 '}';
+    }
+
+    @Override
+    public Object getDirectorObj() {
+        return this;
+    }
+
+    @Override
+    public Object getUserObj() {
+        return null;
     }
 }
