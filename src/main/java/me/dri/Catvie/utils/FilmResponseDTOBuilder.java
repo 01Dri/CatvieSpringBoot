@@ -1,4 +1,4 @@
-package me.dri.Catvie.domain.utils;
+package me.dri.Catvie.utils;
 
 import me.dri.Catvie.domain.models.core.Director;
 import me.dri.Catvie.domain.models.core.Genre;

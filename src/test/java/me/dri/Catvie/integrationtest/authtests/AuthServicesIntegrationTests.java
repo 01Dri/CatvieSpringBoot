@@ -46,7 +46,7 @@ public class AuthServicesIntegrationTests {
     void registerUserFailedBecauseFirstNameIsIncorrect() {
         RegisterDTO obj = new RegisterDTO("", "Henrique", "teste123@gmail.com", "12345678", UserRole.USER);
         given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
-                .then().statusCode(400).body("message", equalTo("Error invalid input DTO"));;
+                .then().statusCode(400).body("details", equalTo("Content firstName is empty"));;
     }
 
 
@@ -54,7 +54,7 @@ public class AuthServicesIntegrationTests {
     void registerUserFailedBecauseLastNameIsIncorrect() {
         RegisterDTO obj = new RegisterDTO("Diego", "", "teste1234@gmail.com", "12345678", UserRole.USER);
         given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
-                .then().statusCode(400).body("message", equalTo("Error invalid input DTO"));
+                .then().statusCode(400).body("details", equalTo("Content lastName is empty"));
     }
 
     @Test
@@ -68,14 +68,14 @@ public class AuthServicesIntegrationTests {
                 .post("/register")
                 .then()
                 .statusCode(400)
-                .body("message", equalTo("Error invalid input DTO"));;
+                .body("details", equalTo("Content email is empty"));;
     }
 
     @Test
     void registerUserFailedBecausePasswordIsIncorrect() {
         RegisterDTO obj = new RegisterDTO("Diego", "Henrique", "teste12345@gmail.com", "", UserRole.USER);
         given().when().contentType(ContentType.JSON).body(obj).when().post("/register")
-                .then().statusCode(400).body("message", equalTo("Error invalid input DTO"));;
+                .then().statusCode(400).body("details", equalTo("Content password is empty"));;
     }
 
 

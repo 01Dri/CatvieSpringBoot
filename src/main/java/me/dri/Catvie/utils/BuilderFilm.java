@@ -1,4 +1,4 @@
-package me.dri.Catvie.domain.utils;
+package me.dri.Catvie.utils;
 
 import org.springframework.hateoas.Links;
 

@@ -3,9 +3,9 @@ package me.dri.Catvie.domain.adapters.services.mappers;
 import me.dri.Catvie.domain.models.core.Film;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
-import me.dri.Catvie.domain.utils.BuilderFilm;
-import me.dri.Catvie.domain.utils.FilmBuilder;
-import me.dri.Catvie.domain.utils.FilmResponseDTOBuilder;
+import me.dri.Catvie.utils.BuilderFilm;
+import me.dri.Catvie.utils.FilmBuilder;
+import me.dri.Catvie.utils.FilmResponseDTOBuilder;
 import me.dri.Catvie.infra.entities.FilmEntity;
 
 import java.util.List;
