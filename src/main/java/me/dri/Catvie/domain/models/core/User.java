@@ -1,7 +1,7 @@
 package me.dri.Catvie.domain.models.core;
 
 import me.dri.Catvie.domain.enums.UserRole;
-import me.dri.Catvie.utils.EntityModel;
+import me.dri.Catvie.utils.interfaces.EntityModel;
 
 import java.io.Serializable;
 import java.util.Objects;

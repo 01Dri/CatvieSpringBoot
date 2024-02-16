@@ -1,11 +1,12 @@
 package me.dri.Catvie.domain.models.core;
 
 
-import me.dri.Catvie.utils.EntityModel;
+import me.dri.Catvie.utils.interfaces.EntityModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class Director implements Serializable, EntityModel {
@@ -58,4 +59,5 @@ public class Director implements Serializable, EntityModel {
     public Object getUserObj() {
         return null;
     }
+
 }

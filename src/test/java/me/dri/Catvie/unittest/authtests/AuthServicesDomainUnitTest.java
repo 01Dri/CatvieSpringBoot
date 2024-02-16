@@ -9,7 +9,7 @@ import me.dri.Catvie.domain.models.dto.auth.LoginDTO;
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.core.User;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;
+import me.dri.Catvie.utils.interfaces.MapperUserResponsePort;
 import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

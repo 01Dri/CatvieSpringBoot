@@ -1,7 +1,7 @@
 package me.dri.Catvie.infra.entities;
 
 import jakarta.persistence.*;
-import me.dri.Catvie.utils.EntityModel;
+import me.dri.Catvie.utils.interfaces.EntityModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;

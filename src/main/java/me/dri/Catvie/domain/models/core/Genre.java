@@ -48,4 +48,11 @@ public class Genre  implements Serializable {
         return Objects.hash(id, genreName);
     }
 
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "id=" + id +
+                ", genreName=" + genreName +
+                '}';
+    }
 }

@@ -7,6 +7,8 @@ import me.dri.Catvie.domain.models.dto.director.DirectorResponseDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.models.dto.genre.GenreResponseDTO;
 import me.dri.Catvie.domain.models.dto.user.UserResponseFilmRequestDTO;
+import me.dri.Catvie.utils.interfaces.BuilderFilm;
+import me.dri.Catvie.utils.interfaces.EntityModel;
 import org.springframework.hateoas.Links;
 
 import java.util.Date;
@@ -45,7 +47,7 @@ public class FilmResponseDTOBuilder<T> implements BuilderFilm<T> {
     }
 
     @Override
-    public BuilderFilm withGenre(Set<T> genres) {
+    public BuilderFilm withGenre(Set<Object> genres) {
         this.genres.addAll(genres.stream()
                 .map(g -> new GenreResponseDTO(((Genre) g).getId(), ((Genre) g).getGenreName()))
                 .toList());
@@ -130,8 +132,8 @@ public class FilmResponseDTOBuilder<T> implements BuilderFilm<T> {
     }
 
     @Override
-    public FilmResponseDTO build() {
-        return new FilmResponseDTO(id, title, genres, originalLanguage, releaseDate, runtime, distributor, writer,
+    public T build() {
+        return (T) new FilmResponseDTO(id, title, genres, originalLanguage, releaseDate, runtime, distributor, writer,
                 productionCo, averageRatingCritic, averageRatingAudience, new DirectorResponseDTO(((Director)director).getId(), ((Director)director).getName()) , posterUrl, new UserResponseFilmRequestDTO(((User)postedByUser).getId()), links);
     }
 }

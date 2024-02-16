@@ -5,8 +5,8 @@ import me.dri.Catvie.domain.adapters.services.auth.AuthenticationServiceImpl;
 import me.dri.Catvie.domain.adapters.services.director.DirectorServiceImpl;
 import me.dri.Catvie.domain.adapters.services.film.FilmServiceImpl;
 import me.dri.Catvie.domain.adapters.services.genre.GenreServiceImpl;
-import me.dri.Catvie.domain.adapters.services.mappers.MapperFilmResponseImpl;
-import me.dri.Catvie.domain.adapters.services.mappers.MapperUserResponseImpl;
+import me.dri.Catvie.utils.MapperFIlmsImpl;
+import me.dri.Catvie.utils.MapperUserResponseImpl;
 import me.dri.Catvie.domain.adapters.services.notes.NotesAudienceServicesImpl;
 import me.dri.Catvie.domain.adapters.services.user.UserServiceImpl;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
@@ -15,8 +15,8 @@ import me.dri.Catvie.domain.ports.interfaces.auth.TokenServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.director.DirectorServicePort;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;
+import me.dri.Catvie.utils.interfaces.MapperFilms;
+import me.dri.Catvie.utils.interfaces.MapperUserResponsePort;
 import me.dri.Catvie.domain.ports.interfaces.notes.NotesAudienceServicesPort;
 import me.dri.Catvie.domain.ports.interfaces.user.UserServicePort;
 import me.dri.Catvie.domain.ports.repositories.*;
@@ -39,8 +39,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    MapperFilmResponsePort mapperFilmDomain() {
-        return new MapperFilmResponseImpl();
+    MapperFilms mapperFilmDomain() {
+        return new MapperFIlmsImpl();
     }
 
 
@@ -51,7 +51,7 @@ public class BeanConfiguration {
 
 
     @Bean
-    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperFilmResponsePort mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorRepositoryPort directorServicePort, ModelMapper mapper) {
+    FilmServicePort filmServicePort(FilmRepositoryPort filmRepositoryPort, MapperFilms mapperEntitiesPort, GenreServicesPort genreServicesPort, DirectorRepositoryPort directorServicePort, ModelMapper mapper) {
         return new FilmServiceImpl(filmRepositoryPort, mapperEntitiesPort, genreServicesPort, directorServicePort, mapper);
     }
 

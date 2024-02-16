@@ -1,4 +1,4 @@
-package me.dri.Catvie.domain.ports.interfaces.mappers;
+package me.dri.Catvie.utils.interfaces;
 
 import me.dri.Catvie.domain.models.dto.auth.RegisterDTO;
 import me.dri.Catvie.domain.models.dto.user.UserDTO;

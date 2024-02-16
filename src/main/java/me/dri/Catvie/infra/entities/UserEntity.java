@@ -2,7 +2,7 @@ package me.dri.Catvie.infra.entities;
 
 import jakarta.persistence.*;
 import me.dri.Catvie.domain.enums.UserRole;
-import me.dri.Catvie.utils.EntityModel;
+import me.dri.Catvie.utils.interfaces.EntityModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

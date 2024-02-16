@@ -11,7 +11,7 @@ import me.dri.Catvie.domain.models.core.Film;
 import me.dri.Catvie.domain.models.core.Genre;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
+import me.dri.Catvie.utils.interfaces.MapperFilms;
 import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.unittest.mocks.MockDirector;
@@ -21,7 +21,6 @@ import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -39,7 +38,7 @@ public class FilmServicesDomainUnitTest {
     @Mock
     FilmRepositoryPort repository;
     @Mock
-    MapperFilmResponsePort mapperFilmResponse;
+    MapperFilms mapperFilmResponse;
     @Mock
     DirectorRepositoryPort directorRepositoryPort;
 

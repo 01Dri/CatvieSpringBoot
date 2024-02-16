@@ -1,21 +1,19 @@
-package me.dri.Catvie.domain.adapters.services.mappers;
+package me.dri.Catvie.utils;
 
 import me.dri.Catvie.domain.models.core.Film;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
-import me.dri.Catvie.utils.BuilderFilm;
-import me.dri.Catvie.utils.FilmBuilder;
-import me.dri.Catvie.utils.FilmResponseDTOBuilder;
 import me.dri.Catvie.infra.entities.FilmEntity;
+import me.dri.Catvie.utils.interfaces.BuilderFilm;
+import me.dri.Catvie.utils.interfaces.MapperFilms;
 
 import java.util.List;
 
-public class MapperFilmResponseImpl implements MapperFilmResponsePort {
+public class MapperFIlmsImpl implements MapperFilms {
 
-    private final BuilderFilm builderFilmResponseDTO = new FilmResponseDTOBuilder();
+    private final BuilderFilm<FilmResponseDTO> builderFilmResponseDTO = new FilmResponseDTOBuilder<>();
     private final BuilderFilm builderFilm = new FilmBuilder();
 
-    public MapperFilmResponseImpl() {
+    public MapperFIlmsImpl() {
     }
 
     @Override
@@ -77,6 +75,8 @@ public class MapperFilmResponseImpl implements MapperFilmResponsePort {
 
     private FilmResponseDTO buildFilmResponseDTO(Film film) {
         return (FilmResponseDTO) this.builderFilmResponseDTO
+                .withTitle(film.getTitle())
+                .withGenre(film.getGenres())
                 .withId(film.getId())
                 .withTitle(film.getTitle())
                 .withGenre(film.getGenres())

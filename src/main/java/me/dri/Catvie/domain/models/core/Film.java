@@ -180,5 +180,8 @@ public class Film  extends RepresentationModel<Film> implements Serializable {
     public int hashCode() {
         return Objects.hash(id, title, genres, originalLanguage, director, writer, releaseDate, runtime, distributor, productionCo, averageRatingCritic, averageRatingAudience, posterUrl, user);
     }
+
+
+
 }
 

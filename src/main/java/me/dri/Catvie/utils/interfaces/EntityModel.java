@@ -1,4 +1,4 @@
-package me.dri.Catvie.utils;
+package me.dri.Catvie.utils.interfaces;
 
 public interface EntityModel {
 

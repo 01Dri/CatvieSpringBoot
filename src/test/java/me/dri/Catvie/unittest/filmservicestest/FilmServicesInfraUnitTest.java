@@ -5,7 +5,7 @@ import me.dri.Catvie.domain.exceptions.NotFoundDirector;
 import me.dri.Catvie.domain.exceptions.film.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
 import me.dri.Catvie.domain.models.core.Film;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
+import me.dri.Catvie.utils.interfaces.MapperFilms;
 import me.dri.Catvie.infra.adapters.FilmAdapter;
 import me.dri.Catvie.infra.entities.DirectorEntity;
 import me.dri.Catvie.infra.entities.FilmEntity;
@@ -18,7 +18,6 @@ import me.dri.Catvie.unittest.mocks.MockGenre;
 import me.dri.Catvie.unittest.mocks.MockUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
@@ -48,7 +47,7 @@ public class FilmServicesInfraUnitTest {
     ModelMapper modelMapper;
 
     @Mock
-    MapperFilmResponsePort mapperFilmResponsePort;
+    MapperFilms mapperFilmResponsePort;
 
     FilmAdapter service;
 

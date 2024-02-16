@@ -1,4 +1,4 @@
-package me.dri.Catvie.utils;
+package me.dri.Catvie.utils.interfaces;
 
 import org.springframework.hateoas.Links;
 
@@ -9,7 +9,7 @@ public interface BuilderFilm<T> {
 
     BuilderFilm withId(Long id);
     BuilderFilm withTitle(String id);
-    BuilderFilm withGenre(Set<T> genres);
+    BuilderFilm withGenre(Set<Object> genres);
     BuilderFilm withOriginalLanguage(String id);
     BuilderFilm withReleaseDate(Date id);
     BuilderFilm withRuntime(Integer id);
@@ -26,7 +26,7 @@ public interface BuilderFilm<T> {
 
     BuilderFilm isEntity(Boolean conditio);
 
-    Object build();
+    T build();
 
 
 

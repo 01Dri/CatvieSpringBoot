@@ -5,11 +5,9 @@ import me.dri.Catvie.domain.exceptions.InvalidGenre;
 import me.dri.Catvie.domain.exceptions.NotFoundDirector;
 import me.dri.Catvie.domain.exceptions.film.NotFoundFilm;
 import me.dri.Catvie.domain.exceptions.user.NotFoundUser;
-import me.dri.Catvie.domain.models.core.Director;
 import me.dri.Catvie.domain.models.core.Film;
 import me.dri.Catvie.domain.models.core.Genre;
-import me.dri.Catvie.domain.models.core.User;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
+import me.dri.Catvie.utils.interfaces.MapperFilms;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import me.dri.Catvie.infra.entities.FilmEntity;
 import me.dri.Catvie.infra.entities.GenreEntity;
@@ -27,7 +25,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class FilmAdapter implements FilmRepositoryPort {
@@ -44,12 +41,12 @@ public class FilmAdapter implements FilmRepositoryPort {
 
     private final ModelMapper mapper; // This is the mapper for to convert my entities
 
-    private final MapperFilmResponsePort mapperFilmResponsePort;
+    private final MapperFilms mapperFilmResponsePort;
     private static final Logger logger = LoggerFactory.getLogger(FilmController.class);
 
     @Autowired
 
-    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, GenreRepositoryJPA genreRepositoryPort, DirectorRepositoryJPA directorRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA, UserRepositoryJPA userRepositoryJPA, ModelMapper mapper, MapperFilmResponsePort mapperFilmResponsePort) {
+    public FilmAdapter(FilmRepositoryJPA filmRepositoryJPA, GenreRepositoryJPA genreRepositoryPort, DirectorRepositoryJPA directorRepositoryJPA, NotesAudiencesRepositoryJPA audiencesRepositoryJPA, UserRepositoryJPA userRepositoryJPA, ModelMapper mapper, MapperFilms mapperFilmResponsePort) {
         this.filmRepositoryJPA = filmRepositoryJPA;
         this.genreRepositoryPort = genreRepositoryPort;
         this.directorRepositoryJPA = directorRepositoryJPA;

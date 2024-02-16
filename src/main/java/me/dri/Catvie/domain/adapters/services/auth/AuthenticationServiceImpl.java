@@ -8,7 +8,7 @@ import me.dri.Catvie.domain.models.dto.auth.RegisterResponseDTO;
 import me.dri.Catvie.domain.models.dto.auth.TokenResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationPort;
 import me.dri.Catvie.domain.ports.interfaces.auth.AuthenticationServicePort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperUserResponsePort;
+import me.dri.Catvie.utils.interfaces.MapperUserResponsePort;
 
 public class AuthenticationServiceImpl implements AuthenticationServicePort {
 

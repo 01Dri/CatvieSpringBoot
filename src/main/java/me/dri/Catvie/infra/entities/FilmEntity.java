@@ -7,12 +7,14 @@ import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "films")
-public class FilmEntity extends RepresentationModel<FilmEntity> implements Serializable{
+public class FilmEntity extends RepresentationModel<FilmEntity> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,7 +75,6 @@ public class FilmEntity extends RepresentationModel<FilmEntity> implements Seria
         this.posterUrl = posterUrl;
         this.user = user;
     }
-
 
 
     public Long getId() {
@@ -186,5 +187,39 @@ public class FilmEntity extends RepresentationModel<FilmEntity> implements Seria
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        if (!super.equals(object)) return false;
+        FilmEntity that = (FilmEntity) object;
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(genres, that.genres) && Objects.equals(originalLanguage, that.originalLanguage) && Objects.equals(director, that.director) && Objects.equals(writer, that.writer) && Objects.equals(releaseDate, that.releaseDate) && Objects.equals(runtime, that.runtime) && Objects.equals(distributor, that.distributor) && Objects.equals(productionCo, that.productionCo) && Objects.equals(averageRatingCritic, that.averageRatingCritic) && Objects.equals(averageRatingAudience, that.averageRatingAudience) && Objects.equals(posterUrl, that.posterUrl) && Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id, title, genres, originalLanguage, director, writer, releaseDate, runtime, distributor, productionCo, averageRatingCritic, averageRatingAudience, posterUrl, user);
+    }
+
+    @Override
+    public String toString() {
+        return "FilmEntity{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", genres=" + genres +
+                ", originalLanguage='" + originalLanguage + '\'' +
+                ", director=" + director +
+                ", writer='" + writer + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", runtime=" + runtime +
+                ", distributor='" + distributor + '\'' +
+                ", productionCo='" + productionCo + '\'' +
+                ", averageRatingCritic=" + averageRatingCritic +
+                ", averageRatingAudience=" + averageRatingAudience +
+                ", posterUrl='" + posterUrl + '\'' +
+                ", user=" + user +
+                '}';
     }
 }

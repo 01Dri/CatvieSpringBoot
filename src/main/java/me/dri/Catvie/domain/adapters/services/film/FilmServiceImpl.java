@@ -9,7 +9,7 @@ import me.dri.Catvie.domain.models.dto.film.FilmRequestDTO;
 import me.dri.Catvie.domain.models.dto.film.FilmResponseDTO;
 import me.dri.Catvie.domain.ports.interfaces.film.FilmServicePort;
 import me.dri.Catvie.domain.ports.interfaces.genre.GenreServicesPort;
-import me.dri.Catvie.domain.ports.interfaces.mappers.MapperFilmResponsePort;
+import me.dri.Catvie.utils.interfaces.MapperFilms;
 import me.dri.Catvie.domain.ports.repositories.DirectorRepositoryPort;
 import me.dri.Catvie.domain.ports.repositories.FilmRepositoryPort;
 import org.modelmapper.ModelMapper;
@@ -21,7 +21,7 @@ public class FilmServiceImpl  implements FilmServicePort {
 
     private final FilmRepositoryPort filmRepositoryPort;
 
-    private final MapperFilmResponsePort mapperFilmResponse;
+    private final MapperFilms mapperFilmResponse;
 
     private final GenreServicesPort genreServicesPort;
 
@@ -30,7 +30,7 @@ public class FilmServiceImpl  implements FilmServicePort {
     private final ModelMapper modelMapper;
 
 
-    public FilmServiceImpl(FilmRepositoryPort filmRepositoryPort, MapperFilmResponsePort mapperFilmResponse, GenreServicesPort genreServicesPort, DirectorRepositoryPort directorRepository, ModelMapper modelMapper) {
+    public FilmServiceImpl(FilmRepositoryPort filmRepositoryPort, MapperFilms mapperFilmResponse, GenreServicesPort genreServicesPort, DirectorRepositoryPort directorRepository, ModelMapper modelMapper) {
         this.filmRepositoryPort = filmRepositoryPort;
         this.mapperFilmResponse = mapperFilmResponse;
         this.genreServicesPort = genreServicesPort;
